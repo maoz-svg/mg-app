@@ -4219,6 +4219,7 @@ html.mini-cursor-on .sold-btn{cursor:pointer!important}
 #langChip:hover{background:#d8b46a;color:#0b1d2e;border-color:#d8b46a}
 html.mini-cursor-on #langChip{cursor:pointer!important}
 </style>
+<script id="harbour-no-pinch">if(matchMedia("(max-width: 767px)").matches){["gesturestart","gesturechange"].forEach(function(t){document.addEventListener(t,function(e){e.preventDefault();},{passive:false});});}</script>
 <script id="harbour-i18n">
 (function(){
   var HE=/[\u0590-\u05FF]/;
@@ -4318,6 +4319,7 @@ html.mini-cursor-on #langChip{cursor:pointer!important}
 
 <style id="harbour-mobile-css">
 html, body { overscroll-behavior-y: none; }
+@media (max-width: 767px){ html, body { touch-action: pan-x pan-y; } }
 @media (max-width: 767px){
   /* compact floating chrome */
   .back-top{top:10px;font-size:11.5px;padding:6px 11px;gap:5px}
