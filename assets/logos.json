@@ -1,0 +1,69 @@
+{
+  "generatedAt": "2026-06-26T22:07:27.814Z",
+  "logos": [
+    {
+      "id": "maoz-wordmark",
+      "type": "logo",
+      "mime": "image/png",
+      "file": "assets/logos/maoz-wordmark.png",
+      "bytes": 37878,
+      "sha256": "73660adf51dc287f8f8a3af4477e61fc18fb5f8c0a11ff12cdb2b47737642aa7"
+    },
+    {
+      "id": "lavie",
+      "type": "logo",
+      "mime": "image/png",
+      "file": "assets/logos/lavie.png",
+      "bytes": 45701,
+      "sha256": "6bdfd6436f73f280ed943694f35e970047111070cf3b938aa2334aa39885b400"
+    },
+    {
+      "id": "galleria-herzliya",
+      "type": "logo",
+      "mime": "image/png",
+      "file": "assets/logos/galleria-herzliya.png",
+      "bytes": 49350,
+      "sha256": "4001bb470a55e18c9e278c7cbb4c0b5acba10eb99f0b8dde738c6beef25119e2"
+    },
+    {
+      "id": "west-logo",
+      "type": "logo",
+      "mime": "image/png",
+      "file": "assets/logos/west-logo.png",
+      "bytes": 54430,
+      "sha256": "734bf048fce7ff8874820c82ba802c21c26be2a26584a245ce1c3e885e6bc35f"
+    },
+    {
+      "id": "beta-estate",
+      "type": "logo",
+      "mime": "image/png",
+      "file": "assets/logos/beta-estate.png",
+      "bytes": 13250,
+      "sha256": "c4b29ea2892347cffa18f19bb9140a65becd2df3cbcaa0fec6cdf3155fc0ecd0"
+    },
+    {
+      "id": "harbour-logo",
+      "type": "logo",
+      "mime": "image/png",
+      "file": "assets/logos/harbour-logo.png",
+      "bytes": 52389,
+      "sha256": "bdaad00e499eeed4f7c93300d7991e2d958d95824b197f9c38afdf1adf79f11c"
+    },
+    {
+      "id": "club-mark",
+      "type": "logo",
+      "mime": "image/png",
+      "file": "assets/logos/club-mark.png",
+      "bytes": 53873,
+      "sha256": "b66daeb77ea2070c26fd16c75c8204788ce563d550aba855ff6e2f6f104fa5cb"
+    },
+    {
+      "id": "club-crest",
+      "type": "logo",
+      "mime": "image/png",
+      "file": "assets/logos/club-crest.png",
+      "bytes": 79722,
+      "sha256": "8b4fa74771209afec95bc83c2a0ee51fdad5da77fab4223248dbd33d6a8ba60b"
+    }
+  ]
+}

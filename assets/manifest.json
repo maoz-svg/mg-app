@@ -1,0 +1,38 @@
+{
+  "generatedAt": "2026-06-27T11:29:47.460Z",
+  "source": "assets-src",
+  "assets": [
+    {
+      "id": "background",
+      "type": "video",
+      "mime": "video/mp4",
+      "file": "assets-src/video/background.mp4",
+      "bytes": 91874906,
+      "sha256": "4a9e77d537b2deb1b956eacfda4251b45df6c2196c3fea62eb72bf4294131ab2"
+    },
+    {
+      "id": "harbour-hero",
+      "type": "video",
+      "mime": "video/mp4",
+      "file": "assets-src/video/harbour-hero.mp4",
+      "bytes": 66252108,
+      "sha256": "55e4eebe289d9ad9e296c9c60457c24d41db23c601ca3f8a78c3495f442548c2"
+    },
+    {
+      "id": "west-hero",
+      "type": "video",
+      "mime": "video/mp4",
+      "file": "assets-src/video/west-hero.mp4",
+      "bytes": 20011222,
+      "sha256": "95a1cb7ff21b01d0b00a8011faeb96498378c777533265e1849b544098aa2e60"
+    },
+    {
+      "id": "sean-pollock-phyq704ffda-unsplash-1",
+      "type": "image",
+      "mime": "image/jpeg",
+      "file": "assets-src/images/sean-pollock-PhYq704ffdA-unsplash (1).jpg",
+      "bytes": 2222333,
+      "sha256": "6ab64c07c40aebec60e02448d8faf624f0ddfab748e503c3a9a06ad1bc29c520"
+    }
+  ]
+}
