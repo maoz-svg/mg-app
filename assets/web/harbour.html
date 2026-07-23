@@ -4316,6 +4316,40 @@ html.mini-cursor-on #langChip{cursor:pointer!important}
 })();
 </script>
 
+<style id="harbour-mobile-css">
+html, body { overscroll-behavior-y: none; }
+@media (max-width: 767px){
+  /* compact floating chrome */
+  .back-top{top:10px;font-size:11.5px;padding:6px 11px;gap:5px}
+  #langChip{top:10px;right:10px;min-width:40px;font-size:11.5px;padding:6px 11px}
+  /* clear the chips above every section title */
+  .section .sec-head{padding-top:46px}
+  #plots .plots-screen1{min-height:auto}
+  .sec-head h2{font-size:26px}
+  /* Greece / Piraeus cube rows -> full-width column */
+  .gr-left{flex-direction:column}
+  .gr-left .gr-box{width:100%}
+  .gr-cube{min-height:130px}
+  .gr-cube-title{font-size:24px}
+  .pir-sq{aspect-ratio:auto;min-height:150px}
+  /* apartments grid: 2-up stays, tighten */
+  .apt-units{grid-template-columns:repeat(2,1fr);gap:10px}
+  .apt-unit{padding:16px 10px}
+  /* calculator: comfortable touch targets; 16px inputs stop iOS zoom-on-focus */
+  #aptcalc input[type=text], #aptcalc input:not([type]){font-size:16px!important}
+  .scen-tab{padding:9px 0;flex:1 1 0;text-align:center}
+  .scen-tabs, .calc-top .cur-wrap{flex-wrap:wrap;gap:8px}
+  .cur-btn{font-size:12.5px;padding:7px 12px}
+  /* clubs / tiers / team cards: single column */
+  #clubs .club, .tiers > .club{width:100%}
+  /* modals hug the phone */
+  .pir-card, .pir-card-wide, .modal-card, .sold-card, .psp-card{width:94vw;max-width:94vw;padding:20px 16px}
+  .pm-stage{width:96vw;height:min(70vh,520px)}
+  .flp-modal .pm-stage{height:min(64vh,480px)}
+  /* print pages are unaffected (fixed A4 render off-screen) */
+}
+</style>
+
 
 <style id="maoz-embed-css">
 /* Hide scrollbars + clamp horizontal overflow. The live presentation injects this
