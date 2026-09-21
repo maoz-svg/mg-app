@@ -1,0 +1,1 @@
+6.3.289 (legacy build — Chromium 130 in Electron 33 lacks Uint8Array.toHex used by the modern build)

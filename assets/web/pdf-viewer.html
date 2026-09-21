@@ -1,0 +1,387 @@
+<!doctype html>
+<!--
+  In-app PDF viewer (pdf.js LEGACY build, vendored in ./vendor — version in vendor/pdfjs-version.txt;
+  the modern build needs Uint8Array.toHex, which Chromium 130 in Electron 33 does not have).
+  Opened by location.ts inside the planning-status document modal:
+    pdf-viewer.html?file=<path under assets/web>&lang=he|en&title=<text>
+  Continuous scroll, zoom − / + buttons, Ctrl+wheel and pinch, fit width / whole
+  page, page counter. Pages render lazily at the display's pixel ratio and are
+  re-rendered on every zoom change, so text stays sharp at any size.
+-->
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מסמך</title>
+<style>
+  :root { --bar: #0b2c20; --ink: #eef4ee; --gold: #caa463; --line: rgba(255,255,255,.14); }
+  html, body { margin: 0; height: 100%; background: transparent; /* the app's glass card shows through (his ask, 2026-09-13 23:55); was #0f1f19 */ color: var(--ink); font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif; overflow: hidden; }
+  .bar { position: absolute; top: 0; right: 0; left: 0; height: 50px; display: flex; align-items: center; gap: 8px; padding: 0 76px 0 16px; /* the modal's X sits over the top-right corner */ background: rgba(8,30,22,.38); border-bottom: 1px solid rgba(216,180,106,.35); z-index: 2; user-select: none; box-shadow: 0 8px 24px -16px #000; }
+  .bar .title { flex: 1; font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #e9c98b; }
+  .bar button { height: 34px; min-width: 36px; padding: 0 11px; border-radius: 9px; border: 1px solid var(--line); background: rgba(255,255,255,.06); color: var(--ink); font: 600 16px/1 "Segoe UI", Arial, sans-serif; cursor: pointer; transition: background .2s, border-color .2s; }
+  .bar button:hover { background: rgba(255,255,255,.14); border-color: var(--gold); }
+  .bar button.on { background: rgba(202,164,99,.22); border-color: var(--gold); }
+  .bar .zoom { min-width: 64px; text-align: center; font-variant-numeric: tabular-nums; font-size: 13px; opacity: .9; }
+  .bar .pages { font-size: 13px; opacity: .85; min-width: 72px; text-align: center; font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate; } /* "1 / 27" must not flip in RTL */
+  .bar .sep { width: 1px; height: 24px; background: var(--line); margin: 0 4px; }
+  /* LTR scroll box: in an RTL box a wide page overflows to the LEFT and scrollLeft runs negative, which broke
+     centring and horizontal panning of the big drawing sheet; the pages stay centred via margin auto */
+  .scroll { position: absolute; top: 50px; right: 0; left: 0; bottom: 0; overflow: auto; padding: 20px 0 48px; cursor: grab; user-select: none; -webkit-user-select: none; direction: ltr; }
+  .scroll.dragging { cursor: grabbing; }
+  /* no visible scrollbars (his ask): wheel, drag and the buttons still move the document */
+  .scroll { scrollbar-width: none; -ms-overflow-style: none; }
+  .scroll::-webkit-scrollbar { display: none; width: 0; height: 0; }
+  /* A page wider than the box - the A0 drawing sheet in הוראות התוכנית - cannot be centred by
+     auto margins: an overflowing block goes to the start edge, which is why that one document
+     opened hugging the left while every other one sat in the middle (his report, 2026-09-17).
+     The sheet below is as wide as the widest page or the box, whichever is bigger, so the page
+     centres inside it and both edges stay reachable by scrolling. */
+  .sheet { width: max-content; min-width: 100%; }
+  .page { position: relative; margin: 0 auto 20px; background: #fff; box-shadow: 0 16px 44px -18px rgba(0,0,0,.85); }
+  .page canvas { display: block; width: 100%; height: 100%; }
+  /* search (his ask, 2026-09-14): a magnifying glass opens a find row under the bar —
+     words or numbers anywhere in the document, or a page number to jump to */
+  .find { position: absolute; top: 50px; right: 0; left: 0; display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(8,30,22,.5); border-bottom: 1px solid rgba(216,180,106,.28); z-index: 2; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+  .find[hidden] { display: none; }
+  .find input { height: 32px; border-radius: 9px; border: 1px solid var(--line); background: rgba(255,255,255,.08); color: var(--ink); font: 400 14px/1 "Segoe UI", Arial, sans-serif; padding: 0 12px; outline: none; }
+  .find input::placeholder { color: rgba(238,244,238,.45); }
+  .find input:focus { border-color: var(--gold); background: rgba(255,255,255,.12); }
+  .find input.q { flex: 1 1 auto; min-width: 0; max-width: 380px; }
+  .find input.pg { width: 74px; text-align: center; font-variant-numeric: tabular-nums; direction: ltr; }
+  .find .cnt { font-size: 13px; opacity: .85; min-width: 92px; text-align: center; font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate; } /* "3 / 51" must not flip in RTL */
+  .find .lbl { font-size: 13px; opacity: .72; }
+  .find .spacer { flex: 1 1 auto; }
+  body.finding .scroll { top: 99px; }
+  .hl-layer { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+  .hl { position: absolute; background: rgba(255,206,64,.34); border-radius: 2px; box-shadow: 0 0 0 1px rgba(255,206,64,.55); }
+  .hl.cur { background: rgba(255,146,32,.5); box-shadow: 0 0 0 1.5px rgba(255,170,40,.9); }
+  .msg { position: absolute; inset: 50px 0 0; display: grid; place-items: center; font-size: 16px; color: #cfe0d6; text-align: center; padding: 20px; }
+  .msg[hidden] { display: none; }
+</style>
+</head>
+<body>
+<div class="bar">
+  <span class="title" id="title"></span>
+  <span class="pages" id="pages"></span>
+  <span class="sep"></span>
+  <button id="find" type="button" aria-label="חיפוש"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><circle cx="6.8" cy="6.8" r="4.6" fill="none" stroke="currentColor" stroke-width="1.7"></circle><path d="M10.4 10.4 L14.2 14.2" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path></svg></button>
+  <button id="fitW" type="button">⟷</button>
+  <button id="fitP" type="button">▭</button>
+  <span class="sep"></span>
+  <button id="zout" type="button" aria-label="−">−</button>
+  <span class="zoom" id="zoom"></span>
+  <button id="zin" type="button" aria-label="+">+</button>
+</div>
+<div class="find" id="findbar" hidden>
+  <input class="q" id="q" type="search" autocomplete="off" spellcheck="false">
+  <span class="cnt" id="cnt"></span>
+  <button id="prev" type="button" aria-label="הקודם">↑</button>
+  <button id="next" type="button" aria-label="הבא">↓</button>
+  <span class="sep"></span>
+  <span class="lbl" id="pglbl">עמוד</span>
+  <input class="pg" id="pg" type="number" min="1" autocomplete="off">
+  <span class="spacer"></span>
+  <button id="findx" type="button" aria-label="סגור">×</button>
+</div>
+<div class="scroll" id="scroll"><div class="sheet" id="sheet"></div></div>
+<div class="msg" id="msg" hidden></div>
+<script type="module">
+  import * as pdfjsLib from './vendor/pdf.min.mjs';
+  pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('./vendor/pdf.worker.min.mjs', location.href).href;
+
+  const qs = new URLSearchParams(location.search);
+  const file = qs.get('file') || '';
+  const lang = qs.get('lang') === 'en' ? 'en' : 'he';
+  const T = lang === 'en'
+    ? { fitW: 'Fit width', fitP: 'Whole page', zin: 'Zoom in (Ctrl +)', zout: 'Zoom out (Ctrl −)', err: 'The document could not be loaded', loading: 'Loading…',
+        find: 'Search (Ctrl F)', ph: 'Search a word or a number', page: 'Page', none: 'No results', reading: 'Reading…', prev: 'Previous', next: 'Next', close: 'Close' }
+    : { fitW: 'התאמה לרוחב', fitP: 'עמוד שלם', zin: 'הגדלה (Ctrl +)', zout: 'הקטנה (Ctrl −)', err: 'לא ניתן לטעון את המסמך', loading: 'טוען…',
+        find: 'חיפוש (Ctrl F)', ph: 'חיפוש מילה או מספר', page: 'עמוד', none: 'אין תוצאות', reading: 'קורא את המסמך…', prev: 'הקודם', next: 'הבא', close: 'סגירה' };
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
+  const $ = (id) => document.getElementById(id);
+  $('fitW').title = T.fitW; $('fitP').title = T.fitP; $('zin').title = T.zin; $('zout').title = T.zout;
+  $('find').title = T.find; $('q').placeholder = T.ph; $('pglbl').textContent = T.page;
+  $('prev').title = T.prev; $('next').title = T.next; $('findx').title = T.close;
+  $('title').textContent = qs.get('title') || '';
+  document.title = qs.get('title') || 'PDF';
+  const scroll = $('scroll'), msg = $('msg');
+  const showMsg = (s) => { msg.textContent = s; msg.hidden = false; };
+  const PAD = 44, ZMIN = 0.25, ZMAX = 6;
+  let pages = [], scale = 1, fitMode = 'width';
+  window.__pdf = { pages: 0, rendered: 0, scale: 1, error: '' }; // read by the app's checks
+
+  // only files under assets/web, nothing that climbs out of it
+  if (!file || /^([a-z]+:|\/)/i.test(file) || file.split('/').includes('..')) { showMsg(T.err); window.__pdf.error = 'bad file'; throw new Error('bad file param'); }
+  showMsg(T.loading);
+
+  const fitScale = (mode) => {
+    const p = pages[0]; if (!p) return 1;
+    const w = scroll.clientWidth - PAD, h = scroll.clientHeight - 40;
+    return mode === 'page' ? Math.min(w / p.vp1.width, h / p.vp1.height) : w / p.vp1.width;
+  };
+  function layout() {
+    for (const p of pages) {
+      const vp = p.page.getViewport({ scale });
+      p.vp = vp; p.el.style.width = vp.width + 'px'; p.el.style.height = vp.height + 'px';
+    }
+    placeHl();
+    $('zoom').textContent = Math.round(scale * 100) + '%';
+    $('fitW').classList.toggle('on', fitMode === 'width');
+    $('fitP').classList.toggle('on', fitMode === 'page');
+    window.__pdf.scale = scale;
+  }
+  async function render(p) {
+    if (p.task) { if (p.taskScale === scale) return; p.task.cancel(); p.task = null; }
+    if (p.rendered === scale) return;
+    const vp = p.page.getViewport({ scale });
+    // crisp on HiDPI, but never a canvas wider than ~4k pixels
+    const dpr = Math.min(slowRender ? 1.25 : (window.devicePixelRatio || 1), 4096 / vp.width);
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.floor(vp.width * dpr); canvas.height = Math.floor(vp.height * dpr);
+    const ctx = canvas.getContext('2d', { alpha: false });
+    const task = p.page.render({ canvasContext: ctx, viewport: vp, transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : undefined });
+    p.task = task; p.taskScale = scale;
+    const t0 = performance.now();
+    try { await task.promise; slowRender = (performance.now() - t0) > 700; }
+    catch (e) { if (e && e.name === 'RenderingCancelledException') return; console.error(e); return; }
+    finally { if (p.task === task) p.task = null; }
+    if (p.taskScale !== scale) return; // zoom changed meanwhile — a fresh render is queued
+    p.el.replaceChildren(canvas); if (p.hl) p.el.appendChild(p.hl); canvas.dataset.rendered = '1'; p.rendered = scale;
+    window.__pdf.rendered = pages.filter((x) => x.rendered === scale).length;
+  }
+  const renderVisible = () => pages.forEach((p) => { if (p.visible) render(p); });
+  // heavy documents (the A0 drawing sheet) take seconds per render: re-render only once the zoom
+  // gesture pauses, and drop the pixel ratio when the last render was slow
+  let renderTimer = 0, slowRender = false;
+  const renderSoon = (ms) => { clearTimeout(renderTimer); renderTimer = setTimeout(renderVisible, ms); };
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) { const p = pages[+e.target.dataset.i]; p.visible = e.isIntersecting; if (p.visible) render(p); }
+  }, { root: scroll, rootMargin: '900px 0px' });
+
+  // zoom keeping the point under `anchorY` (viewport px inside .scroll) in place.
+  // Only the distance INSIDE the anchored page scales — the 20px paddings and
+  // page gaps are fixed pixels, so scaling the whole document offset drifted
+  // ~(ratio-1)*20px per preceding page (a third of a page after a few steps on p.27).
+  // anchorX/anchorY = the viewport point (inside .scroll) that must stay under the cursor — both axes
+  function setScale(next, anchorY = scroll.clientHeight / 2, mode = 'free', anchorX = scroll.clientWidth / 2, debounceMs = 0) {
+    next = Math.min(ZMAX, Math.max(ZMIN, next));
+    const ratio = next / scale;
+    const y = scroll.scrollTop + anchorY, x = scroll.scrollLeft + anchorX;
+    let anchored = null;
+    for (const p of pages) { if (p.el.offsetTop <= y) anchored = p; else break; }
+    const withinY = anchored ? y - anchored.el.offsetTop : 0;
+    const withinX = anchored ? x - anchored.el.offsetLeft : 0;
+    scale = next; fitMode = mode;
+    layout();
+    if (anchored) {
+      scroll.scrollTop = anchored.el.offsetTop + withinY * ratio - anchorY;
+      scroll.scrollLeft = anchored.el.offsetLeft + withinX * ratio - anchorX;
+    }
+    if (debounceMs) renderSoon(debounceMs); else renderVisible();
+  }
+  // drag to pan (the owner's ask): press anywhere on the document and move it
+  let drag = null;
+  scroll.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    drag = { x: e.clientX, y: e.clientY, sl: scroll.scrollLeft, st: scroll.scrollTop, id: e.pointerId };
+    scroll.setPointerCapture(e.pointerId); scroll.classList.add('dragging'); e.preventDefault();
+  });
+  scroll.addEventListener('pointermove', (e) => {
+    if (!drag || e.pointerId !== drag.id) return;
+    scroll.scrollLeft = drag.sl - (e.clientX - drag.x); scroll.scrollTop = drag.st - (e.clientY - drag.y);
+  });
+  const endDrag = (e) => { if (drag && (!e || e.pointerId === drag.id)) { drag = null; scroll.classList.remove('dragging'); } };
+  scroll.addEventListener('pointerup', endDrag); scroll.addEventListener('pointercancel', endDrag); scroll.addEventListener('lostpointercapture', endDrag);
+  const fit = (mode) => { setScale(fitScale(mode), 0, mode, 0); scroll.scrollLeft = Math.max(0, (scroll.scrollWidth - scroll.clientWidth) / 2); };
+  $('fitW').addEventListener('click', () => fit('width'));
+  $('fitP').addEventListener('click', () => fit('page'));
+  $('zin').addEventListener('click', () => setScale(scale * 1.2));
+  $('zout').addEventListener('click', () => setScale(scale / 1.2));
+  scroll.addEventListener('wheel', (e) => {
+    if (!e.ctrlKey) return; // Ctrl+wheel (and trackpad pinch, which Chromium reports the same way)
+    e.preventDefault();
+    const r = scroll.getBoundingClientRect();
+    setScale(scale * Math.exp(-e.deltaY * 0.0018), e.clientY - r.top, 'free', e.clientX - r.left, slowRender ? 320 : 120);
+  }, { passive: false });
+  window.addEventListener('keydown', (e) => {
+    if (!(e.ctrlKey || e.metaKey)) return;
+    if (e.key === '+' || e.key === '=') { e.preventDefault(); setScale(scale * 1.2); }
+    else if (e.key === '-') { e.preventDefault(); setScale(scale / 1.2); }
+    else if (e.key === '0') { e.preventDefault(); fit('width'); }
+  });
+  let resizeT; window.addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(() => { if (fitMode !== 'free') fit(fitMode); else { layout(); renderVisible(); } }, 120); });
+
+  // ===== search: a word or a number anywhere in the document, or a page number =====
+  // The text of every page is read once (pdf.js text layer), matches are kept as
+  // rectangles in scale-1 units and painted as a highlight layer over each page, so
+  // they stay put through zooming and re-rendering.
+  const findBar = $('findbar'), qIn = $('q'), pgIn = $('pg'), cnt = $('cnt');
+  let matches = [], mi = -1, textReady = false, findT = 0, lastQ = '';
+  function hlLayer(p) {
+    if (!p.hl) { const d = document.createElement('div'); d.className = 'hl-layer'; p.hl = d; p.el.appendChild(d); }
+    return p.hl;
+  }
+  function clearHl() { for (const p of pages) if (p.hl) p.hl.replaceChildren(); for (const m of matches) m.els = null; }
+  function placeHl() {
+    for (const m of matches) {
+      if (!m.els) continue;
+      m.els.forEach((d, k) => {
+        const r = m.rects[k];
+        d.style.left = (r.left * scale) + 'px'; d.style.top = (r.top * scale) + 'px';
+        d.style.width = (Math.max(r.w, 3) * scale) + 'px'; d.style.height = (Math.max(r.h, 6) * scale) + 'px';
+      });
+    }
+  }
+  function paintHl() {
+    clearHl();
+    matches.forEach((m, idx) => {
+      const layer = hlLayer(pages[m.p]);
+      m.els = m.rects.map(() => { const d = document.createElement('div'); d.className = 'hl'; layer.appendChild(d); return d; });
+      if (idx === mi) m.els.forEach((d) => d.classList.add('cur'));
+    });
+    placeHl();
+  }
+  async function readText() {
+    if (textReady) return;
+    cnt.textContent = T.reading;
+    for (const p of pages) {
+      if (p.text != null) continue;
+      let tc; try { tc = await p.page.getTextContent(); } catch { p.text = ''; p.items = []; continue; }
+      const items = []; let str = '';
+      for (const it of tc.items) {
+        if (typeof it.str !== 'string' || !it.str) continue;
+        const tr = pdfjsLib.Util.transform(p.vp1.transform, it.transform);
+        const h = Math.abs(Math.hypot(tr[2], tr[3])) || 10;
+        items.push({ start: str.length, end: str.length + it.str.length, left: tr[4], top: tr[5] - h, w: it.width || 0, h });
+        str += it.str + ' ';
+      }
+      p.text = str; p.items = items;
+    }
+    textReady = true;
+  }
+  const escRe = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  function queryRe(q) {
+    // a number may be written with thousands separators in the document (400,000)
+    const digits = /^[\d.,]+$/.test(q);
+    const body = digits
+      ? q.replace(/[,\s]/g, '').split('').map(escRe).join('[,\\s]?')
+      : escRe(q).replace(/\s+/g, '\\s+');
+    return new RegExp(body, 'gi');
+  }
+  async function runSearch() {
+    const q = qIn.value.trim();
+    lastQ = q;
+    matches = []; mi = -1; clearHl();
+    if (q.length < 2) { cnt.textContent = ''; return; }
+    await readText();
+    if (qIn.value.trim() !== q) return; // the query moved on while the text was read
+    const re = queryRe(q);
+    pages.forEach((p, i) => {
+      if (!p.text) return;
+      re.lastIndex = 0;
+      let m;
+      while ((m = re.exec(p.text))) {
+        if (!m[0].length) { re.lastIndex++; continue; }
+        const a = m.index, b = a + m[0].length;
+        const hit = p.items.filter((it) => it.start < b && it.end > a);
+        const rects = hit.map((it) => {
+          const len = it.end - it.start;
+          if (hit.length !== 1 || !len || !it.w) return { left: it.left, top: it.top, w: it.w, h: it.h };
+          // inside a single run the match is measured by character count; in a
+          // right-to-left run the first character sits at the RIGHT edge
+          const from = a - it.start, to = b - it.start;
+          const rtl = /[\u0590-\u05FF\u0600-\u06FF]/.test(p.text.slice(it.start, it.end));
+          const x0 = rtl ? (len - to) / len : from / len;
+          return { left: it.left + it.w * x0, top: it.top, w: it.w * ((to - from) / len), h: it.h };
+        });
+        if (rects.length) matches.push({ p: i, rects, els: null });
+      }
+    });
+    if (!matches.length) { cnt.textContent = T.none; return; }
+    mi = 0; paintHl(); go(0);
+  }
+  function go(i) {
+    if (!matches.length) return;
+    mi = (i + matches.length) % matches.length;
+    matches.forEach((m, k) => m.els && m.els.forEach((d) => d.classList.toggle('cur', k === mi)));
+    const m = matches[mi], p = pages[m.p], r = m.rects[0];
+    scroll.scrollTop = Math.max(0, p.el.offsetTop + r.top * scale - scroll.clientHeight * 0.35);
+    scroll.scrollLeft = Math.max(0, p.el.offsetLeft + (r.left + r.w / 2) * scale - scroll.clientWidth / 2);
+    cnt.textContent = (mi + 1) + ' / ' + matches.length;
+    render(p);
+  }
+  const openFind = () => { findBar.hidden = false; document.body.classList.add('finding'); qIn.focus(); qIn.select(); };
+  const closeFind = () => { findBar.hidden = true; document.body.classList.remove('finding'); matches = []; mi = -1; clearHl(); cnt.textContent = ''; };
+  $('find').addEventListener('click', () => (findBar.hidden ? openFind() : closeFind()));
+  $('findx').addEventListener('click', closeFind);
+  $('next').addEventListener('click', () => go(mi + 1));
+  $('prev').addEventListener('click', () => go(mi - 1));
+  qIn.addEventListener('input', () => { clearTimeout(findT); findT = setTimeout(runSearch, 300); });
+  qIn.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    if (matches.length && qIn.value.trim() === lastQ) go(mi + (e.shiftKey ? -1 : 1));
+    else { clearTimeout(findT); runSearch(); }
+  });
+  const gotoPage = () => {
+    const n = parseInt(pgIn.value, 10);
+    if (!n || n < 1 || n > pages.length) return;
+    scroll.scrollTop = Math.max(0, pages[n - 1].el.offsetTop - 10);
+    render(pages[n - 1]);
+  };
+  pgIn.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); gotoPage(); } });
+  pgIn.addEventListener('change', gotoPage);
+  window.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'f' || e.key === 'F')) { e.preventDefault(); openFind(); }
+    else if (e.key === 'Escape' && !findBar.hidden) { e.preventDefault(); closeFind(); }
+  });
+
+  // page counter follows the page under the upper third of the view
+  let ticking = false;
+  scroll.addEventListener('scroll', () => {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      const y = scroll.scrollTop + scroll.clientHeight / 3;
+      let cur = 0;
+      for (let i = 0; i < pages.length; i++) { if (pages[i].el.offsetTop <= y) cur = i; else break; }
+      $('pages').textContent = (cur + 1) + ' / ' + pages.length;
+      if (document.activeElement !== pgIn) pgIn.value = String(cur + 1);
+    });
+  });
+
+  try {
+    const url = new URL(file, location.href).href;
+    const pdf = await pdfjsLib.getDocument({ url }).promise;
+    const frag = document.createDocumentFragment();
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const el = document.createElement('div');
+      el.className = 'page'; el.dataset.i = String(i - 1);
+      frag.appendChild(el);
+      pages.push({ page, el, vp1: page.getViewport({ scale: 1 }), rendered: 0, task: null, taskScale: 0, visible: false });
+    }
+    (document.getElementById('sheet') || scroll).appendChild(frag);
+    msg.hidden = true;
+    window.__pdf.pages = pages.length;
+    $('pages').textContent = '1 / ' + pages.length;
+    pgIn.max = String(pages.length); pgIn.value = '1';
+    // the owner wants every document to open at 175% (not fit-width), page centred; ?zoom=NNN overrides
+    const z = parseFloat(qs.get('zoom')) || 175;
+    setScale(z / 100, 0, 'free');
+    scroll.scrollTop = 0;
+    scroll.scrollLeft = Math.max(0, (scroll.scrollWidth - scroll.clientWidth) / 2);
+    pages.forEach((p) => io.observe(p.el));
+  } catch (e) {
+    console.error(e);
+    window.__pdf.error = String(e && e.message || e);
+    showMsg(T.err + (e && e.message ? ' — ' + e.message : ''));
+  }
+</script>
+<style id="big-screen-css">
+html.big-screen *, html.big-screen *::before, html.big-screen *::after{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+</style>
+<script id="big-screen-js">(function(){function m(){try{var w=(window.screen&&screen.width)||0;document.documentElement.classList.toggle('big-screen', w>=1900);}catch(e){}}m();addEventListener('resize',m);setInterval(m,4000);})();</script>
+</body>
+</html>

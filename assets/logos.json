@@ -14,40 +14,40 @@
       "type": "logo",
       "mime": "image/png",
       "file": "assets/logos/lavie.png",
-      "bytes": 45701,
-      "sha256": "6bdfd6436f73f280ed943694f35e970047111070cf3b938aa2334aa39885b400"
+      "bytes": 158683,
+      "sha256": "a58b242aada8f0a01f7b4d0a4845b0f85326a8865134a8daa028e8fba24d252d"
     },
     {
       "id": "galleria-herzliya",
       "type": "logo",
       "mime": "image/png",
       "file": "assets/logos/galleria-herzliya.png",
-      "bytes": 49350,
-      "sha256": "4001bb470a55e18c9e278c7cbb4c0b5acba10eb99f0b8dde738c6beef25119e2"
+      "bytes": 193336,
+      "sha256": "36479284860a637aa16bfe018b5c4b429206fae83e263a110566b7b9ebaea88e"
     },
     {
       "id": "west-logo",
       "type": "logo",
       "mime": "image/png",
       "file": "assets/logos/west-logo.png",
-      "bytes": 54430,
-      "sha256": "734bf048fce7ff8874820c82ba802c21c26be2a26584a245ce1c3e885e6bc35f"
+      "bytes": 213665,
+      "sha256": "b07e8bd18e25a17b93f6d8b8e68867a645c68ac91bdd77b415126a5d89712118"
     },
     {
       "id": "beta-estate",
       "type": "logo",
       "mime": "image/png",
       "file": "assets/logos/beta-estate.png",
-      "bytes": 13250,
-      "sha256": "c4b29ea2892347cffa18f19bb9140a65becd2df3cbcaa0fec6cdf3155fc0ecd0"
+      "bytes": 53021,
+      "sha256": "69a3df4bfd0c90f1bcef675a4ed4283ca5a6155500cb77e5a37a9ffa93c9314c"
     },
     {
       "id": "harbour-logo",
       "type": "logo",
       "mime": "image/png",
       "file": "assets/logos/harbour-logo.png",
-      "bytes": 52389,
-      "sha256": "bdaad00e499eeed4f7c93300d7991e2d958d95824b197f9c38afdf1adf79f11c"
+      "bytes": 202781,
+      "sha256": "928aee40282c034e77e3d10d95366872df496a172e9c3b0fbe3fca09b3025e7c"
     },
     {
       "id": "club-mark",

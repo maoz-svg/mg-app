@@ -1,0 +1,30 @@
+{
+ "name": "MAOZ GROUP",
+ "short_name": "MAOZ GROUP",
+ "lang": "he",
+ "dir": "rtl",
+ "start_url": "./index.html",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "landscape",
+ "background_color": "#071a12",
+ "theme_color": "#071a12",
+ "icons": [
+  {
+   "src": "pwa/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "pwa/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "pwa/icon-512-maskable.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}

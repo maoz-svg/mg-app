@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-27T11:29:47.460Z",
+  "generatedAt": "2026-09-15T22:02:40.674Z",
   "source": "assets-src",
   "assets": [
     {
@@ -15,16 +15,32 @@
       "type": "video",
       "mime": "video/mp4",
       "file": "assets-src/video/harbour-hero.mp4",
-      "bytes": 66252108,
-      "sha256": "55e4eebe289d9ad9e296c9c60457c24d41db23c601ca3f8a78c3495f442548c2"
+      "bytes": 7400254,
+      "sha256": "b67bcf87e26f5d489e45b101893700a6c093b83343cf3c97d493cced5d84710f"
+    },
+    {
+      "id": "north-hero",
+      "type": "video",
+      "mime": "video/mp4",
+      "file": "assets-src/video/north-hero.mp4",
+      "bytes": 9248380,
+      "sha256": "cf6fc0e8b69e026f0c1110728aaf9951a39dabec3286d6c7ccd7fe53f110aece"
     },
     {
       "id": "west-hero",
       "type": "video",
       "mime": "video/mp4",
       "file": "assets-src/video/west-hero.mp4",
-      "bytes": 20011222,
-      "sha256": "95a1cb7ff21b01d0b00a8011faeb96498378c777533265e1849b544098aa2e60"
+      "bytes": 11666975,
+      "sha256": "8a50ef0b57756a7a05ad4151af84188b5a42eab52d16a7f9ee2b9a574778a724"
+    },
+    {
+      "id": "hf-20260626-192922-bfd3b4dd-52e1-4f7f-ba75-6e7f84a85bb1",
+      "type": "image",
+      "mime": "image/png",
+      "file": "assets-src/images/hf_20260626_192922_bfd3b4dd-52e1-4f7f-ba75-6e7f84a85bb1.png",
+      "bytes": 25306293,
+      "sha256": "32e9ecb4b9a8e00a8395e776aae8e8731ac94eef6593bc833c95a649ff802d92"
     },
     {
       "id": "sean-pollock-phyq704ffda-unsplash-1",
@@ -33,6 +49,14 @@
       "file": "assets-src/images/sean-pollock-PhYq704ffdA-unsplash (1).jpg",
       "bytes": 2222333,
       "sha256": "6ab64c07c40aebec60e02448d8faf624f0ddfab748e503c3a9a06ad1bc29c520"
+    },
+    {
+      "id": "",
+      "type": "image",
+      "mime": "image/png",
+      "file": "assets-src/images/קאבר יוון.png",
+      "bytes": 27928141,
+      "sha256": "f466ee37e83701d0e84695f1b38d12eb80c434e8a14b6ebf644b1d4f22cd9428"
     }
   ]
 }

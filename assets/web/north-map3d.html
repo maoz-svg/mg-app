@@ -1,0 +1,397 @@
+<!doctype html>
+<!--
+  מפת תכנון הרצליה והסביבה — one rendering of Herzliya that you move and zoom over, with the
+  planning layers drawn on top of it. No rotation and nothing stitched (his call, 2026-09-15):
+  one big smooth picture, and a view that can never run past its edge.
+
+  Everything on top of the picture is glass (his ask, 2026-09-15): the map has to stay readable
+  through the chrome, the open menu included.
+-->
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מפת תכנון הרצליה והסביבה</title>
+<style>
+  :root {
+    --gold: #d8b46a; --gold-bri: #f0d089; --ivory: #eef4ee;
+    /* glass: dark enough to read against, light enough to see the map through */
+    --ui: rgba(6,20,14,.42); --ui-hi: rgba(10,34,24,.46); --line: rgba(216,180,106,.30);
+    --blur: blur(16px) saturate(1.25);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #071a12; color: var(--ivory);
+    font-family: 'Heebo', 'Segoe UI', Arial, sans-serif; user-select: none; -webkit-user-select: none; }
+  #app { position: fixed; inset: 0; }
+
+  /* the map surface */
+  #stage { position: absolute; inset: 0; overflow: hidden; cursor: grab; touch-action: none; background: #071a12; }
+  #stage.grabbing { cursor: grabbing; }
+  #map, #vec, #lays { position: absolute; top: 0; right: auto; left: 0; transform-origin: 0 0; will-change: transform; }
+  /* the drawn layers ride with the picture as plain images, not as bitmaps inside the vector
+     surface — inside the SVG they were re-rastered in tiles while the view moved (his report of
+     black and white squares popping, 2026-09-15) */
+  #lays { width: 0; height: 0; overflow: visible; pointer-events: none; }
+  /* each layer picture gets its own compositing layer, so a zoom scales a texture it already has
+     instead of rasterising three thousand pixels again mid-flight */
+  /* each layer keeps its own texture: on a zoom step the compositor transforms it instead of
+     Chromium redrawing a 3,000-pixel image (longest raster task 41.7 -> 15 ms, 2026-09-17) */
+  #lays img { position: absolute; display: none; image-rendering: auto; will-change: transform;
+    will-change: transform; transform: translateZ(0); backface-visibility: hidden; }
+  #lays img.on { display: block; }
+  #map { display: block; image-rendering: auto; }
+  #vec { pointer-events: none; overflow: visible; }
+  #vec .vw { vector-effect: non-scaling-stroke; }
+
+  /* one title, top right — nothing else up there (his ask, 2026-09-15) */
+  .top { position: absolute; top: 18px; right: 20px; z-index: 6; pointer-events: none; }
+  .top h1 { margin: 0; font-size: 17px; font-weight: 500; letter-spacing: .01em; color: #f6faf6;
+    padding: 9px 17px; border-radius: 999px;
+    background: var(--ui); border: 1px solid var(--line);
+    -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
+    box-shadow: 0 16px 40px -28px rgba(0,0,0,.9); }
+
+  /* the pills down the right side: the layers, and the outside maps under them */
+  .side { position: absolute; top: 74px; right: 20px; z-index: 6; width: 268px;
+    display: flex; flex-direction: column; gap: 10px; }
+  .pill { background: var(--ui); border: 1px solid var(--line); border-radius: 16px;
+    -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
+    box-shadow: 0 18px 44px -30px rgba(0,0,0,.85); overflow: hidden; }
+  .pill-head { display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px 14px;
+    font: inherit; font-size: 14px; color: var(--ivory); background: none; border: 0; cursor: pointer; text-align: right; }
+  .pill-head svg { width: 17px; height: 17px; flex: none; color: var(--gold-bri); }
+  .pill-head .t { flex: 1; font-weight: 500; }
+  .pill-head .n { font-size: 11px; font-variant-numeric: tabular-nums; color: #0b1d16;
+    background: var(--gold-bri); border-radius: 999px; padding: 2px 8px; opacity: 0; transition: opacity .3s ease; }
+  .pill-head .n.show { opacity: 1; }
+  .pill-head .ch { font-size: 10px; color: rgba(238,244,238,.6); transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+  .pill.open .pill-head .ch { transform: rotate(180deg); }
+  .pill-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .38s cubic-bezier(.2,.8,.2,1); }
+  .pill.open .pill-body { grid-template-rows: 1fr; }
+  .pill-inner { overflow: hidden; }
+  .pill-list { padding: 2px 8px 10px; display: flex; flex-direction: column; gap: 4px; }
+  .fbtn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 10px; text-align: right;
+    font: inherit; font-size: 13px; color: var(--ivory); cursor: pointer; background: none;
+    border: 1px solid transparent; border-radius: 11px;
+    transition: border-color .25s ease, background .25s ease; }
+  .fbtn:hover { border-color: rgba(233,193,121,.5); background: var(--ui-hi); }
+  .fbtn .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; background: rgba(238,244,238,.22);
+    box-shadow: 0 0 0 1px rgba(255,255,255,.12) inset; transition: background .3s ease, box-shadow .3s ease; }
+  .fbtn .lbl { flex: 1; min-width: 0; }
+  .fbtn .sub { display: block; margin-top: 2px; font-size: 10px; color: rgba(238,244,238,.5); }
+  .fbtn.on { background: rgba(14,52,38,.62); border-color: rgba(233,193,121,.75); }
+  .fbtn.on .dot { background: var(--gold-bri); box-shadow: 0 0 10px 2px rgba(240,208,137,.7); }
+  .fbtn .go { font-size: 11px; color: rgba(238,244,238,.42); }
+
+  .foot { position: absolute; bottom: 0; right: 0; left: 0; display: flex; align-items: center; justify-content: space-between;
+    gap: 14px; padding: 14px 20px 16px; z-index: 5; pointer-events: none; }
+  .hint { display: flex; gap: 16px; font-size: 11.5px; color: rgba(238,244,238,.74); text-shadow: 0 1px 9px rgba(0,0,0,.85); }
+  .hint b { color: var(--gold-bri); font-weight: 500; }
+  .acts { display: flex; align-items: center; gap: 8px; pointer-events: auto; }
+  .abtn { font: inherit; font-size: 12px; color: var(--ivory); background: rgba(6,20,14,.80); border: 1px solid var(--line);
+    border-radius: 999px; padding: 8px 15px; cursor: pointer;
+    transition: border-color .3s ease, background .3s ease; }
+  .abtn:hover { border-color: rgba(233,193,121,.7); background: var(--ui-hi); }
+  .zoom { font-size: 11.5px; color: rgba(238,244,238,.72); font-variant-numeric: tabular-nums; min-width: 52px; text-align: center;
+    text-shadow: 0 1px 9px rgba(0,0,0,.85); }
+
+  /* labels */
+  #labels { position: absolute; inset: 0; pointer-events: none; z-index: 4; overflow: hidden; }
+  /* #labels used to jump from z-index 4 to 7 whenever a card opened, which moved every label
+     across the two blurred pills in the rail: their backdrop had to be read again and all
+     forty-seven labels re-drawn in one go, on the CPU - a blink of the whole set every time he
+     touched one. The open card lifts itself instead (.lab.op.open below), and nothing else
+     moves. (2026-09-17) */
+  .lab { position: absolute; top: 0; left: 0; white-space: nowrap; transition: opacity .22s ease; }
+  .lab.dim { opacity: 0; pointer-events: none; }
+  /* No blur on a label. There are thirty of them on screen at once, and a backdrop-filter on each
+     is thirty backdrop read-backs every frame — the tearing he reported at full screen. A solid,
+     deep fill reads the same and costs nothing. */
+  .lab .card { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; padding: 7px 13px 8px;
+    border-radius: 12px; background: rgba(7,22,16,.84); border: 1px solid rgba(216,180,106,.34);
+    box-shadow: 0 12px 30px -18px rgba(0,0,0,.9); }
+  .lab .nm { font-size: 13px; font-weight: 500; color: #f3f7f2; }
+  .lab .pr { font-size: 13px; font-variant-numeric: tabular-nums; direction: ltr; color: var(--gold-bri); }
+  .lab .un { font-size: 9.5px; color: rgba(238,244,238,.58); letter-spacing: .06em; }
+  /* ===== how much of a label he wants to see (his ask, 2026-09-16) =====
+     Every layer that carries labels has a control that cycles through three states: the label as
+     it is, a single glowing pin that opens on hover, and nothing at all. */
+  .labtog { flex: none; width: 26px; height: 26px; border-radius: 8px; display: flex; align-items: center;
+    justify-content: center; cursor: pointer; color: rgba(238,244,238,.42);
+    border: 1px solid transparent; transition: color .2s ease, border-color .2s ease, background .2s ease; }
+  .labtog:hover { color: #f0d089; border-color: rgba(216,180,106,.45); background: rgba(216,180,106,.1); }
+  .labtog svg { width: 14px; height: 14px; }
+  .labtog.dot { color: #ffa422; }
+  .labtog.off { color: rgba(238,244,238,.26); }
+
+  /* the collapsed state: one pin with a small glowing dot on it */
+  .lab.dotted { --tail: 0px; }
+  .lab.dotted .card { opacity: 0; transform: translateY(5px) scale(.97); pointer-events: none;
+    transition: opacity .22s ease, transform .22s ease; }
+  /* The pin's hit target. It used to BE the pulsing dot, and Chromium hit-tests a transformed
+     box in its transformed shape - so the circle he had to hit breathed between 6.0 and 7.3
+     pixels of radius twice every 2.6 seconds, while the dot he could SEE, glow and all, was
+     twenty across. Rest the pointer on the bright rim, which is the natural place, and the
+     target slid out from under it and back: hover dropped, the card faded out, hover returned,
+     the card faded in, for as long as he left the mouse there. That is the blinking he
+     reported on the price labels, and it is the third time this shape of bug has turned up in
+     this app. The pad below is still and generous; the dot pulses inside it and takes no
+     pointer at all. (2026-09-17) */
+  /* The dot is bright-dark-bright from the middle out - a hot amber core, a deep ring of the
+     shell's own green-black, then a cream-gold rim - so it carries its own contrast and never has
+     to borrow any from the ground it lands on. The glow is kept short on purpose: the thing under
+     the pin is a rendering, and a wide bloom would tint it. (His ask, 2026-09-16: the gold was not
+     standing out; seven colours were photographed on all eight pins before this one was picked.) */
+  .lab.dotted::before { content: ""; position: absolute; left: 50%; top: 100%; width: 12px; height: 12px;
+    margin: -6px 0 0 -6px; border-radius: 50%; cursor: pointer; pointer-events: none;   /* the ::after pad is the target */
+    background: radial-gradient(circle at 50% 38%, #fff7ea 0 24%, #ffa422 50%, #f2760a 100%);
+    box-shadow: 0 0 0 2px rgba(5,15,10,.74), 0 0 0 4px rgba(247,227,180,.62), 0 0 13px 4px rgba(255,138,26,.5);
+    animation: dotPulse 2.6s ease-in-out infinite; }
+  .lab.dotted:hover .card, .lab.dotted.open .card { opacity: 1; transform: none; pointer-events: auto; }
+  .lab.dotted:hover::before { box-shadow: 0 0 0 2px rgba(5,15,10,.8), 0 0 0 5.5px rgba(250,232,190,.85), 0 0 18px 6px rgba(255,150,40,.72); }
+  @keyframes dotPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.22); } }
+  @media (prefers-reduced-motion: reduce) { .lab.dotted::before { animation: none; } }
+
+  /* A plan's label floats well above its compound and stays see-through, so the rendering under
+     it is never hidden (his ask, 2026-09-16). */
+  .lab.fut .card { background: rgba(7,22,16,.42); border-color: rgba(216,180,106,.5);
+    box-shadow: 0 10px 26px -20px rgba(0,0,0,.8); }
+  .lab.fut .card .nm { text-shadow: 0 2px 8px rgba(0,0,0,.85); }
+  .lab.fut .card .un { text-shadow: 0 2px 8px rgba(0,0,0,.85); }
+  /* a station carries its name and nothing else - a small tag, not a card (his ask, 2026-09-17) */
+  .lab.station .card { padding: 4px 9px; border-radius: 7px; background: rgba(6,40,58,.72);
+    border-color: rgba(120,200,255,.5); box-shadow: 0 6px 18px -10px rgba(0,0,0,.8); }
+  .lab.station .card .nm { font-size: 11.5px; font-weight: 600; line-height: 1.15; color: #eaf7ff; letter-spacing: .01em; }
+  .lab.station { --tail: 18px; }
+  .lab.station::after { background: linear-gradient(180deg, rgba(120,200,255,.8), rgba(120,200,255,0)); }
+  .lab.fut.open .card { background: rgba(7,22,16,.93); }
+  .lab.pin::after { content: ""; position: absolute; left: 50%; top: 100%; width: 1px; height: var(--tail, 22px);
+    background: linear-gradient(180deg, rgba(216,180,106,.9), rgba(216,180,106,0)); }
+  .lab.dotted::after { display: block; content: ""; position: absolute; left: 50%; top: 100%;
+    width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%; background: none;
+    pointer-events: auto; cursor: pointer; }
+  .lab.shield .card { flex-direction: row; padding: 4px 10px; border-radius: 8px;
+    border-color: rgba(120,190,255,.5); background: rgba(9,28,48,.88); }
+  .lab.shield .nm { font-size: 12px; color: #cfe6ff; font-variant-numeric: tabular-nums; }
+  .lab.station .card { border-color: rgba(233,193,121,.8); background: rgba(11,40,29,.9); }
+  .lab.plot .card { border-color: rgba(240,208,137,.9); background: rgba(26,19,6,.9); }
+  .lab.street .card { padding: 6px 12px 7px; }
+  .lab.street .nm { font-size: 12px; }
+  .lab.plan .card { border-color: rgba(255,150,110,.7); background: rgba(34,15,9,.9); }
+
+  /* an openable label: it grows in place into a card with the numbers */
+  .lab.op { pointer-events: auto; cursor: pointer; }
+  .lab.op .card { transition: border-color .3s ease, background .3s ease; }
+  .lab.op:hover .card { border-color: rgba(240,208,137,.85); }
+  .lab.op .more { display: block; margin-top: 3px; font-size: 9px; letter-spacing: .08em; color: rgba(240,208,137,.78); }
+  .lab.op.open { z-index: 9; }   /* the open card alone comes over the key and the pills */
+  .lab.op.open .card { max-height: calc(100vh - 110px); overflow-y: auto; padding: 15px 17px 16px;
+    border-color: rgba(240,208,137,.85); background: rgba(5,18,13,.95);
+    box-shadow: 0 30px 70px -30px rgba(0,0,0,.95); }
+  .lab.op.open .more { display: none; }
+  /* the compact face of the label is the card's own title once it opens — no repeated figure */
+  .lab.op.open .card > .pr, .lab.op.open .card > .un { display: none; }
+  .lab.op.open .card > .nm { font-size: 15px; margin-bottom: 2px; }
+  .panel { display: none; white-space: normal; text-align: right; }
+  .lab.op.open .panel { display: block; }
+
+  /* the chart — bigger and plainer to read (his ask, 2026-09-15) */
+  .chart { width: 400px; margin-top: 12px; }
+  .chart .hd { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px;
+    padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,.09); }
+  .chart .hd span { font-size: 11px; letter-spacing: .08em; color: rgba(238,244,238,.6); }
+  .chart .hd b { font-size: 14px; font-weight: 600; color: var(--gold-bri); font-variant-numeric: tabular-nums; direction: ltr; }
+  .chart svg { display: block; width: 400px; height: 186px; overflow: visible; }
+  .chart .gr { stroke: rgba(255,255,255,.07); stroke-width: 1; }
+  .chart .ax { stroke: rgba(255,255,255,.16); stroke-width: 1; }
+  .chart .ln { fill: none; stroke: #f0d089; stroke-width: 2.6; stroke-linejoin: round; stroke-linecap: round; }
+  .chart .fc { fill: none; stroke: #8fe3ff; stroke-width: 2.6; stroke-dasharray: 6 5; stroke-linecap: round; }
+  .chart .ar { fill: url(#ag); opacity: .55; }
+  .chart .pt { fill: #fff6e2; stroke: rgba(5,18,13,.9); stroke-width: 1.5; }
+  .chart .pf { fill: #8fe3ff; stroke: rgba(5,18,13,.9); stroke-width: 1.5; }
+  .chart text { font: 12px 'Heebo', Arial, sans-serif; fill: rgba(238,244,238,.66); }
+  .chart text.v { font-size: 12px; font-weight: 500; fill: #fff6e2; font-variant-numeric: tabular-nums; }
+  .chart text.vf { fill: #8fe3ff; }
+  .chart text.gl { font-size: 10px; fill: rgba(238,244,238,.38); font-variant-numeric: tabular-nums; }
+  .chart .note { width: 400px; margin-top: 11px; font-size: 11.5px; line-height: 1.6; color: rgba(238,244,238,.62); }
+  .chart .note b { color: rgba(143,227,255,.92); font-weight: 500; }
+  .chart .srcline { width: 400px; margin-top: 7px; font-size: 10px; line-height: 1.5; color: rgba(238,244,238,.42); }
+  .chart .ar2 { fill: url(#fg); opacity: .55; }
+  .chart .bd { fill: rgba(143,227,255,.22); stroke: rgba(143,227,255,.55); stroke-width: 1; }
+  .chips { display: grid; grid-template-columns: 1fr 1fr; gap: 7px 12px; margin-top: 13px; }
+  .chip { padding: 8px 11px; border-radius: 10px; background: rgba(255,255,255,.055); border: 1px solid rgba(216,180,106,.22); }
+  .chip b { display: block; font-size: 12px; font-weight: 600; color: var(--gold-bri); }
+  .chip span { display: block; margin-top: 2px; font-size: 11px; line-height: 1.45; color: rgba(238,244,238,.7); }
+
+  /* the wide card: the quarter's own forecast, and a plan's figures */
+  .wide { width: 448px; }
+  .wide .kick { font-size: 10px; letter-spacing: .14em; color: rgba(240,208,137,.82); }
+  .wide .big { display: flex; align-items: baseline; gap: 9px; margin: 7px 0 3px; }
+  .wide .big b { font-size: 36px; font-weight: 600; color: var(--gold-bri); font-variant-numeric: tabular-nums; direction: ltr; line-height: 1; }
+  .wide .big i { font-style: normal; font-size: 12px; color: rgba(238,244,238,.62); }
+  .wide .rng { font-size: 11.5px; color: rgba(238,244,238,.58); font-variant-numeric: tabular-nums; direction: rtl; }
+  .wide .rule { height: 1px; margin: 14px 0 13px; background: rgba(255,255,255,.1); }
+  .wide .rows { display: grid; gap: 10px; }
+  .wide .row { display: grid; grid-template-columns: 7px 1fr; gap: 10px; align-items: start; }
+  .wide .row i { margin-top: 6px; width: 6px; height: 6px; border-radius: 50%; background: var(--gold-bri); opacity: .85; }
+  .wide .row b { display: block; font-size: 12.5px; font-weight: 500; color: #f3f7f2; }
+  .wide .row span { display: block; margin-top: 2px; font-size: 11.5px; line-height: 1.55; color: rgba(238,244,238,.68); }
+  .wide .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
+  .wide .kv { display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+    padding-bottom: 7px; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .wide .kv span { font-size: 11.5px; color: rgba(238,244,238,.6); }
+  .wide .kv b { font-size: 13.5px; font-weight: 600; color: #f6faf6; font-variant-numeric: tabular-nums; direction: ltr; }
+  .wide .foot2 { margin-top: 13px; font-size: 11px; line-height: 1.6; color: rgba(238,244,238,.5); }
+  .wide .tag { display: inline-block; margin-top: 11px; padding: 3px 10px; border-radius: 999px; font-size: 10.5px;
+    color: rgba(240,208,137,.9); border: 1px solid rgba(240,208,137,.35); background: rgba(240,208,137,.08); }
+  .wide h5 { margin: 14px 0 9px; font-size: 10px; font-weight: 500; letter-spacing: .13em; color: rgba(238,244,238,.5); }
+
+  /* the land-use key, shown only while that layer is on */
+  .key { position: absolute; bottom: 56px; left: 20px; z-index: 6; width: 268px; display: none;
+    padding: 12px 14px 13px; border-radius: 16px; background: rgba(6,20,14,.86); border: 1px solid var(--line); }
+  .key.show { display: block; }
+  /* the original planning sheet, reachable from above the legend (his ask, 2026-09-16) */
+  .keybtn { position: absolute; bottom: 214px; left: 20px; z-index: 6; width: 268px; display: none;
+    padding: 11px 14px; border-radius: 14px; cursor: pointer; text-align: right;
+    background: rgba(6,20,14,.86); border: 1px solid var(--line); color: #f0d089;
+    font: 500 12.5px/1 inherit; letter-spacing: .02em;
+    transition: border-color .25s ease, background .25s ease; }
+  .keybtn.show { display: block; }
+  .keybtn:hover { border-color: rgba(240,208,137,.8); background: rgba(10,34,24,.92); }
+  .orig { position: fixed; inset: 0; z-index: 40; display: flex; align-items: center; justify-content: center;
+    padding: 24px; background: rgba(6,16,12,.66); }
+  .orig[hidden] { display: none; }
+  .orig-card { width: min(1560px, 96vw); height: 92vh; display: flex; flex-direction: column; overflow: hidden;
+    border-radius: 18px; border: 1px solid rgba(216,180,106,.5);
+    background: linear-gradient(160deg, rgba(12,58,43,.34), rgba(8,30,22,.46));
+    box-shadow: 0 40px 100px -42px rgba(0,0,0,.85); }
+  .orig-top { display: flex; align-items: center; gap: 14px; padding: 12px 16px;
+    border-bottom: 1px solid rgba(216,180,106,.28); }
+  .orig-tabs { display: flex; gap: 8px; }
+  .orig-tab { padding: 8px 16px; border-radius: 999px; cursor: pointer; font: 500 13px/1 inherit;
+    color: rgba(238,244,238,.8); background: rgba(255,255,255,.06);
+    border: 1px solid rgba(216,180,106,.3); transition: all .25s ease; }
+  .orig-tab:hover { border-color: rgba(240,208,137,.7); color: #f0d089; }
+  .orig-tab.on { background: #d8b46a; border-color: #d8b46a; color: #0b2318; }
+  .orig-title { flex: 1; text-align: center; font: 500 13.5px/1 inherit; color: rgba(238,244,238,.72); letter-spacing: .04em; }
+  .orig-x { width: 36px; height: 36px; border-radius: 50%; cursor: pointer; flex: none; font-size: 20px; line-height: 1;
+    background: rgba(8,30,22,.7); border: 1px solid rgba(202,164,99,.5); color: #eef4ee; }
+  .orig-x:hover { background: #d8b46a; color: #0b2318; }
+  .orig-body { flex: 1; min-height: 0; overflow: hidden; position: relative; cursor: grab; touch-action: none; }
+  .orig-body.drag { cursor: grabbing; }
+  .orig-body img { position: absolute; left: 0; top: 0; transform-origin: 0 0; display: block;
+    max-width: none; user-select: none; -webkit-user-drag: none; }
+  .orig-zoom { position: absolute; z-index: 2; left: 14px; bottom: 14px; display: flex; align-items: center; gap: 2px;
+    padding: 4px; border-radius: 999px; background: rgba(8,28,20,.86); border: 1px solid rgba(216,180,106,.4); }
+  .orig-zoom button { width: 30px; height: 30px; border: 0; border-radius: 50%; cursor: pointer; background: transparent;
+    color: #f0d089; font-size: 17px; line-height: 1; }
+  .orig-zoom button:hover { background: rgba(240,208,137,.16); }
+  .orig-zoom .lvl { min-width: 48px; text-align: center; font-size: 11.5px; color: rgba(238,244,238,.8); cursor: pointer; }
+  .key h4 { margin: 0 0 9px; font-size: 10.5px; font-weight: 500; letter-spacing: .12em; color: rgba(238,244,238,.6); }
+  .key ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+  .key li { display: flex; align-items: center; gap: 9px; font-size: 11.5px; color: rgba(238,244,238,.88); }
+  .key i { width: 12px; height: 12px; border-radius: 3px; flex: none; box-shadow: 0 0 0 1px rgba(255,255,255,.22) inset; }
+
+  .load { position: absolute; inset: 0; display: grid; place-items: center; z-index: 9; background: #071a12; transition: opacity .7s ease; }
+  .load.gone { opacity: 0; pointer-events: none; }
+  .load .bar { width: 190px; height: 2px; margin: 14px auto 0; background: rgba(255,255,255,.1); border-radius: 2px; overflow: hidden; }
+  .load .bar i { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, #8d6a2c, var(--gold-bri)); transition: width .4s ease; }
+  .load p { margin: 0; font-size: 12.5px; letter-spacing: .12em; color: rgba(238,244,238,.7); text-align: center; }
+
+  @media (max-width: 980px) {
+    .side, .key { width: 206px; } .hint { display: none; }
+    .chart, .chart svg, .chart .note { width: 300px; } .chart svg { height: 150px; } .wide { width: 320px; }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stage">
+    <img id="map" alt="">
+    <div id="lays" aria-hidden="true"></div>
+    <svg id="vec" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="6" />
+        </filter>
+      </defs>
+    </svg>
+  </div>
+  <div id="labels"></div>
+
+  <div class="top"><h1>מפת תכנון הרצליה והסביבה</h1></div>
+
+  <div class="side">
+    <div class="pill" id="rail">
+      <button class="pill-head" id="railHead" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3 3 7.5 12 12l9-4.5L12 3Z"/><path d="M3 12.5 12 17l9-4.5"/><path d="M3 16.5 12 21l9-4.5"/></svg>
+        <span class="t">שכבות תכנון</span>
+        <span class="n" id="railN">0</span>
+        <span class="ch">▾</span>
+      </button>
+      <div class="pill-body"><div class="pill-inner"><div class="pill-list" id="railList"></div></div></div>
+    </div>
+
+    <div class="pill" id="maps">
+      <button class="pill-head" id="mapsHead" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 4 3 6.5v13L9 17l6 2.5 6-2.5v-13L15 7 9 4Z"/><path d="M9 4v13M15 7v12.5"/></svg>
+        <span class="t">מפות ומאגרים</span>
+        <span class="ch">▾</span>
+      </button>
+      <div class="pill-body"><div class="pill-inner"><div class="pill-list" id="mapsList"></div></div></div>
+    </div>
+  </div>
+
+  <button type="button" class="keybtn" id="origBtn">מפת ייעוד מקורית ↗</button>
+  <div class="orig" id="orig" hidden>
+    <div class="orig-card">
+      <div class="orig-top">
+        <div class="orig-tabs">
+          <button type="button" class="orig-tab on" data-orig="clean">מבט נקי</button>
+          <button type="button" class="orig-tab" data-orig="zoning">מבט כולל ייעוד</button>
+        </div>
+        <div class="orig-title">מפת ייעוד מקורית · מינהל התכנון</div>
+        <button type="button" class="orig-x" id="origX" aria-label="סגירה">×</button>
+      </div>
+      <div class="orig-body" id="origBody">
+        <img id="origImg" src="" alt="מפת ייעוד מקורית" draggable="false">
+        <div class="orig-zoom" role="group" aria-label="זום">
+          <button type="button" id="ozIn" aria-label="הגדלה">+</button>
+          <span class="lvl" id="ozLvl" role="button" tabindex="0" title="התאמה לחלון">100%</span>
+          <button type="button" id="ozOut" aria-label="הקטנה">&#8722;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="key" id="key">
+    <h4>ייעוד הקרקע</h4>
+    <ul id="keyList"></ul>
+  </div>
+
+  <div class="foot">
+    <div class="hint">
+      <span><b>גרירה</b> הזזה</span>
+      <span><b>גלגלת</b> זום</span>
+    </div>
+    <div class="acts">
+      <span class="zoom" id="zoom">100%</span>
+      <button class="abtn" id="site">אל שטח התוכנית</button>
+      <button class="abtn" id="reset">מבט מלא</button>
+    </div>
+  </div>
+
+  <div class="load" id="load"><div>
+    <p>טוען את המפה</p>
+    <div class="bar"><i id="prog"></i></div>
+  </div></div>
+</div>
+
+<script type="module" src="./north-map3d.js"></script>
+<style id="big-screen-css">
+html.big-screen *, html.big-screen *::before, html.big-screen *::after{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+html.big-screen .lab .card{background:rgba(7,22,16,.86)}
+</style>
+<script id="big-screen-js">(function(){function m(){try{var w=(window.screen&&screen.width)||0;document.documentElement.classList.toggle('big-screen', w>=1900);}catch(e){}}m();addEventListener('resize',m);setInterval(m,4000);})();</script>
+</body>
+</html>

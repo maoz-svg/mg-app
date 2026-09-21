@@ -634,15 +634,8 @@
 </script>
 
 <div class="action-bar">
-    <button class="action-btn primary" onclick="printStage('stage1')">🖨️ הדפס מודל השקעה פיננסי</button>
-    <button class="action-btn primary" onclick="printStage('stage2')">🖨️ הדפס מודל המשך בניה</button>
-    <button class="action-btn primary" onclick="printStage('full')">🖨️ הדפסה מלאה</button>
+    <button class="action-btn primary" id="westPdfBtn" onclick="westExportPdf()">⬇️ ייצא לPDF</button>
     <button class="action-btn secondary" onclick="resetDefaults()">↺ שחזר ברירות מחדל</button>
-</div>
-<div class="action-bar" style="margin-top: 10px;">
-    <button class="action-btn email" onclick="emailModel('stage1')">📧 שלח מודל פיננסי במייל</button>
-    <button class="action-btn email" onclick="emailModel('stage2')">📧 שלח מודל בניה במייל</button>
-    <button class="action-btn email" onclick="emailModel('full')">📧 שלח מודל משולב במייל</button>
 </div>
 
 <script>
@@ -1093,6 +1086,233 @@
         if (e.ctrlKey && (e.key === 'c' || e.key === 'C')) { if (e.target.tagName !== 'INPUT') { e.preventDefault(); } }
     });
 </script>
+<style id="west-pdf-css">
+.wep-overlay{position:fixed;inset:0;z-index:99999;background:rgba(27,67,50,.45);backdrop-filter:blur(4px);
+  display:none;align-items:center;justify-content:center;font-family:inherit}
+.wep-overlay.open{display:flex}
+.wep-card{background:#fff;border:1px solid #B7E4C7;border-radius:14px;padding:26px 28px;max-width:360px;width:92vw;
+  text-align:center;box-shadow:0 30px 70px -20px rgba(27,67,50,.45)}
+.wep-card h3{margin:0 0 18px;color:#1B4332;font-size:18px}
+.wep-opt{display:block;width:100%;margin:0 0 10px;padding:11px 16px;border-radius:8px;border:1px solid #B7E4C7;
+  background:#F4F9F4;color:#1B4332;font-size:14.5px;font-weight:bold;cursor:pointer;font-family:inherit}
+.wep-opt:hover{background:#2D6A4F;color:#fff}
+.wep-cancel{margin-top:4px;background:none;border:none;color:#52796F;font-size:13px;cursor:pointer;font-family:inherit;text-decoration:underline}
+/* ---- purpose-built print pages (off-screen, rasterized by html2canvas) ---- */
+#wepPrintArea{position:static}
+.wep-veil{position:fixed;inset:0;z-index:999999;background:#F4F9F4;display:flex;align-items:center;justify-content:center;color:#1B4332;font-size:18px;font-weight:bold;font-family:inherit}
+.wep-page{width:1000px;background:#fff;color:#1B4332;font-family:inherit;direction:rtl;padding:46px 56px;box-sizing:border-box}
+.wep-head{display:flex;align-items:center;gap:18px;border-bottom:2px solid #2D6A4F;padding-bottom:16px;margin-bottom:8px}
+.wep-head img{height:54px;width:auto}
+.wep-head-t{flex:1}
+.wep-head-t .en{font-size:21px;font-weight:bold;letter-spacing:.12em;color:#1B4332}
+.wep-head-t .he{font-size:15px;color:#2D6A4F;margin-top:2px}
+.wep-stage{font-size:19px;font-weight:bold;color:#1B4332;margin:16px 0 6px;text-align:center}
+.wep-sec{font-size:14px;font-weight:bold;color:#2D6A4F;border-bottom:1px solid #B7E4C7;padding-bottom:5px;margin:20px 0 8px}
+.wep-row{display:flex;justify-content:space-between;gap:14px;padding:6px 2px;font-size:13.5px;border-bottom:1px dashed #E3F0E6}
+.wep-row .l{color:#40655c}
+.wep-row .v{font-weight:bold;white-space:nowrap}
+.wep-row.hi{background:#F4F9F4;border:1px solid #B7E4C7;border-radius:6px;padding:9px 10px;font-size:14.5px}
+.wep-row.hi .v{color:#1B4332}
+.wep-sub{font-size:12.5px;font-weight:bold;color:#40655c;margin:11px 0 1px;padding:0 2px 3px 0;border-bottom:1px dotted #CFE6D6}
+.wep-row.sub{font-size:12.5px;padding:4px 2px;margin-right:16px;border-bottom:1px dotted #EDF5EF}
+.wep-row.sub .l{color:#5d7a72}
+.wep-disc{margin-top:26px;font-size:10.5px;color:#7d938a;line-height:1.5;border-top:1px solid #E3F0E6;padding-top:10px}
+</style>
+<script src="vendor/html2canvas.min.js"></script>
+<script src="vendor/jspdf.umd.min.js"></script>
+<script id="west-pdf-js">
+(function(){
+  function relaySave(name,bytes,done,fail){
+    if(!(window.parent&&window.parent!==window)){fail();return;}
+    var reqId='maoz-save-pdf-'+Math.random().toString(36).slice(2)+String(+new Date());
+    var gotAck=false;
+    var ackTimer=setTimeout(function(){if(!gotAck){window.removeEventListener('message',onMsg);fail();}},500);
+    function onMsg(ev){
+      var d=ev&&ev.data; if(!d||d.reqId!==reqId)return;
+      if(d.type==='maoz-save-pdf-ack'){gotAck=true;clearTimeout(ackTimer);}
+      else if(d.type==='maoz-save-pdf-result'){window.removeEventListener('message',onMsg);done();}
+    }
+    window.addEventListener('message',onMsg);
+    window.parent.postMessage({type:'maoz-save-pdf',reqId:reqId,name:name,bytes:bytes},'*');
+  }
+  function downloadFallback(name,bytes){
+    var blob=new Blob([bytes],{type:'application/pdf'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob); a.download=name;
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){URL.revokeObjectURL(a.href); a.remove();},4000);
+  }
+  function row(l,v,hi){return '<div class="wep-row'+(hi?' hi':'')+'"><span class="l">'+l+'</span><span class="v">'+v+'</span></div>';}
+  function srow(l,v){return '<div class="wep-row sub"><span class="l">'+l+'</span><span class="v">'+v+'</span></div>';}
+  function sub(t){return '<div class="wep-sub">'+t+'</div>';}
+  // innerText of collapsed panels is empty — read textContent instead
+  function wtxt(id){var el=document.getElementById(id);return el?(el.textContent||'').trim():'';}
+  function winp(id){var el=document.getElementById(id);return el?String(el.value||'').trim():'';}
+  function wchk(id){var el=document.getElementById(id);return el&&el.checked?'כן':'לא';}
+  function head(stageTitle){
+    return '<div class="wep-head"><img src="'+LOGO_DATA+'" alt=""><div class="wep-head-t">'+
+      '<div class="en">MAOZ GROUP</div><div class="he">מודל השקעה · עסקת מערב רמת השרון — תחזיות השבחה וחישובי חילוץ (שיטה שמאית)</div></div></div>'+
+      '<div class="wep-stage">'+stageTitle+'</div>';
+  }
+  function disc(){
+    var d=document.querySelector('.disclaimer');
+    return '<div class="wep-disc">'+(d?d.textContent.trim():'')+'</div>';
+  }
+  function stage1Page(){
+    var h='';
+    h+=head('מודל השקעה פיננסי — השבחת הקרקע (שלב א׳)');
+    h+='<div class="wep-sec">נתוני רכישה ועלויות</div>';
+    h+=row('גודל הקרקע ברוטו', winp('grossLand')+' מ"ר');
+    h+=sub('חישוב זכויות בניה (מ"ר)');
+    h+=srow('הפקעה', winp('expropriationPct')+'%');
+    h+=srow('קרקע נטו', winp('netLand')+' מ"ר');
+    h+=srow('רח"ק נטו', winp('far'));
+    h+=srow('גודל מרפסת (מחציתה מתווספת לשטח המבונה)', winp('balconySize')+' מ"ר');
+    h+=row('אמדן מ"ר מבונה ברוטו', winp('grossBuilt')+' מ"ר');
+    h+=row('עלות הקרקע', winp('landCost')+' ₪');
+    h+=sub('עלויות נלוות');
+    h+=srow('מס רכישה ('+winp('taxPct')+'%)', winp('taxAmount')+' ₪');
+    h+=srow('שכ"ט עו"ד ('+winp('lawyerPct')+'% + מע"מ '+winp('vatPct')+'%)', winp('lawyerAmount')+' ₪');
+    h+=srow('אגרות רישום', winp('regFee')+' ₪');
+    h+=sub('מימון והלוואות (קרקע)');
+    h+=srow('מימון לרכישת הקרקע', winp('loanAmount')+' ₪');
+    h+=srow('ריבית שנתית מימון קרקע', winp('interestRate')+'%');
+    h+=row('צפי זמן אישור הקרקע', winp('timeYears')+' שנים');
+    h+='<div class="wep-sec">רווחים ותשואות — השבחת הקרקע (שלב א׳)</div>';
+    h+=row('סה"כ השקעה בקרקע (ללא ריבית)', wtxt('res1_totalInvest'));
+    h+=row('צפי שווי קרקע כזמינה לבניה', wtxt('res1_targetLandValue'), true);
+    h+=row('הוצאות מימון קרקע (ריבית דריבית)', wtxt('res1_interest'));
+    h+=row('רווח בניכוי עלויות וריבית', wtxt('res1_netProfit'), true);
+    h+=row('צפי תשואה על ההשקעה (ROI)', wtxt('res1_roi'));
+    h+=row('תשואה שנתית ממוצעת פשוטה', wtxt('res1_simpleAnn'));
+    h+=row('תשואה שנתית מורכבת (IRR)', wtxt('res1_irr'));
+    h+=row('צפי רווח על הון (ROE)', wtxt('res1_roe'), true);
+    h+=disc();
+    return h;
+  }
+  function stage2Page(){
+    var h='';
+    h+=head('מודל המשך בניה (עד מפתח) — שלב ב׳');
+    h+='<div class="wep-sec">נתוני מודל בניה (לחילוץ)</div>';
+    h+=row('זמן התארגנות והוצאת היתר', winp('permitYears')+' שנים');
+    h+=row('זמן בניה', winp('buildYears')+' שנים');
+    h+=row('שווי דירה בנויה', winp('aptValueDisplay')+' ₪');
+    h+=row('מחיר שוק למ"ר דירה בנויה', winp('marketPriceSqm')+' ₪');
+    h+=row('מחיר בניה למ"ר (ישיר+עקיף)', winp('buildCostSqm')+' ₪');
+    h+=row('היטל השבחה', winp('bettermentTax')+' ₪');
+    h+=row('דמי ניהול (משווי דירה) · '+winp('mgmtFeePct')+'%', winp('mgmtFeeAmount')+' ₪');
+    h+=row('רווח יזמי מקובל לחילוץ', winp('entrepProfitPct')+'%');
+    h+=sub('מימון עלויות בניה');
+    h+=srow('סכום מימון לבניה נטו', winp('constLoanAmount')+' ₪');
+    h+=srow('ריבית שנתית מימון בניה', winp('constInterestRate')+'%');
+    h+=srow('עלויות הבניה נכללות בסכום המימון', wchk('financeBuildCost'));
+    h+=srow('היטל ההשבחה נכלל בסכום המימון', wchk('financeBetterment'));
+    h+=srow('דמי הניהול נכללים בסכום המימון', wchk('financeMgmt'));
+    h+='<div class="wep-sec">רווחים ותשואות — מודל המשך בניה (עד מפתח)</div>';
+    h+=row('שווי דירה בנויה', wtxt('res2_aptValue'));
+    h+=row('אמדן עלויות בניה', wtxt('res2_buildCost'));
+    h+=row('היטל השבחה', wtxt('res2_bettermentTax'));
+    h+=row('דמי ניהול ('+wtxt('mgmtValText')+')', wtxt('res2_mgmtFee'));
+    h+=sub('פירוט הוצאות מימון (קרקע ובניה)');
+    h+=srow('הוצאות מימון קרקע (לכל התקופה)', wtxt('res2_landInterest'));
+    h+=srow('הוצאות מימון בניה', wtxt('res2_constInterest'));
+    h+=sub('פירוט מקורות מימון (הון והלוואות)');
+    h+=srow('סה"כ הלוואה מנוצלת לשלב ב׳', wtxt('res2_actualConstLoan'));
+    h+=srow('הון עצמי נדרש לשלב ב׳ (ללא עלות הקרקע)', wtxt('res2_equityConstruction'));
+    h+=srow('הון עצמי של רכישת הקרקע', wtxt('res2_equityLand'));
+    h+=row('סה"כ עלויות דירה (כולל ריבית מצטברת)', wtxt('res2_totalAptCost'), true);
+    h+=row('סה"כ עלות סופית למ"ר', wtxt('res2_costPerSqm'));
+    h+=row('רווח סופי כולל', wtxt('res2_totalProfit'), true);
+    h+=row('צפי תשואה על ההשקעה (ROI)', wtxt('res2_roi'));
+    h+=row('תשואה שנתית ממוצעת פשוטה', wtxt('res2_simpleAnn'));
+    h+=row('תשואה שנתית מורכבת (IRR)', wtxt('res2_irr'));
+    h+=row('צפי רווח על הון (ROE)', wtxt('res2_roe'), true);
+    h+=disc();
+    return h;
+  }
+  function buildPdf(choice){
+    if(typeof calculate==='function')calculate();
+    var veil=document.createElement('div');
+    veil.className='wep-veil'; veil.textContent='מכין PDF…';
+    document.body.appendChild(veil);
+    var scrollBefore=window.scrollY||document.documentElement.scrollTop||0;
+    var area=document.getElementById('wepPrintArea');
+    if(!area){area=document.createElement('div');area.id='wepPrintArea';document.body.appendChild(area);}
+    area.innerHTML='';
+    var parts=choice==='both'?[stage1Page,stage2Page]:choice==='s1'?[stage1Page]:[stage2Page];
+    var pages=parts.map(function(fn){
+      var p=document.createElement('div');
+      p.className='wep-page';
+      p.innerHTML=fn();
+      area.appendChild(p);
+      return p;
+    });
+    var chain=Promise.resolve();
+    var canvases=[];
+    pages.forEach(function(p){
+      chain=chain.then(function(){
+        return html2canvas(p,{scale:2,backgroundColor:'#ffffff'}).then(function(c){canvases.push(c);});
+      });
+    });
+    function cleanup(){
+      area.innerHTML='';
+      if(veil.parentNode)veil.parentNode.removeChild(veil);
+      window.scrollTo(0,scrollBefore);
+    }
+    return chain.then(function(){
+      cleanup();
+      var JsPDF=window.jspdf.jsPDF;
+      var doc=null;
+      canvases.forEach(function(canvas){
+        var wMm=210, hMm=wMm*canvas.height/canvas.width;
+        // jsPDF silently SWAPS a wider-than-tall format to portrait unless the
+        // orientation is explicit — that clipped ~21% off these pages once.
+        var ori=hMm>=wMm?'portrait':'landscape';
+        if(!doc)doc=new JsPDF({unit:'mm',format:[wMm,hMm],orientation:ori});
+        else doc.addPage([wMm,hMm],ori);
+        doc.addImage(canvas.toDataURL('image/jpeg',0.92),'JPEG',0,0,wMm,hMm);
+      });
+      return doc.output('arraybuffer');
+    },function(e){cleanup();throw e;});
+  }
+  function picker(){
+    return new Promise(function(resolve){
+      var ov=document.getElementById('wepPicker');
+      if(!ov){
+        ov=document.createElement('div');
+        ov.id='wepPicker'; ov.className='wep-overlay';
+        ov.innerHTML='<div class="wep-card"><h3>איזה מודל לייצא?</h3>'+
+          '<button type="button" class="wep-opt" data-c="s1">מודל השקעה פיננסי (שלב א\')</button>'+
+          '<button type="button" class="wep-opt" data-c="s2">מודל המשך בניה (שלב ב\')</button>'+
+          '<button type="button" class="wep-opt" data-c="both">שני המודלים</button>'+
+          '<button type="button" class="wep-cancel">ביטול</button></div>';
+        document.body.appendChild(ov);
+      }
+      ov.classList.add('open');
+      function cleanup(){ov.classList.remove('open');ov.removeEventListener('click',onClick);}
+      function onClick(e){
+        var opt=e.target.closest&&e.target.closest('.wep-opt');
+        if(opt){cleanup();resolve(opt.getAttribute('data-c'));return;}
+        if(e.target===ov||(e.target.classList&&e.target.classList.contains('wep-cancel'))){cleanup();resolve(null);}
+      }
+      ov.addEventListener('click',onClick);
+    });
+  }
+  window.westExportPdf=function(){
+    var btn=document.getElementById('westPdfBtn');
+    var orig=btn?btn.textContent:'';
+    function finish(){if(btn){btn.disabled=false;btn.textContent=orig;}}
+    picker().then(function(choice){
+      if(!choice)return;
+      if(btn){btn.disabled=true;btn.textContent='מייצא…';}
+      buildPdf(choice).then(function(bytes){
+        var name=choice==='s1'?'WEST - מודל השקעה פיננסי.pdf'
+          :choice==='s2'?'WEST - מודל המשך בניה.pdf':'WEST - מודל השקעה משולב.pdf';
+        relaySave(name,bytes,finish,function(){downloadFallback(name,bytes);finish();});
+      },function(e){alert('הייצוא נכשל. נסו שוב.');finish();});
+    });
+  };
+})();
+</script>
 </body>
 </html>
-" title="מודל השקעה · MAOZ GROUP" loading="lazy
