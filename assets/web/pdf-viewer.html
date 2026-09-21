@@ -58,7 +58,7 @@
   .msg { position: absolute; inset: 50px 0 0; display: grid; place-items: center; font-size: 16px; color: #cfe0d6; text-align: center; padding: 20px; }
   .msg[hidden] { display: none; }
 </style>
-</head>
+<style>@media (pointer:coarse){ html, body { touch-action: pan-x pan-y; } }</style><script>if(matchMedia('(pointer: coarse)').matches){['gesturestart','gesturechange'].forEach(function(t){document.addEventListener(t,function(e){e.preventDefault();},{passive:false});});}</script></head>
 <body>
 <div class="bar">
   <span class="title" id="title"></span>

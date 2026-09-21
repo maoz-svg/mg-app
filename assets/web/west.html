@@ -717,7 +717,7 @@
   .clubs .club:nth-child(3) .flip-face .cta{background:rgba(255,255,255,.13);border:1px solid rgba(214,221,232,.42);color:#f5f7fb}
   .clubs .club:nth-child(3) .flip-face .cta:hover{background:rgba(255,255,255,.2);border-color:rgba(214,221,232,.7)}
 </style>
-<style>.tap-hint{display:none!important}</style><style>#hub .zea-bg{display:none!important}</style></head>
+<style>.tap-hint{display:none!important}</style><style>#hub .zea-bg{display:none!important}</style><style>@media (pointer:coarse){ html, body { touch-action: pan-x pan-y; } }</style><script>if(matchMedia('(pointer: coarse)').matches){['gesturestart','gesturechange'].forEach(function(t){document.addEventListener(t,function(e){e.preventDefault();},{passive:false});});}</script></head>
 <body>
   <div class="bg"></div><div class="bg-lines"></div><div class="bg-grain"></div>
 

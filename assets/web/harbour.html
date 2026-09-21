@@ -4518,6 +4518,9 @@ html, body { overscroll-behavior-y: none; }
   .flp-modal .pm-stage{height:min(64vh,480px)}
   /* print pages are unaffected (fixed A4 render off-screen) */
 }
+/* a phone held sideways (2026-09-22): the gallery's width is derived from the viewport HEIGHT,
+   calc((100vh - 240px) * 1.78), which at 390px tall is 267px - a stamp. Fill the width instead. */
+@media (pointer: coarse) and (max-height: 520px){ .fin-gallery{max-width:100%} }
 </style>
 
 
