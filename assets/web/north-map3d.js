@@ -30,6 +30,12 @@ const S = {
 
 const stage = $('stage');
 const img = $('map');
+/* A phone has a far tighter memory ceiling than an iPad for a web app, and iOS answers going over it
+   by reloading the page - a pinch on this map on his iPhone reloaded the whole app while the iPad
+   was fine (2026-09-22). On a phone the aerial is the half-size file the web build writes (the
+   <img> is sized from the data, so nothing moves) and the zoom stops at four times the fitted view
+   instead of seven. The desktop app has neither the file nor the ceiling and is untouched. */
+const PHONE = (() => { try { return window.matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) < 768; } catch { return false; } })();
 const svg = $('vec');
 const lays = $('lays');
 const labelLayer = $('labels');
@@ -357,7 +363,7 @@ async function boot() {
 
   await new Promise((res) => {
     img.onload = res; img.onerror = res;
-    img.src = data.image || 'north/map3d/city-oblique.jpg';
+    img.src = (PHONE && window.MAOZ_PHONE_AERIAL) || data.image || 'north/map3d/city-oblique.jpg';
   });
   step(46);
   // decode the picture at its own resolution now, while the bar is still up: otherwise the first
@@ -960,7 +966,7 @@ function buildRoads(F) {
 function resize(first = false) {
   if (!stage.clientWidth || !stage.clientHeight) return;
   S.min = fitScale();
-  S.max = Math.min(S.min * 7, 1);   // never raster the picture above its own resolution
+  S.max = PHONE ? Math.min(S.min * 4, 0.5) : Math.min(S.min * 7, 1);   // never raster the picture above its own resolution
   if (first || S.tScale < S.min) S.tScale = S.min;
   clamp();
   if (first) { S.scale = S.tScale; S.x = S.tx; S.y = S.ty; }

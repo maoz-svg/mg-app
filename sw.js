@@ -1,4 +1,4 @@
-const V = 'mz-b6b0a93-2026-09-21';
+const V = 'mz-6222528-2026-09-21';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './pwa/icon-192.png', './pwa/icon-512.png', './pwa/apple-touch-icon.png'];
 self.addEventListener('install', (e) => { e.waitUntil(caches.open(V).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', (e) => {
@@ -10,9 +10,12 @@ self.addEventListener('fetch', (e) => {
   const url = new URL(req.url);
   if (url.origin !== location.origin) return;
   if (/[.](mp4|webm|mov)$/i.test(url.pathname) || req.headers.get('range')) return;   // stream, never store
-  if (req.mode === 'navigate') {
-    e.respondWith(fetch(req).then((r) => { const c = r.clone(); caches.open(V).then((k) => k.put('./index.html', c)); return r; })
-      .catch(() => caches.match('./index.html')));
+  // pages and code are fetched fresh when the network is there (a deploy must show on the first
+  // relaunch, not the second); pictures and fonts stay cache-first
+  if (req.mode === 'navigate' || /[.](html|js|mjs|json|webmanifest)$/i.test(url.pathname)) {
+    const key = req.mode === 'navigate' ? './index.html' : req;
+    e.respondWith(fetch(req).then((r) => { if (r && r.ok) { const c = r.clone(); caches.open(V).then((k) => k.put(key, c)); } return r; })
+      .catch(() => caches.match(key)));
     return;
   }
   e.respondWith(caches.match(req).then((hit) => hit || fetch(req).then((r) => {
