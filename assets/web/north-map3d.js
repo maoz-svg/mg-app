@@ -36,9 +36,28 @@ const img = $('map');
    <img> is sized from the data, so nothing moves) and the zoom stops at four times the fitted view
    instead of seven. The desktop app has neither the file nor the ceiling and is untouched. */
 const PHONE = (() => { try { return window.matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) < 768; } catch { return false; } })();
+/* That was not it. WebKit - every iPhone and iPad, whatever the browser - rasters a composited
+   layer at device resolution in the layer's OWN space, whatever CSS scale sits on it
+   (GraphicsLayerCA::updateRootRelativeScale is switched off), so the 8192x4588 vector surface
+   under will-change wants 8192 x 4588 x dpr^2 x 4 bytes of tiles: 1.35 GB on an iPhone at dpr 3.
+   WebKit caps a tiled layer at 156 MB by lowering its raster scale and re-evaluates that cap as
+   the visible part changes, so every pinch re-tiled the whole 156 MB surface a dozen times over,
+   and the phone reloaded (his report, 2026-09-22; the half-size aerial and the zoom cap above
+   never touched this). The iPad re-tiles the same way, but iPadOS gives the web content process
+   no memory limit of its own while every iPhone is killed at 2 GB - that is the whole difference.
+   On WebKit the vector surface is therefore the size of the SCREEN and the map's transform goes
+   inside it: a gesture scales the surface as one texture (Leaflet's way) and the paths are drawn
+   again once the fingers rest, or when the view has drifted 1.5x from the drawn scale. Chromium
+   (the desktop app) rasters a scaled layer at its on-screen size and keeps the old path. */
+const WEBKIT = /^Apple/.test(navigator.vendor || '');
+if (WEBKIT) document.documentElement.classList.add('wk');
 const svg = $('vec');
 const lays = $('lays');
+const pic = $('pic');        // the picture surface: the aerial and its overlays, one composited box on WebKit
 const labelLayer = $('labels');
+const vroot = document.createElementNS(SVGNS, 'g');   // every drawn layer lives in here
+vroot.setAttribute('id', 'vroot');
+svg.appendChild(vroot);
 
 /* ---------------------------------------------------------------- view maths */
 function fitScale() {
@@ -51,11 +70,50 @@ function clamp() {
   S.tx = sw <= w ? (w - sw) / 2 : Math.min(0, Math.max(w - sw, S.tx));
   S.ty = sh <= h ? (h - sh) / 2 : Math.min(0, Math.max(h - sh, S.ty));
 }
-function write() {
+/* The vector surface. Chromium: the whole 4096x2294 surface carries the map transform, like the
+   picture. WebKit: the surface is the screen, `vroot` carries the transform that was last DRAWN,
+   and while the view moves the surface is scaled as one texture from that drawing (compositor
+   only) until the view rests for 140 ms or drifts 1.5x - then the paths are drawn again. */
+/* The same goes for the picture: on iOS an <img> in its own layer is NOT handed to Core Animation as
+   a bitmap (GraphicsLayerCARemote::shouldDirectlyCompositeImage is false), it is painted into an
+   8192x4588 tiled backing exactly like the SVG. So on WebKit the aerial and its overlays sit in one
+   screen-sized composited box, #pic, that takes the gesture delta, and the map transform is written
+   to the (no longer composited) picture and overlays at each commit. */
+const V = { s: 0, x: 0, y: 0, timer: 0, lk: 1, ldx: 0, ldy: 0 };   // drawn view, pending redraw, last delta written
+function commitVec() {
+  clearTimeout(V.timer); V.timer = 0;
+  V.s = S.scale; V.x = S.x; V.y = S.y; V.lk = 1; V.ldx = 0; V.ldy = 0;
   const m = `translate(${S.x.toFixed(2)}px, ${S.y.toFixed(2)}px) scale(${S.scale.toFixed(5)})`;
-  img.style.transform = m;
-  svg.style.transform = m;
-  lays.style.transform = m;
+  vroot.setAttribute('transform', `matrix(${S.scale.toFixed(6)} 0 0 ${S.scale.toFixed(6)} ${S.x.toFixed(3)} ${S.y.toFixed(3)})`);
+  img.style.transform = m; lays.style.transform = m;
+  svg.style.transform = ''; pic.style.transform = '';
+}
+function writeVec(m) {
+  if (!WEBKIT) { img.style.transform = m; svg.style.transform = m; lays.style.transform = m; return; }
+  if (!V.s) { commitVec(); return; }
+  const k = S.scale / V.s, dx = S.x - k * V.x, dy = S.y - k * V.y;
+  // the same delta as the last frame: the view is still, and the redraw already timed lands
+  if (Math.abs(k - V.lk) < 1e-4 && Math.abs(dx - V.ldx) < 0.05 && Math.abs(dy - V.ldy) < 0.05) return;
+  V.lk = k; V.ldx = dx; V.ldy = dy;
+  crumb();
+  if (k > 1.5 || k < 1 / 1.5) { commitVec(); return; }
+  const delta = `translate(${dx.toFixed(2)}px, ${dy.toFixed(2)}px) scale(${k.toFixed(5)})`;
+  svg.style.transform = delta; pic.style.transform = delta;
+  clearTimeout(V.timer); V.timer = setTimeout(commitVec, 140);
+}
+/* A breadcrumb for the next report from a real iPhone: the last zoom the map saw, kept in
+   localStorage so the shell can say "restarted N s after a zoom to x2.4" when the page comes
+   back from nowhere. WebKit only; the desktop app never writes it. */
+let crumbAt = 0;
+function crumb() {
+  const now = Date.now();
+  if (now - crumbAt < 500) return;
+  crumbAt = now;
+  try { localStorage.setItem('mz-crumb', JSON.stringify({ t: now, what: 'map-zoom', z: +(S.scale / S.min).toFixed(2), layers: Object.keys(S.layers).filter((k) => S.layers[k].on) })); } catch { /* private mode */ }
+}
+addEventListener('pagehide', () => { if (WEBKIT) { try { localStorage.setItem('mz-crumb', JSON.stringify({ t: Date.now(), what: 'left' })); } catch { /* private mode */ } } });
+function write() {
+  writeVec(`translate(${S.x.toFixed(2)}px, ${S.y.toFixed(2)}px) scale(${S.scale.toFixed(5)})`);
   const W = stage.clientWidth, H = stage.clientHeight;
   for (const L of S.labels) {
     const ax = S.x + L.p[0] * S.scale, ay = S.y + L.p[1] * S.scale;
@@ -371,13 +429,15 @@ async function boot() {
   try { await img.decode(); } catch { /* an older engine, or a broken file */ }
   step(58);
   img.width = S.iw; img.height = S.ih;
-  svg.setAttribute('viewBox', `0 0 ${S.iw} ${S.ih}`);
-  svg.setAttribute('width', S.iw); svg.setAttribute('height', S.ih);
+  if (!WEBKIT) {   // on WebKit the surface is the screen (CSS-sized, no viewBox) and vroot carries the map
+    svg.setAttribute('viewBox', `0 0 ${S.iw} ${S.ih}`);
+    svg.setAttribute('width', S.iw); svg.setAttribute('height', S.ih);
+  }
 
   for (const [id] of LAYERS) {
     const g = el('g', { class: 'layer-' + id });
     g.style.display = 'none';
-    svg.appendChild(g);
+    vroot.appendChild(g);
     S.layers[id] = { g, on: false, labs: labDef(id) };
   }
 
@@ -435,7 +495,9 @@ async function boot() {
   relaxKick(40);
   step(80);
   // decode the layer pictures now rather than on the frame a switch is thrown
-  await Promise.all(layerImgs.map((im) => (im.el.decode ? im.el.decode().catch(() => {}) : Promise.resolve())));
+  await Promise.all(layerImgs.filter((im) => im.el.src).map((im) => (im.el.decode ? im.el.decode().catch(() => {}) : Promise.resolve())));
+  // WebKit: warm the cache for the overlays once the map is up, so switching a layer on only decodes
+  if (WEBKIT) setTimeout(() => { for (const im of layerImgs) if (im.el.dataset.src) fetch(im.el.dataset.src).catch(() => { /* offline */ }); }, 4000);
   step(100);
   setTimeout(() => $('load').classList.add('gone'), 240);
   $('reset').addEventListener('click', () => { stopFly(); flyTo(S.min, S.iw / 2, S.ih / 2, 1500); });
@@ -613,7 +675,12 @@ function toggle(id) {
   if (!L) return;
   L.on = !L.on;
   L.g.style.display = L.on ? '' : 'none';
-  for (const im of layerImgs) if (im.id === id) im.el.classList.toggle('on', L.on);
+  for (const im of layerImgs) if (im.id === id) {
+    im.el.classList.toggle('on', L.on);
+    // WebKit holds a composited picture's bitmap at full size for as long as it has a source; on a
+    // phone that was 104 MB of overlays decoded at boot for layers that were all off (2026-09-22)
+    if (WEBKIT) { if (L.on && !im.el.getAttribute('src')) im.el.src = im.el.dataset.src; else if (!L.on) im.el.removeAttribute('src'); }
+  }
   for (const r of S.labels) if (r.layer === id) {
     r.w = 0;
     if (!L.on) { r.el.classList.remove('open'); r.ox = 0; r.oy = 0; }   // a closed layer forgets
@@ -634,7 +701,7 @@ function drawImageLayer(id, spec) {
   if (!spec || !spec.image || !spec.box) return;
   const [x, y, w, h] = spec.box;
   const e = document.createElement('img');
-  e.src = spec.image;
+  if (WEBKIT) e.dataset.src = spec.image; else e.src = spec.image;   // WebKit: fetched when the layer goes on
   e.alt = '';
   e.draggable = false;
   e.style.cssText = `left:${x}px;top:${y}px;width:${w}px;height:${h}px;opacity:${spec.opacity ?? 1}`;
@@ -970,6 +1037,7 @@ function resize(first = false) {
   if (first || S.tScale < S.min) S.tScale = S.min;
   clamp();
   if (first) { S.scale = S.tScale; S.x = S.tx; S.y = S.ty; }
+  if (WEBKIT && V.s) commitVec();   // a turn of the device or a reset redraws at once, not after a scaled texture
 }
 addEventListener('resize', () => { resize(); for (const r of S.labels) { r.w = 0; r.ow = 0; } relaxKick(); });
 (function loop() {
@@ -978,3 +1046,7 @@ addEventListener('resize', () => { resize(); for (const r of S.labels) { r.w = 0
 })();
 
 boot();
+
+/* The module's state and view calls, for the CDP harnesses that drive the map from outside
+   (scratchpad/wkmap.mjs): a module script has no globals to reach otherwise. */
+window.__map = { S, zoomAt, snap, clamp, stopFly, flyTo, commitVec };

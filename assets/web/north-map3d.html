@@ -28,6 +28,9 @@
   #stage { position: absolute; inset: 0; overflow: hidden; cursor: grab; touch-action: none; background: #071a12; }
   #stage.grabbing { cursor: grabbing; }
   #map, #vec, #lays { position: absolute; top: 0; right: auto; left: 0; transform-origin: 0 0; will-change: transform; }
+  /* #pic only exists for WebKit (below); on Chromium it is a sizeless box the picture and its overlays
+     sit in exactly as before */
+  #pic { position: absolute; top: 0; left: 0; width: 0; height: 0; overflow: visible; transform-origin: 0 0; }
   /* the drawn layers ride with the picture as plain images, not as bitmaps inside the vector
      surface — inside the SVG they were re-rastered in tiles while the view moved (his report of
      black and white squares popping, 2026-09-15) */
@@ -41,6 +44,19 @@
   #lays img.on { display: block; }
   #map { display: block; image-rendering: auto; }
   #vec { pointer-events: none; overflow: visible; }
+  /* WebKit (iPhone/iPad): the vector surface is the screen, not the picture - see WEBKIT in the js.
+     overflow hidden keeps the layer the size of the screen rather than of what it draws. */
+  html.wk #vec { width: 100%; height: 100%; overflow: hidden; }
+  /* non-scaling-stroke is measured against the SVG's own viewport, so on Chromium - where the whole
+     surface is CSS-scaled - it does nothing and the lines scale with the zoom. With the transform
+     inside the surface it would suddenly act, and the lines at the full view came out ten times
+     heavier than on the desktop. Same look everywhere: the lines scale here too. */
+  html.wk #vec .vw { vector-effect: none; }
+  /* the picture surface: screen-sized and composited; the aerial and overlays inside it are plain
+     painted content (no layer of their own), moved by the transform written at each commit */
+  html.wk #pic { width: 100%; height: 100%; overflow: hidden; will-change: transform; }
+  html.wk #map, html.wk #lays, html.wk #lays img { will-change: auto; }
+  html.wk #lays img { transform: none; backface-visibility: visible; }
   #vec .vw { vector-effect: non-scaling-stroke; }
 
   /* one title, top right — nothing else up there (his ask, 2026-09-15) */
@@ -307,8 +323,10 @@
 <body>
 <div id="app">
   <div id="stage">
-    <img id="map" alt="">
-    <div id="lays" aria-hidden="true"></div>
+    <div id="pic">
+      <img id="map" alt="">
+      <div id="lays" aria-hidden="true"></div>
+    </div>
     <svg id="vec" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
