@@ -59,8 +59,8 @@
     lines = lines.concat(apartmentsLines(labels));
     lines.push('');
     lines.push('בברכה,');
-    lines.push('MAOZ GROUP');
-    lines.push('info@maoz-group.com');
+    // the signature itself is his signature card, an image (SIGNATURE_CID below); the plain-text
+    // part of the mail carries SIGNATURE_TEXT in its place (his ask, 2026-09-28)
     return {
       subject: 'Maoz Group - The Harbour Piraeus',   // always this (his ask, 2026-09-27)
       text: lines.join('\n')
@@ -93,9 +93,18 @@
   }
   var P = 'margin:0 0 14px;direction:rtl;text-align:right;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.65;color:#1a1a1a';
 
+  /* His signature card (assets/mail/signature.png, 920x460, shown at 460 px): attached by the main
+     process as an INLINE image with this Content-ID - Gmail and Outlook show cid images in the
+     body and block data: URIs. The same id is in electron/mail.cjs. The text below goes into the
+     plain-text part, for the few clients that show no HTML. */
+  var SIGNATURE_CID = 'maoz-signature@maoz-group.com';
+  var SIGNATURE_TEXT = 'MAOZ GROUP\nיזמות והשקעות נדל"ן\n054-3120630\ninfo@maoz-group.com\nרחוב החושלים 5, בניין A, קומה 1 | הרצליה פיתוח';
+  var SIGNATURE_ALT = 'MAOZ GROUP | יזמות והשקעות נדל"ן | 054-3120630 | info@maoz-group.com | רחוב החושלים 5, בניין A, קומה 1, הרצליה פיתוח';
+
   // RTL-safe HTML for Gmail, Outlook (old and new), Apple Mail and phones: paragraphs and a
-  // bullet TABLE (classic Outlook mangles right-to-left lists), every style inline
-  function textToHtml(text) {
+  // bullet TABLE (classic Outlook mangles right-to-left lists), every style inline.
+  // opts.signatureCid: append the signature card as an inline image under the letter.
+  function textToHtml(text, opts) {
     var paras = String(text || '').replace(/\r\n?/g, '\n').split(/\n\s*\n/);
     var out = [];
     for (var i = 0; i < paras.length; i++) {
@@ -112,13 +121,19 @@
         out.push('<p dir="rtl" style="' + P + '">' + lines.map(function (l) { var m = /^( +)/.exec(l); return (m ? new Array(m[1].length * 2 + 1).join('&nbsp;') : '') + isolateLatin(l.replace(/^ +/, '')); }).join('<br>') + '</p>');
       }
     }
+    if (opts && opts.signatureCid) {
+      out.push('<table role="presentation" dir="rtl" cellpadding="0" cellspacing="0" border="0" style="margin:6px 0 0"><tr><td align="right">' +
+        '<img src="cid:' + esc(opts.signatureCid) + '" width="460" height="230" alt="' + esc(SIGNATURE_ALT) + '" ' +
+        'style="display:block;width:460px;max-width:100%;height:auto;border:0;outline:none;text-decoration:none">' +
+        '</td></tr></table>');
+    }
     return '<!DOCTYPE html><html dir="rtl" lang="he"><head><meta charset="utf-8"><title>THE HARBOUR</title></head>' +
       '<body dir="rtl" style="margin:0;padding:0;background:#ffffff">' +
       '<table role="presentation" dir="rtl" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>' +
       '<td dir="rtl" align="right" style="direction:rtl;text-align:right;padding:24px 20px">' + out.join('') + '</td></tr></table></body></html>';
   }
 
-  var api = { FLOOR: FLOOR, aptLabel: aptLabel, compose: compose, textToHtml: textToHtml };
+  var api = { FLOOR: FLOOR, aptLabel: aptLabel, compose: compose, textToHtml: textToHtml, SIGNATURE_CID: SIGNATURE_CID, SIGNATURE_TEXT: SIGNATURE_TEXT };
   root.MAOZ_MAIL_TEMPLATE = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })(typeof window !== 'undefined' ? window : globalThis);
