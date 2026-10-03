@@ -101,6 +101,13 @@
   var SIGNATURE_TEXT = 'MAOZ GROUP\nיזמות והשקעות נדל"ן\n054-3120630\ninfo@maoz-group.com\nרחוב החושלים 5, בניין A, קומה 1 | הרצליה פיתוח';
   var SIGNATURE_ALT = 'MAOZ GROUP | יזמות והשקעות נדל"ן | 054-3120630 | info@maoz-group.com | רחוב החושלים 5, בניין A, קומה 1, הרצליה פיתוח';
 
+  // a paragraph of one short line that ends in a dash or a colon is a heading
+  function isHeading(lines) {
+    if (lines.length !== 1) return false;
+    var t = lines[0].trim();
+    return t.length <= 50 && /[-–:]$/.test(t) && !/^[•*\-]\s/.test(t);
+  }
+
   // RTL-safe HTML for Gmail, Outlook (old and new), Apple Mail and phones: paragraphs and a
   // bullet TABLE (classic Outlook mangles right-to-left lists), every style inline.
   // opts.signatureCid: append the signature card as an inline image under the letter.
@@ -117,6 +124,11 @@
             '<td dir="rtl" align="right" style="padding:0 0 6px;' + P + '">' + isolateLatin(l.replace(/^\s*[•*\-]\s+/, '')) + '</td></tr>';
         }).join('');
         out.push('<table role="presentation" dir="rtl" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 14px;direction:rtl">' + rows + '</table>');
+      } else if (isHeading(lines)) {
+        // a section heading ("אודות התוכנית -", "דגשים נוספים אודות העסקה -"): bold and underlined, the
+        // trailing dash or colon dropped since the line now marks it (his ask, 2026-10-03)
+        out.push('<p dir="rtl" style="' + P.replace('margin:0 0 14px', 'margin:6px 0 8px') + ';font-weight:bold">' +
+          '<span style="text-decoration:underline;text-underline-offset:4px">' + isolateLatin(lines[0].trim().replace(/\s*[-–:]\s*$/, '')) + '</span></p>');
       } else {
         out.push('<p dir="rtl" style="' + P + '">' + lines.map(function (l) { var m = /^( +)/.exec(l); return (m ? new Array(m[1].length * 2 + 1).join('&nbsp;') : '') + isolateLatin(l.replace(/^ +/, '')); }).join('<br>') + '</p>');
       }
