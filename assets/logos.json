@@ -64,6 +64,22 @@
       "file": "assets/logos/club-crest.png",
       "bytes": 79722,
       "sha256": "8b4fa74771209afec95bc83c2a0ee51fdad5da77fab4223248dbd33d6a8ba60b"
+    },
+    {
+      "id": "ermioni",
+      "type": "logo",
+      "mime": "image/png",
+      "file": "assets/logos/ermioni.png",
+      "bytes": 92544,
+      "sha256": "1dfaaa07a997d23d2e2f9f18b2445f365c1fa33057030510ce6ee414c989cc9c"
+    },
+    {
+      "id": "mona-hotel",
+      "type": "logo",
+      "mime": "image/png",
+      "file": "assets/logos/mona-hotel.png",
+      "bytes": 29657,
+      "sha256": "cca6dcecfa5d4e1864980dd2a3b5a1defaf1b5923432e92aa5b9b72b929ccb73"
     }
   ]
 }
