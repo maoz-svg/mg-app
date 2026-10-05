@@ -93,10 +93,10 @@
   }
   var P = 'margin:0 0 14px;direction:rtl;text-align:right;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.65;color:#1a1a1a';
 
-  /* His signature card (assets/mail/signature.png, 920x460, shown at 460 px): attached by the main
-     process as an INLINE image with this Content-ID - Gmail and Outlook show cid images in the
-     body and block data: URIs. The same id is in electron/mail.cjs. The text below goes into the
-     plain-text part, for the few clients that show no HTML. */
+  /* His signature card (assets/mail/signature.png, 1250x625 - his new card of 2026-10-04 - shown at
+     460 px): attached by the main process as an INLINE image with this Content-ID - Gmail and
+     Outlook show cid images in the body and block data: URIs. The same id is in electron/mail.cjs.
+     The text below goes into the plain-text part, for the few clients that show no HTML. */
   var SIGNATURE_CID = 'maoz-signature@maoz-group.com';
   var SIGNATURE_TEXT = 'MAOZ GROUP\nיזמות והשקעות נדל"ן\n054-3120630\ninfo@maoz-group.com\nרחוב החושלים 5, בניין A, קומה 1 | הרצליה פיתוח';
   var SIGNATURE_ALT = 'MAOZ GROUP | יזמות והשקעות נדל"ן | 054-3120630 | info@maoz-group.com | רחוב החושלים 5, בניין A, קומה 1, הרצליה פיתוח';
