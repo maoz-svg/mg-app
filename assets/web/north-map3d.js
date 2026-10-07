@@ -130,7 +130,10 @@ function write() {
       let left = ax + 30;
       if (left + w > rightEdge) left = ax - w - 30;
       left = Math.min(Math.max(12, left), Math.max(12, rightEdge - w));
-      const top = Math.min(Math.max(12, ay - h / 2), Math.max(12, H - h - 56));
+      // never above 64: the shell's close button and the language chip sit over the top-left
+      // corner of the frame, and the mavat chip in a plan card's corner went under them (his ask,
+      // 2026-10-07); the open card's max-height (100vh - 120px) still ends it 56 above the bottom
+      const top = Math.min(Math.max(64, ay - h / 2), Math.max(64, H - h - 56));
       L.el.style.transform = `translate(${left.toFixed(1)}px, ${top.toFixed(1)}px)`;
     } else {
       // the push that separated this card from its neighbours was worked out at one zoom; it
@@ -515,17 +518,60 @@ function fold(pillId, headId, open) {
 }
 
 /* The planning authority's own sheet, the two views of it side by side behind one switch.
-   It opens on the clean view every time (his ask, 2026-09-16). */
-const ORIG = { clean: 'north/map3d/orig-clean.jpg', zoning: 'north/map3d/orig-zoning.jpg' };
-function showOrig(which) {
-  const img = $('origImg');
-  // the two sheets are the same frame, so swapping them keeps the place he was looking at
-  const keep = img && img.naturalWidth ? { k: OZ.k, x: OZ.x, y: OZ.y } : null;
-  if (img) {
-    img.onload = () => { if (keep) { OZ.k = keep.k; OZ.x = keep.x; OZ.y = keep.y; ozWrite(); } else ozFit(); };
-    img.src = ORIG[which] || ORIG.clean;
-  }
-  document.querySelectorAll('.orig-tab').forEach((b) => b.classList.toggle('on', b.dataset.orig === which));
+   It opens on the clean view every time (his ask, 2026-09-16).
+   The same window now holds more than one set of sheets: the land-use map, and the metro's three
+   lines, one tab each, opened from the metro layer's own button (his ask, 2026-10-07). A tab is
+   [key, label, picture, dot colour]; the first tab is the one a set opens on. */
+const VIEWS = {
+  zoning: {
+    title: 'מפת ייעוד מקורית · מינהל התכנון', alt: 'מפת ייעוד מקורית',
+    tabs: [['clean', 'מבט נקי', 'north/map3d/orig-clean.jpg'], ['zoning', 'מבט כולל ייעוד', 'north/map3d/orig-zoning.jpg']],
+  },
+  // three portrait sheets of 1,079 x 2,000: a narrower window, and the zoom stops at three times
+  // the fitted view - about the sheet's own resolution, past which it would only blur
+  metro: {
+    title: 'מפת קווי המטרו', alt: 'מפת קווי המטרו', tall: true, maxFit: 3,
+    tabs: [['m1', 'M1', 'north/metro-m1.jpg', '#1e6fd9'], ['m2', 'M2', 'north/metro-m2.jpg', '#ff6a13'], ['m3', 'M3', 'north/metro-m3.jpg', '#f5c400']],
+  },
+};
+let VSET = 'zoning', VFIT = false;   // the set on show, and whether its first sheet has been fitted
+function openViewer(set) {
+  const v = VIEWS[set], o = $('orig'), img = $('origImg');
+  if (!v || !o || !img) return;
+  // already open on this set: a Space/Enter on the still-focused button must not reset it to the first sheet
+  if (!o.hidden && VSET === set) return;
+  VSET = set; VFIT = false;
+  o.classList.toggle('tall', !!v.tall);
+  $('origTitle').textContent = v.title;
+  // the translator keeps the first Hebrew alt it saw, to put back later; a new set brings its own
+  img.removeAttribute('data-he-alt');
+  img.alt = v.alt;
+  $('origTabs').innerHTML = v.tabs.map(([k, l, , c]) =>
+    `<button type="button" class="orig-tab" data-orig="${k}">${c ? `<i style="background:${c}"></i>` : ''}${l}</button>`).join('');
+  o.hidden = false;
+  showTab(v.tabs[0][0], true);
+}
+function showTab(which, fresh = false) {
+  const v = VIEWS[VSET], img = $('origImg');
+  if (!v || !img) return;
+  const t = v.tabs.find((x) => x[0] === which) || v.tabs[0];
+  // the sheets of a set are the same frame, so swapping them keeps the place he was looking at;
+  // a fresh open fits, once the picture is there to be measured (not on a timer). A tab picked
+  // before the set's first sheet has even arrived has no place of its own to keep yet.
+  if (!VFIT) fresh = true;
+  const keep = !fresh && img.naturalWidth ? { k: OZ.k, x: OZ.x, y: OZ.y } : null;
+  const shown = () => { img.onload = img.onerror = null; img.style.visibility = ''; };
+  const done = () => {
+    shown(); VFIT = true;
+    if (keep) { OZ.k = keep.k; OZ.x = keep.x; OZ.y = keep.y; ozWrite(); } else ozFit();
+  };
+  // a fresh open does not show the last set's sheet, at the last set's zoom, while this one loads
+  if (fresh) img.style.visibility = 'hidden';
+  // the same sheet again (the set reopened on its first tab) is already there: setting the same
+  // src is not certain to fire load again, so it is fitted straight away
+  if (img.src === new URL(t[2], document.baseURI).href && img.complete && img.naturalWidth) done();
+  else { img.onload = done; img.onerror = shown; img.src = t[2]; }
+  $('origTabs').querySelectorAll('.orig-tab').forEach((b) => b.classList.toggle('on', b.dataset.orig === t[0]));
 }
 function closeOrig() { const o = $('orig'); if (o) o.hidden = true; }
 
@@ -552,7 +598,8 @@ function ozFit() {
 function ozZoom(px, py, f) {
   const img = $('origImg');
   if (!img || !img.naturalWidth) return;
-  const k2 = Math.max(OZ.fit * 0.8, Math.min(6, OZ.k * f));
+  const v = VIEWS[VSET];
+  const k2 = Math.max(OZ.fit * 0.8, Math.min(v && v.maxFit ? OZ.fit * v.maxFit : 6, OZ.k * f));
   OZ.x = px - (px - OZ.x) * (k2 / OZ.k);
   OZ.y = py - (py - OZ.y) * (k2 / OZ.k);
   OZ.k = k2; ozWrite();
@@ -587,14 +634,25 @@ $('origBody')?.addEventListener('wheel', (e) => {
   body.addEventListener('lostpointercapture', up);
 })();
 addEventListener('resize', () => { if (!$('orig')?.hidden) ozFit(); });
-$('origBtn')?.addEventListener('click', () => { OZ.k = 0; showOrig('clean'); $('orig').hidden = false; setTimeout(ozFit, 40); });
+$('origBtn')?.addEventListener('click', (e) => { e.currentTarget.blur(); openViewer('zoning'); });
+$('metroLinesBtn')?.addEventListener('click', (e) => { e.currentTarget.blur(); openViewer('metro'); });
+$('metroRingsBtn')?.addEventListener('click', () => openOutside('metroRings', METRO_RINGS));
 $('origX')?.addEventListener('click', closeOrig);
 $('orig')?.addEventListener('click', (e) => { if (e.target === $('orig')) closeOrig(); });
-document.querySelectorAll('.orig-tab').forEach((b) => b.addEventListener('click', () => showOrig(b.dataset.orig)));
+// the tabs are written again for every set, so one listener on their row serves them all
+$('origTabs')?.addEventListener('click', (e) => { const b = e.target.closest('.orig-tab'); if (b) showTab(b.dataset.orig); });
 addEventListener('keydown', (e) => { if (e.key === 'Escape') closeOrig(); });
 
 function openMap(mode) {
   try { parent.postMessage({ maoz: 'openMap', mode }, '*'); } catch { /* standalone */ }
+}
+/* The shell opens these full screen over the map, with "חזרה למפה ראשית" to come back (his ask,
+   2026-10-07). Opened on its own - straight in a browser, no shell around it - there is nobody to
+   ask, so the page goes to a tab of its own. */
+const METRO_RINGS = 'https://experience.arcgis.com/experience/89fe40cb40c1450da32bed25128c15bc/page/%D7%9E%D7%A2%D7%A8%D7%9B%D7%AA-%D7%94%D7%9E%D7%98%D7%A8%D7%95';
+function openOutside(mode, url) {
+  if (window.parent !== window) openMap(mode);
+  else if (url) window.open(url, '_blank', 'noopener');
 }
 
 /* Leaving the map puts it back the way it was found: every layer off, every card closed, the
@@ -604,6 +662,7 @@ function resetAll() {
   closeCards();
   closeOrig();
   for (const id in S.layers) if (S.layers[id].on) toggle(id);
+  $('metroDock').classList.remove('show');   // the metro's own maps go with the layer (2026-10-07)
   $('rail').classList.add('open'); $('railHead').setAttribute('aria-expanded', 'true');
   $('maps').classList.remove('open'); $('mapsHead').setAttribute('aria-expanded', 'false');
   for (const r of S.labels) { r.ox = 0; r.oy = 0; r.by = r.byFull || 0; }
@@ -689,6 +748,9 @@ function toggle(id) {
   if (!document.querySelector('.lab.open')) document.body.classList.remove('card-open');
   document.querySelector(`.fbtn[data-layer="${id}"]`)?.classList.toggle('on', L.on);
   if (id === 'zoning') { $('key').classList.toggle('show', L.on); $('origBtn').classList.toggle('show', L.on); }
+  // the metro's two maps stand under the outside maps only while the metro is on, and its lines
+  // window closes with the layer (his ask, 2026-10-07)
+  if (id === 'metro') { $('metroDock').classList.toggle('show', L.on); if (!L.on && VSET === 'metro') closeOrig(); }
   const n = Object.values(S.layers).filter((x) => x.on).length;
   const badge = $('railN');
   if (badge) { badge.textContent = n; badge.classList.toggle('show', n > 0); }
@@ -753,17 +815,26 @@ function buildPlans(F) {
       glowPath(g, p.poly, { close: true, w: 3, colour: p.c || '#ff8a5c', core: '#ffd9c6', glow: 3 });
     }
     const rec = label(p.lp || (p.poly && bboxCentre(p.poly)),
-      `<div class="card">` +
+      `<div class="card${p.mavat ? ' lk' : ''}">` +
         `<span class="nm">${p.t}</span>` +
         `<span class="un">${p.plan}</span>` +
         planPanel(p) +
       `</div>`, 'pin plan');
     rec.layer = 'plans'; rec.prio = 1;
     openable(rec);
+    // the card's own click closes it, so the chip's click stops at the chip (his ask, 2026-10-07)
+    const chip = rec.el.querySelector('.plink');
+    const go = (e) => { e.preventDefault(); e.stopPropagation(); openOutside('mavat', p.mavat); };
+    chip?.addEventListener('click', go);
+    // a middle click would have Chromium open the link in a window of its own, outside the app
+    chip?.addEventListener('auxclick', (e) => { if (e.button === 1) go(e); });
   }
 }
 function planPanel(p) {
-  return `<div class="panel wide">
+  // the plan's own page on mavat, in the open card's top-left corner (his ask, 2026-10-07)
+  const link = p.mavat ? `<a class="plink" href="${p.mavat}" target="_blank" rel="noopener noreferrer" draggable="false"` +
+    ` title="${p.plan} - ${p.t}">מבא״ת<span aria-hidden="true">↗</span></a>` : '';
+  return `<div class="panel wide">${link}
     <div class="kick">${p.plan}${p.pid ? ' · ' + p.pid : ''}</div>
     <div class="big"><b>${Number(p.units).toLocaleString('en-US')}</b><i>יחידות דיור</i></div>
     <div class="rule"></div>
