@@ -448,11 +448,22 @@ html.big-screen .lab .card{background:rgba(7,22,16,.86)}
 #langChip{position:absolute;top:18px;left:150px;z-index:40;display:inline-flex;align-items:center;justify-content:center;min-width:52px;height:38px;padding:0 14px;border-radius:999px;border:1px solid rgba(216,180,106,.55);background:rgba(6,20,14,.80);color:#f3f7f2;font:600 12.5px/1 'Heebo','Assistant',sans-serif;letter-spacing:.06em;cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 #langChip:hover{border-color:rgba(233,193,121,.7);background:rgba(216,180,106,.16)}
 @media (max-width:767px){#langChip{top:12px;left:118px;height:34px}}
-/* English inside a right-to-left layout: a sentence that starts with a number had the number thrown
-   to its other end ("sqm within the quarter 674,000") and a paragraph's final period landed at the
-   start of the line. The boxes stay where they are; only the text inside runs left-to-right.
-   2026-10-07: the metro's two buttons, the sheet viewer's title and tabs, and the mavat chip too. */
-html.lang-en .lab .card,html.lang-en .fbtn .lbl,html.lang-en .top h1,html.lang-en #keyList li,html.lang-en .hint,html.lang-en .abtn,html.lang-en .key .kt,html.lang-en .mbtn,html.lang-en .orig-title,html.lang-en .orig-tab,html.lang-en .plink{direction:ltr;unicode-bidi:isolate}
+/* In English the whole map runs left to right (his ask, 2026-10-14: "make the whole software left to
+   right in English"): applyLang sets <html dir="ltr">, so every row, text and flex order follows by
+   itself, and the few boxes placed with a physical side are mirrored here - the title and the layers
+   column to the left, the land-use key, its sheet button and the zoom/reset buttons to the right, the
+   language chip beside the shell's close button, which sits at the top right in English. The picture,
+   the labels and every drawn layer keep their physical coordinates: the map itself never mirrors.
+   (Before this, English ran inside the right-to-left layout and each text box was isolated as LTR.) */
+html[dir=ltr] #langChip{left:auto;right:150px}
+@media (max-width:767px){html[dir=ltr] #langChip{left:auto;right:118px}}
+html[dir=ltr] .top,html[dir=ltr] .side{right:auto;left:20px}
+html[dir=ltr] .key,html[dir=ltr] .keybtn{left:auto;right:20px}
+html[dir=ltr] .pill-head,html[dir=ltr] .fbtn,html[dir=ltr] .keybtn,html[dir=ltr] .panel{text-align:left}
+html[dir=ltr] .mbtn .go{left:auto;right:7px}
+html[dir=ltr] .plink{left:auto;right:14px}
+html[dir=ltr] .orig-zoom{left:auto;right:14px}
+html[dir=ltr] .wide .rng{direction:ltr}
 </style>
 <script id="map-i18n">
 (function(){
@@ -528,6 +539,7 @@ html.lang-en .lab .card,html.lang-en .fbtn .lbl,html.lang-en .top h1,html.lang-e
     lang=l;
     document.documentElement.classList.toggle('lang-en',l==='en');
     document.documentElement.setAttribute('lang', l);
+    document.documentElement.setAttribute('dir', l==='en'?'ltr':'rtl');
     var chip=document.getElementById('langChip');
     if(chip) chip.textContent=(l==='he'?'EN':'\u05e2\u05d1');
     if(l==='en'){ walk(document.body); mo.observe(document.body,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:ATTRS}); }

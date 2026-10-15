@@ -36,6 +36,10 @@
     '#mzCalc .mc-k:focus-visible,#mzCalc .mc-x:focus-visible{outline:2px solid rgba(233,193,121,.85);outline-offset:1px}',
     '#mzCalc .mc-screen.mc-flash{border-color:rgba(233,193,121,.9);background:rgba(216,180,106,.16)}',
     '#mzCalc .mc-hint{padding:0 14px 12px;font-size:11px;line-height:1.4;color:rgba(231,211,166,.72);direction:rtl;text-align:center}',
+    // English runs left to right (2026-10-14): the title moves to the left and × to the right; the
+    // keypad and the right-aligned display are a calculator's own layout and stay as they are
+    'html[dir=ltr] #mzCalc .mc-bar{flex-direction:row-reverse;padding:10px 14px 6px 12px}',
+    'html[dir=ltr] #mzCalc .mc-title,html[dir=ltr] #mzCalc .mc-hint{direction:ltr}',
     '.mz-picked{outline:2px solid rgba(216,180,106,.95)!important;outline-offset:2px;border-radius:4px}',
     '.mz-calc-btn{cursor:pointer}',
     'html.mini-cursor-on #mzCalc .mc-k,html.mini-cursor-on #mzCalc .mc-x,html.mini-cursor-on .mz-calc-btn{cursor:pointer!important}',
@@ -159,10 +163,12 @@
       '<div class="mc-screen"><div class="mc-expr"></div><div class="mc-out">0</div></div><div class="mc-keys">' + keys + '</div>' +
       '<div class="mc-hint">לחיצה על מספר בדף מכניסה אותו לכאן</div>';
     document.body.appendChild(el);
-    // place it: the last spot he left it this session, else the upper right of the page
+    // place it: the last spot he left it this session, else the upper right of the page (the upper
+    // left in English, where the page runs left to right)
     var pos = null;
     try { pos = JSON.parse(sessionStorage.getItem('mz-calc-pos') || 'null'); } catch (e) { /* private mode */ }
-    place(pos ? pos.x : window.innerWidth - 268 - 40, pos ? pos.y : 90);
+    var ltr = document.documentElement.dir === 'ltr';
+    place(pos ? pos.x : (ltr ? 40 : window.innerWidth - 268 - 40), pos ? pos.y : 90);
 
     el.addEventListener('click', function (e) {
       var b = e.target.closest && e.target.closest('[data-v]');

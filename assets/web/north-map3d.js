@@ -112,9 +112,15 @@ function crumb() {
   try { localStorage.setItem('mz-crumb', JSON.stringify({ t: now, what: 'map-zoom', z: +(S.scale / S.min).toFixed(2), layers: Object.keys(S.layers).filter((k) => S.layers[k].on) })); } catch { /* private mode */ }
 }
 addEventListener('pagehide', () => { if (WEBKIT) { try { localStorage.setItem('mz-crumb', JSON.stringify({ t: Date.now(), what: 'left' })); } catch { /* private mode */ } } });
+/* The pills' column takes the right-hand 300 px in Hebrew; in English the page runs left to right
+   (<html dir="ltr">, set by the baked translator) and the column stands on the LEFT, so the clamps
+   that keep labels and open cards out of its way mirror with it (his ask, 2026-10-14). The picture
+   and the labels' own coordinates are physical and never mirror. */
+const isLTR = () => document.documentElement.dir === 'ltr';
 function write() {
   writeVec(`translate(${S.x.toFixed(2)}px, ${S.y.toFixed(2)}px) scale(${S.scale.toFixed(5)})`);
   const W = stage.clientWidth, H = stage.clientHeight;
+  const ltr = isLTR();
   for (const L of S.labels) {
     const ax = S.x + L.p[0] * S.scale, ay = S.y + L.p[1] * S.scale;
     if (L.el.classList.contains('open')) {
@@ -126,12 +132,19 @@ function write() {
       // labels in the same loop once the real-estate layer is on (2026-09-17)
       if (!L.ow) { L.ow = L.el.offsetWidth; L.oh = L.el.offsetHeight; }
       const w = L.ow, h = L.oh;
-      const rightEdge = Math.max(12, W - 300);
       let left = ax + 30;
-      if (left + w > rightEdge) left = ax - w - 30;
-      left = Math.min(Math.max(12, left), Math.max(12, rightEdge - w));
+      if (ltr) {
+        // English: the pills are on the left, so the card is held clear of the left-hand 300 px
+        const leftEdge = Math.min(W - 12, 300);
+        if (left + w > W - 12) left = ax - w - 30;
+        left = Math.max(Math.min(W - 12 - w, left), Math.min(leftEdge, W - 12 - w));
+      } else {
+        const rightEdge = Math.max(12, W - 300);
+        if (left + w > rightEdge) left = ax - w - 30;
+        left = Math.min(Math.max(12, left), Math.max(12, rightEdge - w));
+      }
       // never above 64: the shell's close button and the language chip sit over the top-left
-      // corner of the frame, and the mavat chip in a plan card's corner went under them (his ask,
+      // corner of the frame (the top-right in English), and the mavat chip in a plan card's corner went under them (his ask,
       // 2026-10-07); the open card's max-height (100vh - 120px) still ends it 56 above the bottom
       const top = Math.min(Math.max(64, ay - h / 2), Math.max(64, H - h - 56));
       L.el.style.transform = `translate(${left.toFixed(1)}px, ${top.toFixed(1)}px)`;
@@ -199,12 +212,15 @@ function relax() {
     }
   }
   const W = stage.clientWidth, H = stage.clientHeight;
+  const ltr = isLTR();
   for (const L of vis) {
     const ax = S.x + L.p[0] * S.scale, ay = S.y + L.p[1] * S.scale;
     let tx = L.cx - ax, ty = L.cy - ay;
     ty = Math.max(-170, Math.min(50, ty));            // the pin stays believable
     tx = Math.max(-200, Math.min(200, tx));
-    const loX = -(ax - L.w / 2 - 12), hiX = Math.max(0, W - 300 - (ax + L.w / 2));
+    // clear of the pills: the right-hand 300 px in Hebrew, the left-hand 300 px in English (mirrored)
+    const loX = ltr ? Math.min(0, 300 - (ax - L.w / 2)) : -(ax - L.w / 2 - 12);
+    const hiX = ltr ? W - 12 - (ax + L.w / 2) : Math.max(0, W - 300 - (ax + L.w / 2));
     if (loX <= hiX) tx = Math.max(loX, Math.min(hiX, tx));      // never an upside-down clamp
     const loY = -(ay - L.h - 12), hiY = Math.max(0, H - 74 - ay);
     if (loY <= hiY) ty = Math.max(loY, Math.min(hiY, ty));
@@ -1111,6 +1127,10 @@ function resize(first = false) {
   if (WEBKIT && V.s) commitVec();   // a turn of the device or a reset redraws at once, not after a scaled texture
 }
 addEventListener('resize', () => { resize(); for (const r of S.labels) { r.w = 0; r.ow = 0; } relaxKick(); });
+// a change of language changes every label's width and, with the direction, the side the pills are
+// on: measure again and let the labels settle round the new layout (2026-10-14)
+new MutationObserver(() => { for (const r of S.labels) { r.w = 0; r.ow = 0; } relaxKick(); })
+  .observe(document.documentElement, { attributes: true, attributeFilter: ['dir'] });
 (function loop() {
   if (fly) stepFly(); else apply(0.3);
   requestAnimationFrame(loop);

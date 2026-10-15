@@ -56,6 +56,14 @@
     '#mfVeil{position:fixed;inset:0;z-index:100001;display:none;align-items:center;justify-content:center;background:rgba(6,16,12,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#f0e9d8;font:600 18px "Heebo","Assistant",sans-serif;text-align:center;padding:20px;outline:none;direction:rtl}',
     '#mfVeil.open{display:flex}',
     '@media (max-width:600px){.mf-card{width:94vw;max-width:94vw;padding:20px 16px}}',
+    // English runs left to right (2026-10-14): the dialogs' frame, headings, labels and buttons follow the
+    // page; the letter itself is Hebrew and keeps its own right-to-left fields (subject, names, body carry
+    // dir="rtl"), and every line of text takes the direction of its own first letter, so a Hebrew sentence
+    // left in a dialog still reads right to left, aligned right
+    'html[dir=ltr] .mf-overlay,html[dir=ltr] #mfVeil{direction:ltr}',
+    'html[dir=ltr] .mf-card{text-align:left}',
+    'html[dir=ltr] .mf-card h3,html[dir=ltr] .mf-card p,html[dir=ltr] .mf-card .mf-lbl{unicode-bidi:plaintext;text-align:start}',
+    'html[dir=ltr] .mf-card .mf-sample{text-align:center}',
     'html.mini-cursor-on .mf-btn,html.mini-cursor-on .mf-opt,html.mini-cursor-on .mf-link{cursor:pointer!important}'
   ].join('');
   function css() { if (!document.getElementById('mfCss')) { var s = document.createElement('style'); s.id = 'mfCss'; s.textContent = CSS; document.head.appendChild(s); } }
