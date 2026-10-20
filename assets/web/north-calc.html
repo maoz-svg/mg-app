@@ -507,7 +507,7 @@
             <h3>נתוני רכישה ועלויות </h3>
             <div class="input-group">
                 <label>גודל הקרקע ברוטו:</label>
-                <span class="unit-field wide"><input type="text" id="grossLand" class="comma-input" value="72"><span class="unit-tag">מ"ר</span></span>
+                <span class="unit-field wide"><input type="text" id="grossLand" class="comma-input" value="71.5"><span class="unit-tag">מ"ר</span></span>
             </div>
             <div class="input-group">
                 <label>אמדן מ"ר מבונה נטו:</label>
@@ -522,7 +522,7 @@
                     <div class="input-group" style="margin-top: 10px; border-top: 1px dashed #B7E4C7; padding-top: 10px;"><label>גודל מרפסת:</label><span class="unit-field wide"><input type="number" id="balconySize" value="16" step="1" title="לשטח המבונה תתווסף אוטומטית מחצית מגודל המרפסת"><span class="unit-tag">מ"ר</span></span></div>
                 </div>
             </details>
-            <div class="input-group"><label>עלות הקרקע:</label><span class="unit-field"><input type="text" id="landCost" class="comma-input" value="1,076,400"><span class="unit-tag">₪</span></span></div>
+            <div class="input-group"><label>עלות הקרקע:</label><span class="unit-field"><input type="text" id="landCost" class="comma-input" value="1,068,925"><span class="unit-tag">₪</span></span></div>
             <details open>
                 <summary>עלויות נלוות</summary>
                 <div class="details-content">
@@ -880,8 +880,8 @@
     // ערכי ברירת מחדל - לכפתור השחזור
     // ==========================================
     const DEFAULTS = {
-        grossLand: '72', expropriationPct: '60', far: '4.5', balconySize: '16',
-        landCost: '1,076,400', taxPct: '6', lawyerPct: '1.5', vatPct: '18', regFee: '300',
+        grossLand: '71.5', expropriationPct: '60', far: '4.5', balconySize: '16',
+        landCost: '1,068,925', taxPct: '6', lawyerPct: '1.5', vatPct: '18', regFee: '300',
         loanAmount: '0', interestRate: '0', timeYears: '2', permitYears: '2.5', buildYears: '3',
         marketPriceSqm: '45,000', stage2PriceSqm: '55,000', buildCostSqm: '14,500', mgmtFeePct: '1.5', entrepProfitPct: '15',
         constLoanAmount: '0', constInterestRate: '0'
@@ -2249,6 +2249,6 @@ html[dir=ltr] .wep-row.sub{margin-right:0;margin-left:16px}
 <style id="big-screen-css">
 html.big-screen *, html.big-screen *::before, html.big-screen *::after{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 </style>
-<script id="big-screen-js">(function(){function m(){try{var w=(window.screen&&screen.width)||0;document.documentElement.classList.toggle('big-screen', w>=1900);}catch(e){}}m();addEventListener('resize',m);setInterval(m,4000);})();</script>
+<script id="big-screen-js">(function(){function m(){try{var w=(window.screen&&screen.width)||0;document.documentElement.classList.toggle('big-screen', w>=1900||document.documentElement.getAttribute('data-mz-big')==='1');}catch(e){}}m();addEventListener('resize',m);setInterval(m,4000);})();</script>
 </body>
 </html>

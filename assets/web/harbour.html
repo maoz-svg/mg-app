@@ -5231,6 +5231,6 @@ html.big-screen *, html.big-screen *::before, html.big-screen *::after{-webkit-b
 html.big-screen .fg-bg{display:none!important}
 html.big-screen .apt-unit{background:linear-gradient(165deg,rgba(13,31,50,.72),rgba(8,20,34,.78))}
 </style>
-<script id="big-screen-js">(function(){function m(){try{var w=(window.screen&&screen.width)||0;document.documentElement.classList.toggle('big-screen', w>=1900);}catch(e){}}m();addEventListener('resize',m);setInterval(m,4000);})();</script>
+<script id="big-screen-js">(function(){function m(){try{var w=(window.screen&&screen.width)||0;document.documentElement.classList.toggle('big-screen', w>=1900||document.documentElement.getAttribute('data-mz-big')==='1');}catch(e){}}m();addEventListener('resize',m);setInterval(m,4000);})();</script>
 </body>
 </html>
