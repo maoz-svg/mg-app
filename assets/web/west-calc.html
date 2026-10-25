@@ -464,6 +464,16 @@
             .login-box button { font-size: 14px; padding: 10px; }
         }
     </style>
+<style id="west-calc-touch-fit-css">
+/* a phone held sideways (2026-10-25; scripts/edit-west-calc-touch-fit.mjs): the code screen fits and scrolls */
+@media (pointer: coarse) and (max-height: 520px) {
+  #login-overlay { overflow-y: auto; align-items: flex-start; padding: 10px 0; box-sizing: border-box; }
+  #login-overlay .login-box { margin: auto; padding: 16px 26px; }
+  #login-overlay .login-logo { width: 46px; height: 46px; margin-bottom: 6px; }
+  #login-overlay .login-box .english-title { font-size: 24px; margin-bottom: 2px; }
+  #login-overlay .login-box h1 { margin-bottom: 12px; }
+}
+</style>
 <style>@media (pointer:coarse){ html, body { touch-action: pan-x pan-y; } }</style><script>if(matchMedia('(pointer: coarse)').matches){['gesturestart','gesturechange'].forEach(function(t){document.addEventListener(t,function(e){e.preventDefault();},{passive:false});});}</script></head>
 <body>
 

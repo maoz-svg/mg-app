@@ -91,12 +91,12 @@
     border: 1px solid transparent; border-radius: 11px;
     transition: border-color .25s ease, background .25s ease; }
   .fbtn:hover { border-color: rgba(233,193,121,.5); background: var(--ui-hi); }
-  .fbtn .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; background: rgba(238,244,238,.22);
+  .fbtn .dot:not(.labtog) { width: 8px; height: 8px; border-radius: 50%; flex: none; background: rgba(238,244,238,.22);
     box-shadow: 0 0 0 1px rgba(255,255,255,.12) inset; transition: background .3s ease, box-shadow .3s ease; }
   .fbtn .lbl { flex: 1; min-width: 0; }
   .fbtn .sub { display: block; margin-top: 2px; font-size: 10px; color: rgba(238,244,238,.5); }
   .fbtn.on { background: rgba(14,52,38,.62); border-color: rgba(233,193,121,.75); }
-  .fbtn.on .dot { background: var(--gold-bri); box-shadow: 0 0 10px 2px rgba(240,208,137,.7); }
+  .fbtn.on .dot:not(.labtog) { background: var(--gold-bri); box-shadow: 0 0 10px 2px rgba(240,208,137,.7); }
   .fbtn .go { font-size: 11px; color: rgba(238,244,238,.42); }
   /* the metro's own two maps, side by side under the outside maps, and only while the metro layer
      is on (his ask, 2026-10-07). Solid like the land-use button: no blur, no transition. */
@@ -347,6 +347,94 @@
     .chart, .chart svg, .chart .note { width: 300px; } .chart svg { height: 150px; } .wide { width: 320px; }
   }
 </style>
+<style id="map-touch-fit-css">
+  /* ===== the phone and the iPad held sideways (his report from the phone/iPad, 2026-10-25) =====
+     Things were cut off by the screen frame and some controls could not be reached. Everything here
+     is for touch screens - (pointer: coarse), and (max-height: 520px) for a phone on its side - or for
+     the page's own 980px layout. The desktop map is unchanged, except the two bugs at the end that
+     were wrong on every screen. */
+  @media (pointer: coarse) {
+    /* The pills' column scrolls inside the screen instead of running off it: on the phone four of the
+       nine layers, "מפות ומאגרים" and the metro's two buttons were below the bottom edge, and html and
+       body are overflow hidden, so nothing could bring them up. 74 above for the title, 64 below for the
+       foot. flex:none is needed - without it the column squeezes the pills to fit and their lists are
+       clipped instead of scrolled. */
+    .side { max-height: calc(100% - 74px - 64px); overflow-y: auto; overscroll-behavior: contain;
+      border-radius: 16px; scrollbar-width: thin; scrollbar-color: rgba(216,180,106,.45) transparent; }
+    .side > * { flex: none; }
+    /* the label toggle is a finger's 32px; the negative margin keeps the rows the height they were */
+    .labtog { width: 32px; height: 32px; margin-block: -3px; }
+    /* a finger has no wheel: the hint keeps "גרירה הזזה" and drops "גלגלת זום" */
+    .hint .h-wheel { display: none; }
+    /* The sheet / metro-lines window starts below the strip the shell keeps over the top of the frame
+       ("סגירה" at 16-51px, "דפדפן", and the EN chip down to 56px). Its × sat under "סגירה", and a tap
+       there closed the whole map instead of the sheet. */
+    .orig { padding: 64px 20px 14px; }
+    .orig-card { height: 100%; }
+    /* the legend steps away while a card is open: under the card, the labels behind it showed through
+       the legend and caught its taps (the re-audit, 2026-10-25) */
+    body.card-open .key { visibility: hidden; }
+    /* more layers below: a soft fade and a chevron at the column's foot until it is scrolled to the end
+       (the script below sets .more) - nothing said the list went on past the bottom of the phone */
+    .side.more::after { content: '\2304'; flex: none; position: sticky; bottom: 0; display: block; height: 30px;
+      margin-top: -30px; border-radius: 0 0 16px 16px; pointer-events: none; text-align: center;
+      font-size: 18px; line-height: 34px; color: var(--gold-bri);
+      background: linear-gradient(to bottom, rgba(6,20,14,0), rgba(6,20,14,.92)); }
+  }
+  /* a phone on its side, about 390px high: the same column, tighter, from under the title */
+  @media (pointer: coarse) and (max-height: 520px) {
+    .top { top: 12px; }
+    .top h1 { font-size: 15px; padding: 7px 14px; }
+    .side { top: 60px; gap: 8px; max-height: calc(100% - 60px - 62px); }
+    .pill-head { padding: 9px 12px; }
+    /* one line per layer in Hebrew at the 206px column: a little less padding and gap make room for the
+       32px toggle; the toggle's negative margin keeps every row the same 33px */
+    .pill-list { padding: 2px 4px 8px; }
+    .fbtn { padding: 7px 6px; gap: 6px; }
+    .fbtn .sub { display: none; }
+    .labtog { margin-block: -8px; }
+    .orig { padding: 62px 12px 10px; }
+    .orig-top { padding: 8px 12px; }
+  }
+  /* on the phone the foot's buttons stand on the other side (below), so the column runs to the bottom */
+  @media (pointer: coarse) and (max-height: 520px) and (max-width: 980px) {
+    .side { max-height: calc(100% - 60px - 14px); }
+  }
+  @media (max-width: 980px) {
+    /* With the hint hidden, "מבט מלא" and "אל שטח התוכנית" were the foot's only child and
+       space-between left them on the right, under the layers menu, where a tap hit the layers. They
+       keep the left now (the right in English). */
+    .acts { margin-inline-start: auto; }
+    /* the chart went to 300px here and its source line stayed at 400px, out of the card */
+    .chart .srcline { width: 300px; }
+  }
+
+  /* ----- every screen ----- */
+  /* The open card comes over the legend, as .lab.op.open always meant it to: #labels is a stacking
+     layer of its own at 4, so the card's 9 never got past the legend's 6, and the legend covered the
+     card's text. The legend steps under the labels while a card is open - #labels stepping up instead
+     blinked every label (2026-09-17). */
+  body.card-open .key { z-index: 3; }
+  /* The sheet button lives inside the legend now (the markup), held 10px above it and as wide as it,
+     however tall the legend grows: the English legend wraps taller at 206px and covered the button
+     that sat at a fixed 214px. On the desktop it lands exactly where it was. */
+  html[dir] .key > .keybtn { bottom: calc(100% + 10px); left: -1px; right: auto; width: calc(100% + 2px); }
+</style>
+<script id="map-touch-fit-js">
+(function () {
+  /* .more on the layers column while there is more of it below the screen (touch screens, 2026-10-25) */
+  function arm() {
+    var side = document.querySelector('.side');
+    if (!side || !window.matchMedia || !matchMedia('(pointer: coarse)').matches) return;
+    var upd = function () { side.classList.toggle('more', side.scrollHeight - side.scrollTop - side.clientHeight > 4); };
+    side.addEventListener('scroll', upd, { passive: true });
+    if (window.ResizeObserver) { var ro = new ResizeObserver(upd); ro.observe(side); for (var i = 0; i < side.children.length; i++) ro.observe(side.children[i]); }
+    addEventListener('resize', upd);
+    upd();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', arm); else arm();
+})();
+</script>
 <style>@media (pointer:coarse){ html, body { touch-action: pan-x pan-y; } }</style><script>if(matchMedia('(pointer: coarse)').matches){['gesturestart','gesturechange'].forEach(function(t){document.addEventListener(t,function(e){e.preventDefault();},{passive:false});});}</script><script>window.MAOZ_PHONE_AERIAL='north/map3d/city-oblique-phone.jpg';</script></head>
 <body>
 <div id="app">
@@ -393,7 +481,6 @@
     </div>
   </div>
 
-  <button type="button" class="keybtn" id="origBtn">מפת ייעוד מקורית ↗</button>
   <div class="orig" id="orig" hidden>
     <div class="orig-card">
       <div class="orig-top">
@@ -416,6 +503,7 @@
   </div>
 
   <div class="key" id="key">
+    <button type="button" class="keybtn" id="origBtn">מפת ייעוד מקורית ↗</button>
     <h4>ייעוד הקרקע</h4>
     <ul id="keyList"></ul>
   </div>
@@ -423,7 +511,7 @@
   <div class="foot">
     <div class="hint">
       <span><b>גרירה</b> הזזה</span>
-      <span><b>גלגלת</b> זום</span>
+      <span class="h-wheel"><b>גלגלת</b> זום</span>
     </div>
     <div class="acts">
       <span class="zoom" id="zoom">100%</span>

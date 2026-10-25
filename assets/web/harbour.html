@@ -4475,7 +4475,7 @@ el.addEventListener('mousedown',function(e){if(st.s<=1)return;st.d=true;st.sx=e.
 <script id="harbour-interior-js">
 (function(){
   /* an apartment with interior renders shows only them under "הדמיה" - each apartment its own (his renders of 2026-10-22) */
-  window.APT_INTERIOR={'Y1':['apt/interior/y1-living-bedroom.jpg','apt/interior/y1-kitchen.jpg'],'Y3':['apt/interior/y3-living.jpg','apt/interior/y3-kitchen.jpg','apt/interior/y3-bedroom.jpg']};
+  window.APT_INTERIOR={'Y1':['apt/interior/y1-living-bedroom.jpg','apt/interior/y1-kitchen.jpg','apt/interior/y1-bathroom.jpg'],'Y3':['apt/interior/y3-living.jpg','apt/interior/y3-kitchen.jpg','apt/interior/y3-bedroom.jpg','apt/interior/y3-bathroom.jpg']};
   window.pmImgIdx=0;
   function list(){ var a=window.__apt||'', L=window.APT_INTERIOR[a]; if(L&&L.length) return L.slice(); return [window.__aptRender||(a?('apt/'+a+'.png'):'')]; }
   function put(){ var L=list(), pi=document.getElementById('pmImg'); if(pi&&L[window.pmImgIdx||0]){ pi.src=L[window.pmImgIdx||0]; if(pi.__zpReset) pi.__zpReset(); } }
@@ -5296,5 +5296,112 @@ html.big-screen .fg-bg{display:none!important}
 html.big-screen .apt-unit{background:linear-gradient(165deg,rgba(13,31,50,.72),rgba(8,20,34,.78))}
 </style>
 <script id="big-screen-js">(function(){function m(){try{var w=(window.screen&&screen.width)||0;document.documentElement.classList.toggle('big-screen', w>=1900||document.documentElement.getAttribute('data-mz-big')==='1');}catch(e){}}m();addEventListener('resize',m);setInterval(m,4000);})();</script>
+<style id="harbour-touch-fit-css">
+/* the Harbour page on his phone and iPad (his report, 2026-10-25; scripts/edit-harbour-touch-fit.mjs) */
+/* ---- every device: a control under another layer, a value cut in its box ---- */
+/* the chart info card's X: the text list comes later and is position:relative, so it painted over the X */
+.pir-card>.pir-x,.gr-info-card>.pir-x{z-index:3}
+/* the apartments page: .sec-head and every later section child are all z-index:1, so the gallery and the floor
+   buttons painted over the fixed back chip inside the head */
+#plots.section.open>.sec-head{z-index:3}
+/* the floor-2 render: the right-hand arrow comes before the image and had no z-index */
+.flp-nav{z-index:3}
+/* the language chip (top right) covered the Street View "✕ חזרה למודל" and the map title, in Hebrew too */
+body:has(.map-modal.open) #langChip{display:none}
+/* the financing amount ("436,348" read "436,34", on the laptop too): the 30px left padding of #aptcalc inputs is room for
+   the ₪/€ sign inside the field, but in the short fields (.iw-short) the sign sits beside the field, so here the
+   padding only cut the number. Only this field overflows; the other short fields keep their look. */
+#aptcalc #inFinAmt{padding-left:12px}
+/* ---- touch screens (phone, iPad) ---- */
+@media (pointer: coarse){
+  /* the Greece/Piraeus windows: centred while they fit, scrolled when taller than the screen (an iPhone held
+     sideways put the X of "נתונים ומגמות" / "העתיד של פיראוס" above the top edge, out of reach) */
+  .pir-modal:not(.pir-img-modal){overflow-y:auto;overscroll-behavior:contain;align-items:flex-start}
+  .pir-modal:not(.pir-img-modal)>.pir-card{margin:auto}
+  /* the chart info card: its first line ran under the X (top left in Hebrew and in English) */
+  .gr-info-card>.pir-list{padding-left:46px}
+  /* the language chip sat on the team window's X (a tap switched the language) and over the windows' corners;
+     the back chip floated over the team windows and left the page under them */
+  body:has(.modal.open,.pir-modal.open,.fg-full.open,.plan-modal.open,.flp-modal.open,.psp-overlay.open,.mail-overlay.open,.sold-overlay.open) #langChip{display:none}
+  body:has(.modal.open) .back-top{visibility:hidden}
+  /* the team picture's X hung outside the picture's top-right corner, at the screen edge under the language chip;
+     inside the picture's top-LEFT corner it sits on the empty navy panel (top-right it would hide the title) */
+  .modal-card-teamimg .modal-x{top:8px;right:auto;left:8px}
+  /* the apartment window: the tabs bar sat over the bottom of every plan, render and model, and wrapped */
+  #aptPlanModal .pm-toggle{position:static;transform:none;order:2;flex:none;margin-top:10px;max-width:100%;overflow-x:auto;overscroll-behavior:contain}
+  #aptPlanModal .pm-stage{flex:1 1 auto;min-height:0;height:auto}
+  #aptPlanModal .pm-tab{white-space:nowrap}
+  /* the PDF scenario card: scrolls when taller than the screen, "ביטול" was a 27x15 link */
+  .psp-card{max-height:calc(100vh - 24px);overflow-y:auto;overscroll-behavior:contain}
+  .psp-cancel{padding:9px 18px;min-height:36px}
+  /* touch targets of about 34px for the small controls (the floor buttons sit in a .85 scaled block: 40px) */
+  .flp-btn{min-height:40px}
+  #aptcalc .cur-btn,.years-btn{min-height:34px}
+  .years-btn{padding:6px 12px}
+  .psp-fin50{min-height:34px}
+  #inFin{height:34px}
+  #langChip{min-height:34px}
+  #primeTip::before{content:"";position:absolute;inset:-7px -4px;z-index:1}
+  #inSpread{padding-top:6px;padding-bottom:6px;margin-top:-5px;margin-bottom:-5px}
+  .fg-dots{gap:14px}
+  .fg-dot{position:relative}
+  .fg-dot::before{content:"";position:absolute;inset:-13px -7px}
+}
+/* ---- a phone held sideways ---- */
+@media (pointer: coarse) and (max-height: 520px){
+  /* compact Greece/Piraeus cards: the squares were 340px tall on a 390px screen */
+  .pir-modal:not(.pir-img-modal){padding-top:16px;padding-bottom:16px}
+  .pir-card,.pir-card-wide{padding:18px 22px}
+  .pir-card-title{font-size:24px;margin-bottom:10px}
+  .pir-sq{aspect-ratio:auto;min-height:0;height:min(42vw,calc(100vh - 150px))}
+  .pir-card-scroll{max-height:calc(100vh - 32px)}
+  /* the PDF scenario card, compact */
+  .psp-card{padding:16px 20px}
+  .psp-card h3{margin-bottom:10px}
+  .psp-options{gap:6px}
+  .psp-opt{padding:8px 16px}
+  .psp-fin50{margin:5px 0 0}
+  .psp-cancel{margin-top:6px}
+  /* the render gallery: 16:9 at the full width was taller than the screen */
+  #plots .fin-gallery{max-width:min(100%,calc((100vh - 70px) * 1.7778))}
+  /* the calculator's plan tile: as tall as the plan at the full width (576px on a 390px screen); now the screen
+     height at most, the whole plan shown (contain, not cover - cover would crop it) */
+  #aptcalc .floorplan .fp-img{max-height:calc(100vh - 90px);object-fit:contain}
+  /* the club cards were 515px tall on a 390px screen: as tall as the screen under the chips, and the benefits on
+     the back in two columns (the card is the full width here) so the fee line stays on the card */
+  .club.flip{min-height:calc(100vh - 70px)}
+  .club.flip .flip-back ul{display:block;column-count:2;column-gap:28px;margin-bottom:14px}
+  .club.flip .flip-back ul li{break-inside:avoid;margin-bottom:10px}
+  /* the notch: close buttons and arrows a little further from the side edges */
+  .pm-x,.flp-close,.pir-x-img{left:44px}
+  .fg-full-x,.pm-dims-btn,.flp-dims,.mm-street-close{right:44px}
+  .mm-head{padding-left:44px;padding-right:44px}
+  .flp-prev,.fg-full-prev{right:52px}
+  .flp-next,.fg-full-next{left:52px}
+  html[dir=ltr] .flp-prev,html[dir=ltr] .fg-full-prev{right:auto;left:52px}
+  html[dir=ltr] .flp-next,html[dir=ltr] .fg-full-next{left:auto;right:52px}
+  .pm-fl-prev{right:34px}
+  .pm-fl-next{left:34px}
+  html[dir=ltr] .pm-fl-prev{right:auto;left:34px}
+  html[dir=ltr] .pm-fl-next{left:auto;right:34px}
+  /* the re-audit at the real iPhone widths (734-832 once iOS keeps the page in its safe area):
+     - "מי אנחנו" opened on an empty screen: the 820px rule pushes the panel 54vw down for a phone held
+       upright, and on its side that is the whole first screen */
+  .partner-hero .ph-panel{margin-top:0}
+  /* - the team picture's X sat on a face where the card has no padding (814/832) */
+  .modal-card-teamimg{padding:20px 16px}
+  /* - a chart's info card ran past the bottom in English on the small iPhone, and could not scroll: its
+       list scrolls inside the card, so the card's X stays put */
+  #grInfo .gr-info-card{max-height:calc(100vh - 72px);display:flex;flex-direction:column;overflow:hidden}
+  #grInfo .gr-info-card>.pir-list{min-height:0;overflow-y:auto}
+  /* - the apartment window's five tabs did not fit in English on the small iPhone */
+  #aptPlanModal .pm-tab{padding:9px 15px}
+}
+/* Street View's own full-screen control sits in the top corner under "חזרה למודל": a row lower, on the phone
+   and the iPad alike (the final check, 2026-10-25) */
+@media (pointer: coarse){
+  .mm-street-close{top:62px}
+}
+</style>
 </body>
 </html>

@@ -1119,9 +1119,12 @@ function buildRoads(F) {
 /* ---------------------------------------------------------------- loop */
 function resize(first = false) {
   if (!stage.clientWidth || !stage.clientHeight) return;
+  // a view resting at the whole map stays at the whole map: turning the phone upright and back raised
+  // the minimum and never brought it down, so the map came back zoomed into the sea (2026-10-25)
+  const wasFit = S.min > 0 && S.tScale <= S.min * 1.02;
   S.min = fitScale();
   S.max = PHONE ? Math.min(S.min * 4, 0.5) : Math.min(S.min * 7, 1);   // never raster the picture above its own resolution
-  if (first || S.tScale < S.min) S.tScale = S.min;
+  if (first || wasFit || S.tScale < S.min) S.tScale = S.min;
   clamp();
   if (first) { S.scale = S.tScale; S.x = S.tx; S.y = S.ty; }
   if (WEBKIT && V.s) commitVec();   // a turn of the device or a reset redraws at once, not after a scaled texture

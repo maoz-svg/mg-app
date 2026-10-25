@@ -43,7 +43,17 @@
     '.mz-picked{outline:2px solid rgba(216,180,106,.95)!important;outline-offset:2px;border-radius:4px}',
     '.mz-calc-btn{cursor:pointer}',
     'html.mini-cursor-on #mzCalc .mc-k,html.mini-cursor-on #mzCalc .mc-x,html.mini-cursor-on .mz-calc-btn{cursor:pointer!important}',
-    '@media (prefers-reduced-motion:reduce){#mzCalc{transition:none}}'
+    '@media (prefers-reduced-motion:reduce){#mzCalc{transition:none}}',
+    // a phone held sideways (his report from the phone, 2026-10-25): the calculator is 415px tall and the frame
+    // it opens in only 351-365px, so the bottom keys (0 . =) were cut and the hint fell off the screen. Where the
+    // whole of it cannot fit (415 + 8px above and below, so anything under 440px) it is drawn compact - the
+    // same keys, a little shorter, about 330px with the hint; a taller screen, the laptop's included, keeps it
+    // exactly as it was. (Last in the sheet so it wins over the rules above; the English bar has its own rule.)
+    '@media (max-height:440px){#mzCalc .mc-bar{padding:6px 10px 4px 12px}#mzCalc .mc-screen{margin:2px 10px 6px;padding:6px 10px;min-height:0}#mzCalc .mc-out{font-size:22px}' +
+      '#mzCalc .mc-keys{gap:5px;padding:0 10px 8px}#mzCalc .mc-k{height:34px;font-size:16px}#mzCalc .mc-hint{padding:0 12px 8px;font-size:10.5px;line-height:1.3}' +
+      'html[dir=ltr] #mzCalc .mc-bar{padding:6px 12px 4px 10px}}',
+    // a finger needs a bigger × than a mouse (26px): 32px on a touch screen
+    '@media (pointer:coarse){#mzCalc .mc-x{width:32px;height:32px;font-size:17px}}'
   ].join('');
 
   var KEYS = [
@@ -168,7 +178,14 @@
     var pos = null;
     try { pos = JSON.parse(sessionStorage.getItem('mz-calc-pos') || 'null'); } catch (e) { /* private mode */ }
     var ltr = document.documentElement.dir === 'ltr';
-    place(pos ? pos.x : (ltr ? 40 : window.innerWidth - 268 - 40), pos ? pos.y : 90);
+    // on a phone held sideways it cannot open below the page's language chip (top corner, 16-68px in), so it opens
+    // clear of the chip's corner instead (his report from the phone, 2026-10-25); a taller screen keeps the old spot
+    var short = window.innerHeight <= 440;
+    var side = short ? 80 : 40;
+    // and on the side away from the calculator's own buttons bar (bottom right in Hebrew, bottom left in
+    // English on a phone), which it covered - "מפת תכנון" could not be tapped while it was open
+    var left = short ? !ltr : ltr;
+    place(pos ? pos.x : (left ? side : window.innerWidth - 268 - side), pos ? pos.y : 90);
 
     el.addEventListener('click', function (e) {
       var b = e.target.closest && e.target.closest('[data-v]');

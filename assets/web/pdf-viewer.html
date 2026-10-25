@@ -367,9 +367,13 @@
     window.__pdf.pages = pages.length;
     $('pages').textContent = '1 / ' + pages.length;
     pgIn.max = String(pages.length); pgIn.value = '1';
-    // the owner wants every document to open at 175% (not fit-width), page centred; ?zoom=NNN overrides
+    // the owner wants every document to open at 175% (not fit-width), page centred; ?zoom=NNN overrides.
+    // On a phone or a small tablet held sideways (touch, under 1000px wide) 175% cut the page on both
+    // sides; there it opens fitted to the width, and the zoom buttons still go up (his report from
+    // the phone, 2026-10-25).
     const z = parseFloat(qs.get('zoom')) || 175;
-    setScale(z / 100, 0, 'free');
+    if (matchMedia('(pointer: coarse)').matches && innerWidth < 1000) fit('width');
+    else setScale(z / 100, 0, 'free');
     scroll.scrollTop = 0;
     scroll.scrollLeft = Math.max(0, (scroll.scrollWidth - scroll.clientWidth) / 2);
     pages.forEach((p) => io.observe(p.el));

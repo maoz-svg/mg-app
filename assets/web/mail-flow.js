@@ -56,6 +56,12 @@
     '#mfVeil{position:fixed;inset:0;z-index:100001;display:none;align-items:center;justify-content:center;background:rgba(6,16,12,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#f0e9d8;font:600 18px "Heebo","Assistant",sans-serif;text-align:center;padding:20px;outline:none;direction:rtl}',
     '#mfVeil.open{display:flex}',
     '@media (max-width:600px){.mf-card{width:94vw;max-width:94vw;padding:20px 16px}}',
+    // his report from the phone (2026-10-25): the card's 92vh did not count its 26px padding (content-box), so a
+    // long card - the preview - was 92vh + 54px tall, more than the whole frame on a phone held sideways (388px in
+    // 365px: its top and bottom were cut, and the send button sat under the bottom). Counted in, the card is never
+    // taller than 92vh and scrolls inside. That can only go wrong under about 675px of height, so only there is it
+    // counted in; a taller screen, the laptop's included, keeps the card exactly as it was.
+    '@media (max-height:680px){.mf-card{box-sizing:border-box}}',
     // English runs left to right (2026-10-14): the dialogs' frame, headings, labels and buttons follow the
     // page; the letter itself is Hebrew and keeps its own right-to-left fields (subject, names, body carry
     // dir="rtl"), and every line of text takes the direction of its own first letter, so a Hebrew sentence
