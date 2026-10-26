@@ -898,7 +898,7 @@
         // פתיחת Gmail compose בחלון חדש
         var gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&su=' +
             encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-        window.open(gmailUrl, '_blank');
+        window.open(gmailUrl, '_blank', 'noopener');
     }
 
     // ==========================================

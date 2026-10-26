@@ -1070,7 +1070,7 @@
         // פתיחת Gmail compose בחלון חדש
         var gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&su=' +
             encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-        window.open(gmailUrl, '_blank');
+        window.open(gmailUrl, '_blank', 'noopener');
     }
 
     // ==========================================
@@ -1755,7 +1755,7 @@
   window.__i18nLang=function(){ return lang; };
   window.addEventListener('message',function(e){
     var d=e&&e.data;
-    if(d&&d.type==='maoz-lang'&&(d.lang==='he'||d.lang==='en')) applyLang(d.lang);
+    if(d&&d.type==='maoz-lang'&&(d.lang==='he'||d.lang==='en')&&e.source===window.parent) applyLang(d.lang);
   });
   function ready(fn){ if(document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded',fn); }
   ready(function(){

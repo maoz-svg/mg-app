@@ -2303,7 +2303,7 @@
         // פתיחת Gmail compose בחלון חדש
         var gmailUrl = 'https://mail.google.com/mail/?view=cm&amp;fs=1&amp;su=' +
             encodeURIComponent(subject) + '&amp;body=' + encodeURIComponent(body);
-        window.open(gmailUrl, '_blank');
+        window.open(gmailUrl, '_blank', 'noopener');
     }
 
     // ==========================================
@@ -3392,7 +3392,7 @@ html.mini-cursor-on .furn-opt,html.mini-cursor-on .furn-opt *,html.mini-cursor-o
   function renderInputs(){setNum('inPrice2',state.baseP*u());setNum('inAdr',state.baseAdr*u());if(ltrOf())setNum('inRent',(state.baseRent||0)*u());}
   function fxStamp(){S('fxLbl',state.cur==='ILS'?('1€ = '+state.fx.toFixed(2).replace('.',',')+' ₪'+(state.fxLive?'':' (שער ברירת מחדל)')):'');}
   function applyRates(fx,prime){var ch=false;if(fx!=null&&isFinite(fx)&&fx>0){state.fx=Number(fx);state.fxLive=true;ch=true;}if(prime!=null&&isFinite(prime)&&prime>0){state.prime=Number(prime);state.primeLive=true;ch=true;}if(ch){fxStamp();renderInputs();calc2();}}
-  window.addEventListener('message',function(ev){var d=ev&&ev.data;if(d&&d.type==='maoz-rates')applyRates(d.fx,d.prime);});
+  window.addEventListener('message',function(ev){var d=ev&&ev.data;if(!ev||ev.source!==window.parent)return;if(d&&d.type==='maoz-rates')applyRates(d.fx,d.prime);});
   function fetchLive(){
     try{if(window.parent&&window.parent!==window)window.parent.postMessage({type:'maoz-get-rates'},'*');}catch(e){}
     try{fetch('https://www.boi.org.il/PublicApi/GetExchangeRate?key=EUR').then(function(r){return r.json();}).then(function(j){if(j&&j.currentExchangeRate)applyRates(Number(j.currentExchangeRate),null);}).catch(function(){});}catch(e){}
@@ -5084,7 +5084,7 @@ html.mini-cursor-on #langChip{cursor:pointer!important}
   window.__applyLang=applyLang;
   window.addEventListener('message',function(e){
     var d=e&&e.data;
-    if(d&&d.type==='maoz-lang'&&(d.lang==='he'||d.lang==='en')) applyLang(d.lang);
+    if(d&&d.type==='maoz-lang'&&(d.lang==='he'||d.lang==='en')&&e.source===window.parent) applyLang(d.lang);
   });
   function ready(fn){ if(document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded',fn); }
   ready(function(){
@@ -5320,7 +5320,7 @@ html,body{scrollbar-width:none!important;-ms-overflow-style:none!important;overf
   }
   // Switch view on demand from the app shell (kept loaded → instant, no reload).
   window.addEventListener('message',function(e){
-    var d=e&&e.data; if(d&&d.type==='harbour-view'&&d.view){ go(d.view); shownAfterPaint(d.view); }
+    var d=e&&e.data; if(d&&d.type==='harbour-view'&&d.view&&e.source===window.parent){ go(d.view); shownAfterPaint(d.view); }
   });
   // Wrap showView once it exists: 'hub' (back to menu) exits the embed via
   // postMessage; every other view navigates normally. Apply the initial view
