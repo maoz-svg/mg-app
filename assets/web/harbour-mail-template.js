@@ -162,16 +162,20 @@
   var P = 'margin:0 0 14px;direction:rtl;text-align:right;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.65;color:#1a1a1a';
   var P_LTR = P.replace('direction:rtl;text-align:right', 'direction:ltr;text-align:left');
 
-  /* His signature card (assets/mail/signature.png, 1250x625 - his new card of 2026-10-04 - shown at
-     460 px): attached by the main process as an INLINE image with this Content-ID - Gmail and
-     Outlook show cid images in the body and block data: URIs. The same id is in electron/mail.cjs.
-     The text below goes into the plain-text part, for the few clients that show no HTML. */
+  /* His signature card (assets/mail/signature.png, 2000x667 - his white card of 2026-10-26, with the
+     website in place of the e-mail address - shown at 570 px, which keeps its lettering the size the
+     old 1250x625 card had at 460 px): attached by the main process as an INLINE image with this
+     Content-ID - Gmail and Outlook show cid images in the body and block data: URIs. The same id is in
+     electron/mail.cjs. The text below goes into the plain-text part, for the few clients that show no
+     HTML, and says what the card says. */
   var SIGNATURE_CID = 'maoz-signature@maoz-group.com';
-  var SIGNATURE_TEXT = 'MAOZ GROUP\nיזמות והשקעות נדל"ן\n054-3120630\ninfo@maoz-group.com\nרחוב החושלים 5, בניין A, קומה 1 | הרצליה פיתוח';
-  var SIGNATURE_ALT = 'MAOZ GROUP | יזמות והשקעות נדל"ן | 054-3120630 | info@maoz-group.com | רחוב החושלים 5, בניין A, קומה 1, הרצליה פיתוח';
-  // the English mail: the same card image (there is no English card yet), English text and alt
-  var SIGNATURE_TEXT_EN = 'MAOZ GROUP\nReal Estate Development & Investments\n+972 54-312-0630\ninfo@maoz-group.com\n5 HaChoshlim St., Building A, 1st Floor | Herzliya Pituach, Israel';
-  var SIGNATURE_ALT_EN = 'MAOZ GROUP | Real Estate Development & Investments | +972 54-312-0630 | info@maoz-group.com | 5 HaChoshlim St., Building A, 1st Floor, Herzliya Pituach, Israel';
+  var SIGNATURE_W = 570, SIGNATURE_H = 190;
+  var SIGNATURE_TEXT = 'MAOZ GROUP\nיזמות והשקעות נדל"ן\n054-3120630\nwww.maoz-g.com\nרחוב החושלים 5, בניין A, קומה 1 | הרצליה פיתוח';
+  var SIGNATURE_ALT = 'MAOZ GROUP | יזמות והשקעות נדל"ן | 054-3120630 | www.maoz-g.com | רחוב החושלים 5, בניין A, קומה 1, הרצליה פיתוח';
+  // the English mail: its own card (assets/mail/signature-en.png, the same card mirrored - made by
+  // scripts/make-signature-en.html from the Hebrew one), English text and alt
+  var SIGNATURE_TEXT_EN = 'MAOZ GROUP\nReal Estate Development & Investments\n+972 54-312-0630\nwww.maoz-g.com\n5 HaChoshlim St., Building A, 1st Floor | Herzliya Pituach, Israel';
+  var SIGNATURE_ALT_EN = 'MAOZ GROUP | Real Estate Development & Investments | +972 54-312-0630 | www.maoz-g.com | 5 HaChoshlim St., Building A, 1st Floor, Herzliya Pituach, Israel';
 
   // a paragraph of one short line that ends in a dash or a colon is a heading
   function isHeading(lines) {
@@ -212,8 +216,8 @@
     }
     if (opts && opts.signatureCid) {
       out.push('<table role="presentation" dir="' + D + '" cellpadding="0" cellspacing="0" border="0" style="margin:6px 0 0"><tr><td align="' + SIDE + '">' +
-        '<img src="cid:' + esc(opts.signatureCid) + '" width="460" height="230" alt="' + esc(ltr ? SIGNATURE_ALT_EN : SIGNATURE_ALT) + '" ' +
-        'style="display:block;width:460px;max-width:100%;height:auto;border:0;outline:none;text-decoration:none">' +
+        '<img src="cid:' + esc(opts.signatureCid) + '" width="' + SIGNATURE_W + '" height="' + SIGNATURE_H + '" alt="' + esc(ltr ? SIGNATURE_ALT_EN : SIGNATURE_ALT) + '" ' +
+        'style="display:block;width:' + SIGNATURE_W + 'px;max-width:100%;height:auto;border:0;outline:none;text-decoration:none">' +
         '</td></tr></table>');
     }
     return '<!DOCTYPE html><html dir="' + D + '" lang="' + (ltr ? 'en' : 'he') + '"><head><meta charset="utf-8"><title>THE HARBOUR</title></head>' +
