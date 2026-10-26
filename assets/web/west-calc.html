@@ -474,6 +474,13 @@
   #login-overlay .login-box h1 { margin-bottom: 12px; }
 }
 </style>
+<style id="west-prime-css">
+/* the "פריים +" pill on the financing rates (his ask, 2026-10-26; scripts/edit-west-calc-prime.mjs, assets/web/prime-rate.js) */
+.input-group.prime-row { gap: 8px; }
+.input-group.prime-row > label:first-child { min-width: 0; line-height: 1.25; }
+@media (min-width: 1120px) { .container .input-group.prime-row .unit-field { width: 25%; } }
+.container .prime-eff { margin: -4px 0 12px; }
+</style>
 <style>@media (pointer:coarse){ html, body { touch-action: pan-x pan-y; } }</style><script>if(matchMedia('(pointer: coarse)').matches){['gesturestart','gesturechange'].forEach(function(t){document.addEventListener(t,function(e){e.preventDefault();},{passive:false});});}</script></head>
 <body>
 
@@ -549,7 +556,8 @@
                 <summary>מימון והלוואות (קרקע)</summary>
                 <div class="details-content">
                     <div class="input-group"><label>מימון לרכישת הקרקע:</label><span class="unit-field"><input type="text" id="loanAmount" class="comma-input" value="0"><span class="unit-tag">₪</span></span></div>
-                    <div class="input-group"><label>ריבית שנתית מימון קרקע:</label><span class="unit-field"><input type="number" id="interestRate" value="0" step="0.1"><span class="unit-tag">%</span></span></div>
+                    <div class="input-group prime-row"><label>ריבית שנתית מימון קרקע:</label><label class="prime-tg" title="פריים = ריבית בנק ישראל + 1.5%. מסומן - הריבית בחישוב היא פריים + המספר שבתיבה; לא מסומן - המספר שבתיבה בלבד"><input type="checkbox" id="interestRatePrime" data-prime-for="interestRate" aria-label="לחשב את הריבית כפריים + המספר שבתיבה"><span class="prime-w">פריים</span><span class="prime-v">(4.75%)</span><span class="prime-p">+</span></label><span class="unit-field"><input type="number" id="interestRate" value="0" step="0.1"><span class="unit-tag">%</span></span></div>
+                    <div class="prime-eff" data-prime-for="interestRate" hidden><span class="prime-eff-l">ריבית בחישוב:</span> <span class="prime-eff-v">0%</span> <span class="prime-def">(פריים ברירת מחדל)</span></div>
                 </div>
             </details>
             <div class="input-group"><label>צפי זמן אישור הקרקע:</label><span class="unit-field wide"><input type="number" id="timeYears" value="5" step="0.5"><span class="unit-tag">שנים</span></span></div>
@@ -576,7 +584,8 @@
                 <summary>מימון עלויות בניה</summary>
                 <div class="details-content">
                     <div class="input-group"><label>סכום מימון לבניה נטו:</label><span class="unit-field"><input type="text" id="constLoanAmount" class="comma-input" value="0"><span class="unit-tag">₪</span></span></div>
-                    <div class="input-group"><label>ריבית שנתית מימון בניה:</label><span class="unit-field"><input type="number" id="constInterestRate" value="0" step="0.1"><span class="unit-tag">%</span></span></div>
+                    <div class="input-group prime-row"><label>ריבית שנתית מימון בניה:</label><label class="prime-tg" title="פריים = ריבית בנק ישראל + 1.5%. מסומן - הריבית בחישוב היא פריים + המספר שבתיבה; לא מסומן - המספר שבתיבה בלבד"><input type="checkbox" id="constInterestRatePrime" data-prime-for="constInterestRate" aria-label="לחשב את הריבית כפריים + המספר שבתיבה"><span class="prime-w">פריים</span><span class="prime-v">(4.75%)</span><span class="prime-p">+</span></label><span class="unit-field"><input type="number" id="constInterestRate" value="0" step="0.1"><span class="unit-tag">%</span></span></div>
+                    <div class="prime-eff" data-prime-for="constInterestRate" hidden><span class="prime-eff-l">ריבית בחישוב:</span> <span class="prime-eff-v">0%</span> <span class="prime-def">(פריים ברירת מחדל)</span></div>
                     <div class="checkbox-group" style="margin-top:10px;">
                         <label class="checkbox-label"><input type="checkbox" id="financeBuildCost">הוסף את עלויות הבניה לסכום המימון</label>
                         <label class="checkbox-label"><input type="checkbox" id="financeBetterment">הוסף את היטל ההשבחה לסכום המימון</label>
@@ -716,6 +725,9 @@
         document.getElementById('financeBuildCost').checked = false;
         document.getElementById('financeBetterment').checked = false;
         document.getElementById('financeMgmt').checked = false;
+        document.getElementById('interestRatePrime').checked = false;        // "פריים +" off: the box is the whole rate
+        document.getElementById('constInterestRatePrime').checked = false;
+        if (window.MaozPrime) MaozPrime.refresh();
         calculate();
     }
 
@@ -918,6 +930,9 @@
         if(el.type === 'checkbox') return el.checked;
         return parseFloat(el.value.toString().replace(/,/g, '')) || 0;
     }
+    // the financing rates: the box alone, or prime + the box while its "פריים +" is ticked (his ask, 2026-10-26;
+    // assets/web/prime-rate.js) - the math and the booklet read the same rate
+    function primeRate(id) { return window.MaozPrime ? MaozPrime.rate(id) : getVal(id); }
     function calculate() {
         const grossLand = getVal('grossLand');
         const expropriationPct = getVal('expropriationPct');
@@ -933,9 +948,9 @@
         const vatPct = getVal('vatPct') / 100;
         const regFee = getVal('regFee');
         const landLoanAmount = getVal('loanAmount');
-        const landInterestRatePct = getVal('interestRate') / 100;
+        const landInterestRatePct = primeRate('interestRate') / 100;
         const constLoanAmountBase = getVal('constLoanAmount');
-        const constInterestRatePct = getVal('constInterestRate') / 100;
+        const constInterestRatePct = primeRate('constInterestRate') / 100;
         const timeYears = getVal('timeYears');
         const permitYears = getVal('permitYears');
         const buildYears = getVal('buildYears');
@@ -1130,6 +1145,7 @@
 </style>
 <script src="vendor/html2canvas.min.js"></script>
 <script src="vendor/jspdf.umd.min.js"></script>
+<script src="prime-rate.js"></script>
 <script id="west-pdf-js">
 (function(){
   function relaySave(name,bytes,done,fail){
@@ -1158,6 +1174,7 @@
   // innerText of collapsed panels is empty — read textContent instead
   function wtxt(id){var el=document.getElementById(id);return el?(el.textContent||'').trim():'';}
   function winp(id){var el=document.getElementById(id);return el?String(el.value||'').trim():'';}
+  function primeText(id){return window.MaozPrime?MaozPrime.text(id):winp(id)+'%';} // the rate as the screen uses it (prime-rate.js)
   function wchk(id){var el=document.getElementById(id);return el&&el.checked?'כן':'לא';}
   function head(stageTitle){
     return '<div class="wep-head"><img src="'+LOGO_DATA+'" alt=""><div class="wep-head-t">'+
@@ -1186,7 +1203,7 @@
     h+=srow('אגרות רישום', winp('regFee')+' ₪');
     h+=sub('מימון והלוואות (קרקע)');
     h+=srow('מימון לרכישת הקרקע', winp('loanAmount')+' ₪');
-    h+=srow('ריבית שנתית מימון קרקע', winp('interestRate')+'%');
+    h+=srow('ריבית שנתית מימון קרקע', primeText('interestRate'));
     h+=row('צפי זמן אישור הקרקע', winp('timeYears')+' שנים');
     h+='<div class="wep-sec">רווחים ותשואות — השבחת הקרקע (שלב א׳)</div>';
     h+=row('סה"כ השקעה בקרקע (ללא ריבית)', wtxt('res1_totalInvest'));
@@ -1214,7 +1231,7 @@
     h+=row('רווח יזמי מקובל לחילוץ', winp('entrepProfitPct')+'%');
     h+=sub('מימון עלויות בניה');
     h+=srow('סכום מימון לבניה נטו', winp('constLoanAmount')+' ₪');
-    h+=srow('ריבית שנתית מימון בניה', winp('constInterestRate')+'%');
+    h+=srow('ריבית שנתית מימון בניה', primeText('constInterestRate'));
     h+=srow('עלויות הבניה נכללות בסכום המימון', wchk('financeBuildCost'));
     h+=srow('היטל ההשבחה נכלל בסכום המימון', wchk('financeBetterment'));
     h+=srow('דמי הניהול נכללים בסכום המימון', wchk('financeMgmt'));
