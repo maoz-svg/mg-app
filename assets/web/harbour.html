@@ -3272,8 +3272,12 @@ if(document.getElementById('inPrice')){['inPrice','inExtra','inRent','inExp','in
 .apt-unit.apt-gold{background:linear-gradient(160deg,rgba(216,180,106,.34),rgba(216,180,106,.15));border:1px solid rgba(216,180,106,.65);transition:box-shadow .25s,background .25s,border-color .25s}
 .apt-unit.apt-gold:hover{border-color:#e9c98b;background:linear-gradient(160deg,rgba(216,180,106,.46),rgba(216,180,106,.24));box-shadow:0 0 28px 5px rgba(216,180,106,.55)}
 .field-row2{display:flex;gap:clamp(18px,2vw,34px);align-items:flex-end}
-.apt-golden-visa{margin-top:5px;font-family:'Space Grotesk','Assistant',sans-serif;font-size:clamp(15px,1.15vw,22px);font-weight:700;letter-spacing:.24em;color:#e9c98b;text-align:center;animation:gvGlow 3s ease-in-out infinite}
-@keyframes gvGlow{0%,100%{opacity:.6;text-shadow:0 0 6px rgba(216,180,106,.2)}50%{opacity:1;text-shadow:0 0 16px rgba(233,201,139,.9),0 0 34px rgba(216,180,106,.5)}}
+/* GOLDEN VISA's glow animates opacity only - the letters and the ::after glow are drawn once, the compositor fades them (scripts/edit-harbour-golden-visa-glow.mjs) */
+.apt-golden-visa{position:relative;margin-top:5px;font-family:'Space Grotesk','Assistant',sans-serif;font-size:clamp(15px,1.15vw,22px);font-weight:700;letter-spacing:.24em;color:#e9c98b;text-align:center;text-shadow:0 0 6px rgba(216,180,106,.2);will-change:opacity;animation:gvFade 3s ease-in-out infinite}
+.apt-golden-visa::after{content:'GOLDEN VISA'/'';position:absolute;inset:0;z-index:-1;color:transparent;text-shadow:0 0 16px rgba(233,201,139,.9),0 0 34px rgba(216,180,106,.5);pointer-events:none;opacity:0;will-change:opacity;animation:gvGlow 3s ease-in-out infinite}
+@keyframes gvFade{0%,100%{opacity:.6}50%{opacity:1}}
+@keyframes gvGlow{0%,100%{opacity:0}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.apt-golden-visa{animation:none;opacity:1}.apt-golden-visa::after{animation:none;opacity:.35}}
 html.mini-cursor-on .scen-tab,html.mini-cursor-on .cline-toggle,html.mini-cursor-on .cur-btn,html.mini-cursor-on #inFin{cursor:pointer!important}
 @media(min-width:1536px){.scen-tab{font-size:clamp(16px,1.05vw,20px)!important;padding:9px 26px!important}.cline{font-size:clamp(16px,1vw,20px)!important}.cc-h{font-size:clamp(16px,1.05vw,20px)!important}}
 </style>
@@ -4156,7 +4160,9 @@ html.mini-cursor-on .furn-opt,html.mini-cursor-on .furn-opt *,html.mini-cursor-o
       // window) — window.print() from inside this iframe opened Electron's
       // native dialog with a blank preview, since Electron doesn't reliably
       // print a cross-origin custom-scheme iframe's content.
-      relayToShell('maoz-print-pdf',{bytes:bytes},function(){
+      relayToShell('maoz-print-pdf',{bytes:bytes},function(d){
+        // harbour-admin: the statistics count a print the shell started (counts only; without the app the answer is ok:false)
+        if(d&&d.ok){ try{window.mzTrack&&window.mzTrack('print',{u:window.__apt||'',scen:'real',price:Math.round(state.baseP||0),l:document.documentElement.classList.contains('lang-en')?'en':'he'});}catch(e){} }
         finish();
       },function(){
         finish();
@@ -4218,6 +4224,8 @@ html.mini-cursor-on .furn-opt,html.mini-cursor-on .furn-opt *,html.mini-cursor-o
   function mb(n){ return (n/1048576).toFixed(1)+' MB'; }
   function aptName(code){ var a=window.APTDATA&&window.APTDATA[code]; return a?a.n:code; }
   function aptSold(code){ var el=document.querySelector('.apt-unit[data-apt="'+code+'"]'); return !!(el&&el.classList.contains('apt-sold')); }
+  // reserved (harbour-admin.js): marked in the chooser like a sold one, in amber - and sendable all the same
+  function aptReserved(code){ var el=document.querySelector('.apt-unit[data-apt="'+code+'"]'); return !!(el&&el.classList.contains('apt-reserved')); }
   var SCEN_HE={cons:'שמרני',real:'ריאלי',opt:'אופטימי',current:'מצב נוכחי'};
   var SCEN_EN={cons:'Conservative',real:'Realistic',opt:'Optimistic',current:'Current state'};
   function eur(n){ return '€'+String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,','); }
@@ -4309,8 +4317,8 @@ html.mini-cursor-on .furn-opt,html.mini-cursor-on .furn-opt *,html.mini-cursor-o
       grid+='<div class="mail-row"><span class="mail-row-lbl">'+rows[fl]+'</span>';
       these.forEach(function(c){
         // a sold unit can be sent too (his ask): it is marked, not blocked; only an attached one is out
-        var sold=aptSold(c), dis=!!taken[c], name=aptName(c).replace(new RegExp('\\s*'+c+'\\s*$'),'');
-        grid+='<button type="button" class="mail-apt'+(sold?' mail-apt-sold':'')+'" data-apt="'+c+'"'+(dis?' disabled title="'+L('כבר מצורפת','Already attached')+'"':(sold?' title="'+L('נמכרה','Sold')+'"':''))+'><b>'+c+(sold?'<i class="mail-sold">'+L('נמכרה','Sold')+'</i>':'')+'</b><small>'+esc(name)+(c==='Y3'?' · Golden Visa':'')+'</small></button>';
+        var sold=aptSold(c), res=!sold&&aptReserved(c), dis=!!taken[c], name=aptName(c).replace(new RegExp('\\s*'+c+'\\s*$'),'');
+        grid+='<button type="button" class="mail-apt'+(sold?' mail-apt-sold':(res?' mail-apt-res':''))+'" data-apt="'+c+'"'+(dis?' disabled title="'+L('כבר מצורפת','Already attached')+'"':(sold?' title="'+L('נמכרה','Sold')+'"':(res?' title="'+L('שמורה','Reserved')+'"':'')))+'><b>'+c+(sold?'<i class="mail-sold">'+L('נמכרה','Sold')+'</i>':(res?'<i class="mail-sold mail-res">'+L('שמורה','Reserved')+'</i>':''))+'</b><small>'+esc(name)+(c==='Y3'?' · Golden Visa':'')+'</small></button>';
       });
       grid+='</div>';
     });
@@ -4518,6 +4526,8 @@ html.mini-cursor-on .furn-opt,html.mini-cursor-on .furn-opt *,html.mini-cursor-o
               var r=d&&d.ok?d.result:null;
               if(r&&r.ok){
                 var n=1+ctx.queue.length;
+                // harbour-admin: one event per booklet sent - the recipients as a number only
+                try{ if(window.mzTrack){ var mzN=ctx.rec.to.length+ctx.rec.cc.length, mzL=mailEn?'en':'he'; window.mzTrack('mail',{u:ctx.code,role:'main',scen:ctx.first.scen==='current'?state.scen:ctx.first.scen,fin:Number(ctx.first.finPct)||0,fp:ctx.first.floorPlan?1:0,price:Math.round(state.baseP||0),n:mzN,l:mzL}); ctx.queue.forEach(function(q){ window.mzTrack('mail',{u:q.code,role:'extra',scen:q.scen,fin:Number(q.finPct)||0,fp:q.floorPlan?1:0,price:Math.round(q.price||aptPrice(q.code)||0),n:mzN,l:mzL}); }); } }catch(e){}
                 return showCard('<h3>'+L('המייל נשלח בהצלחה','E-mail sent')+'</h3><p>'+L('נשלח אל '+ltr(ctx.rec.to.join(', '))+(ctx.rec.cc.length?' (ועותק ל-'+ltr(ctx.rec.cc.join(', '))+')':'')+' עם '+(n===1?'חוברת אחת':n+' חוברות')+(deckList(ctx).length>1?' ושתי מצגות המשקיעים (עברית ואנגלית)':' ומצגת המשקיעים')+' · '+ltr(mb(r.bytes||total))+'.<br>עותק נשמר בתיקייה "נשלחו" של '+ltr('info@maoz-group.com')+'.',
                   'Sent to '+ltr(ctx.rec.to.join(', '))+(ctx.rec.cc.length?' (and a copy to '+ltr(ctx.rec.cc.join(', '))+')':'')+' with '+(n===1?'one booklet':n+' booklets')+(deckList(ctx).length>1?' and both investor presentations (Hebrew and English)':' and the investor presentation')+' · '+ltr(mb(r.bytes||total))+'.<br>A copy was saved in the "Sent" folder of '+ltr('info@maoz-group.com')+'.')+'</p>',
                   [{label:L('סגירה','Close'),value:null},{label:L('שמירת עותק של החוברת','Save a copy of the booklet'),value:'save'}]).then(function(v4){ if(v4==='save') saveAs(); });
@@ -4551,6 +4561,8 @@ html.mini-cursor-on .furn-opt,html.mini-cursor-on .furn-opt *,html.mini-cursor-o
       mailEn=document.documentElement.classList.contains('lang-en');
       if(btn){btn.disabled=true;btn.textContent='מייצא…';}
       buildScenarioPdfBytes(sel.scen,sel.fin50,sel.floorPlan,true).then(function(bytes){
+        // harbour-admin: the statistics count this booklet (counts only; tools/harbour-admin/DESIGN.md)
+        try{window.mzTrack&&window.mzTrack('export',{u:window.__apt||'',scen:sel.scen==='current'?state.scen:sel.scen,fin:Number(sel.fin50)||0,fp:sel.floorPlan?1:0,price:Math.round(state.baseP||0),l:mailEn?'en':'he'});}catch(e){}
         var name=(cppT('aptName')||'apt').replace(/[\\/:*?"<>|]/g,'').trim();
         var fname=L('חוברת דירה-'+(name||'דירה')+'.pdf','Apartment Booklet - '+(name||'Apartment')+'.pdf');
         // Save-As through the shell (the iframe has no Electron bridge of its own); a plain browser
@@ -5006,7 +5018,7 @@ html.mini-cursor-on .mail-btn,html.mini-cursor-on .mail-apt,html.mini-cursor-on 
 </style>
 <script id="sold-gate-js">
 (function(){
-  var SOLD = ['I1','I2','I3','I4','A1','A2','A3','A4','B1','B2','B3','B4','C2','C3']; // <- edit this list to mark/unmark sold units (B4 sold - his ask, 2026-10-05; I1, I2, Y2 released 2026-09-30)
+  var SOLD = window.MZ_BAKED_SOLD = ['I1','I2','I3','I4','A1','A2','A3','A4','B1','B2','B3','B4','C2','C3']; // <- edit this list to mark/unmark sold units (B4 sold - his ask, 2026-10-05; I1, I2, Y2 released 2026-09-30)
   function ready(fn){ if(document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
   ready(function(){
     SOLD.forEach(function(code){
@@ -5529,5 +5541,7 @@ body:has(.map-modal.open) #langChip{display:none}
   .mm-street-close{top:62px}
 }
 </style>
+<!-- the admin screen: unit statuses, prices, statistics (tools/harbour-admin/DESIGN.md; scripts/edit-harbour-admin.mjs) -->
+<script src="harbour-admin.js"></script>
 </body>
 </html>
