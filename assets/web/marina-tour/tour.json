@@ -1,0 +1,823 @@
+{
+ "note": "Pano IDs are Google IDs (cacheable: Maps Service Specific Terms, General 3, Google ID Caching) with OUR along-metres. The line, the basin point and the pier points are OUR OpenStreetMap-derived data ((c) OpenStreetMap contributors, ODbL). No Street View imagery, no capture dates, no Google coordinates and no key are stored here.",
+ "builtAt": "2026-11-03T08:06:27.786Z",
+ "source": "tour-chain.json",
+ "start": {
+  "pano": "3UuWZYhwVE5vd22Suf1uqw",
+  "fallback": "GV6he27EY6z5n_bxvWiWIg",
+  "heading": 44.2,
+  "pitch": 11.2,
+  "zoom": 0.78,
+  "label": "קונטוריוטו 161",
+  "labelEn": "Kountouriotou 161"
+ },
+ "end": {
+  "label": "מרינת זאה",
+  "labelEn": "Zea Marina",
+  "pier": "C",
+  "walkMetres": 660,
+  "walkMinutes": 9
+ },
+ "water": {
+  "metres": 290,
+  "walkMinutes": 4
+ },
+ "metres": 658,
+ "chain": [
+  {
+   "pano": "GV6he27EY6z5n_bxvWiWIg",
+   "along": 0
+  },
+  {
+   "pano": "T4hz81zp6OdQRU0X11MMhQ",
+   "along": 10
+  },
+  {
+   "pano": "C0uD2s0Hurqtw-MLwn220Q",
+   "along": 20
+  },
+  {
+   "pano": "nmx_DqxxGW8UarmI00gbMg",
+   "along": 30
+  },
+  {
+   "pano": "oTt5AfAmsazTO-G1pYF4YQ",
+   "along": 56
+  },
+  {
+   "pano": "ggax8JLJg9eaZ9aCz9XVFw",
+   "along": 70
+  },
+  {
+   "pano": "cUl1y13z7w7WKabRp5pq1g",
+   "along": 80
+  },
+  {
+   "pano": "485Gt0pK14546lVK2klezA",
+   "along": 91
+  },
+  {
+   "pano": "VJZPIAXRTi0EKlyHbHht5Q",
+   "along": 105
+  },
+  {
+   "pano": "nkPmS1d1Zya5LpUrq1DQ0A",
+   "along": 115
+  },
+  {
+   "pano": "-6OujiFRwYoLhOZm63hbzg",
+   "along": 126
+  },
+  {
+   "pano": "WHcB6ra_xr7p6JLALxdHGw",
+   "along": 136
+  },
+  {
+   "pano": "Z-DnZRvVNZqvfKZtrNBBqg",
+   "along": 166
+  },
+  {
+   "pano": "D-lmJaYi8LfJnZ-BLI6PWw",
+   "along": 175
+  },
+  {
+   "pano": "_izBbZkggFTFDMPqKyLYmA",
+   "along": 201
+  },
+  {
+   "pano": "m_pfKlxzBgKupLi7ZuOi2g",
+   "along": 211
+  },
+  {
+   "pano": "jR17Vu5WExckn2lcdnrXPA",
+   "along": 221
+  },
+  {
+   "pano": "8yESWO0dOpnnvnZOBHlEsQ",
+   "along": 231
+  },
+  {
+   "pano": "l4qiBNC6vy5Xzfe9YzFS1w",
+   "along": 240
+  },
+  {
+   "pano": "MQbqoDsyFPCiID06gCLyEA",
+   "along": 250
+  },
+  {
+   "pano": "94cyo8Sn9tR-QHE8gcO2nQ",
+   "along": 260
+  },
+  {
+   "pano": "TocUXnGjcs-X9KtqvjAM1Q",
+   "along": 270
+  },
+  {
+   "pano": "41fAPfOO3EBszQdCbrmYeQ",
+   "along": 279
+  },
+  {
+   "pano": "UlQuG4JafJSm0QMXSRJ1oQ",
+   "along": 289
+  },
+  {
+   "pano": "1NJRDyx287Ktz6JkSG0m2g",
+   "along": 317
+  },
+  {
+   "pano": "IHE19TA93xLZUCU_GKBrjA",
+   "along": 328
+  },
+  {
+   "pano": "rag2AUtYNuXp-XMYRijtzA",
+   "along": 340
+  },
+  {
+   "pano": "JNAXBtRHRkn7fVesmr9sJg",
+   "along": 350
+  },
+  {
+   "pano": "SXliOaORSgbXhSu3wStEGg",
+   "along": 360
+  },
+  {
+   "pano": "zXqnAfhHcoiDr3HLaWX6MA",
+   "along": 370
+  },
+  {
+   "pano": "BXaJRaJT_zwq7-RfPkGXZg",
+   "along": 381
+  },
+  {
+   "pano": "oE0G6EQfkLqNHADzHMOn2A",
+   "along": 391
+  },
+  {
+   "pano": "VUf33FWuq-9XWYk5khvBkQ",
+   "along": 401
+  },
+  {
+   "pano": "Jg5zbl6A_hjFH-Kf9s2p3g",
+   "along": 411
+  },
+  {
+   "pano": "6TSEsJ47WPrhdaJr8Gdd8g",
+   "along": 421
+  },
+  {
+   "pano": "MnHg5tcnmOQuuYUHoIWTBw",
+   "along": 431
+  },
+  {
+   "pano": "TW-iskiLm5Vsr_ML1U4MEg",
+   "along": 442
+  },
+  {
+   "pano": "YfdxMV9cWam8IfqtZi9NyQ",
+   "along": 451
+  },
+  {
+   "pano": "381Aq1NOLRQZ8sRx_edJ8A",
+   "along": 462
+  },
+  {
+   "pano": "t2nAr3yZTK-2_IeIPBCuPg",
+   "along": 472
+  },
+  {
+   "pano": "AHVN5VICncGVk0nShia7BQ",
+   "along": 482
+  },
+  {
+   "pano": "1YuXT_Kgn1_3OZ_6mOP9fw",
+   "along": 492
+  },
+  {
+   "pano": "lGlegENtBsPoWFcLaUkQuw",
+   "along": 503
+  },
+  {
+   "pano": "oW-4pcC7KtgDkoievSa8Cg",
+   "along": 512
+  },
+  {
+   "pano": "2n71EGRPmapfTdVs_oMzUg",
+   "along": 522
+  },
+  {
+   "pano": "n2lXYjn0j6tJkcbfw2dtvw",
+   "along": 535
+  },
+  {
+   "pano": "iAuaay60wz9Z_nDQp7F-VA",
+   "along": 546
+  },
+  {
+   "pano": "4R8Gcu4r-uhiRKHqIoSqCQ",
+   "along": 556
+  },
+  {
+   "pano": "l2O2QVjipyObHjsDbdqDDg",
+   "along": 566
+  },
+  {
+   "pano": "Ru3jYI1tBG9zDo1aSsVAeA",
+   "along": 576
+  },
+  {
+   "pano": "6RQlD981aDUibrDPwCaalg",
+   "along": 586
+  },
+  {
+   "pano": "pjNF0VUa47mdeJLNNLzAhg",
+   "along": 597
+  },
+  {
+   "pano": "AR5xl5h0bmuAPHQcrcV0ww",
+   "along": 607
+  },
+  {
+   "pano": "fKL38qswki9-j2hHwqSIVg",
+   "along": 617
+  },
+  {
+   "pano": "DKMIAV-iMKsdOp2ruZ4aYg",
+   "along": 627
+  },
+  {
+   "pano": "8drJjqjPYYqoLpwydvV3UA",
+   "along": 638
+  },
+  {
+   "pano": "6HjG0s6WwKWPzVDu-LKUsw",
+   "along": 648
+  },
+  {
+   "pano": "LQi30dX8OuN26pCna-H9Sg",
+   "along": 658
+  }
+ ],
+ "join": 23,
+ "look": {
+  "walkZoom": 0.9,
+  "push": 0.45,
+  "revealFrom": 17,
+  "revealK": 0.5,
+  "quayFrom": 24,
+  "quayK": 0.7,
+  "quayPitch": 0,
+  "quayStride": [
+   2,
+   3
+  ],
+  "panos": {
+   "SXliOaORSgbXhSu3wStEGg": {
+    "skip": true,
+    "i": 28
+   },
+   "TW-iskiLm5Vsr_ML1U4MEg": {
+    "skip": true,
+    "i": 36
+   },
+   "n2lXYjn0j6tJkcbfw2dtvw": {
+    "skip": true,
+    "i": 45
+   },
+   "iAuaay60wz9Z_nDQp7F-VA": {
+    "skip": true,
+    "i": 46
+   },
+   "4R8Gcu4r-uhiRKHqIoSqCQ": {
+    "k": 0.5,
+    "dh": -18,
+    "i": 47
+   },
+   "l2O2QVjipyObHjsDbdqDDg": {
+    "skip": true,
+    "i": 48
+   },
+   "Ru3jYI1tBG9zDo1aSsVAeA": {
+    "skip": true,
+    "i": 49
+   },
+   "6RQlD981aDUibrDPwCaalg": {
+    "k": 0,
+    "i": 50
+   },
+   "pjNF0VUa47mdeJLNNLzAhg": {
+    "k": 0,
+    "i": 51
+   },
+   "AR5xl5h0bmuAPHQcrcV0ww": {
+    "skip": true,
+    "i": 52
+   },
+   "fKL38qswki9-j2hHwqSIVg": {
+    "k": 0.5,
+    "i": 53
+   },
+   "TocUXnGjcs-X9KtqvjAM1Q": {
+    "skip": true,
+    "i": 21
+   },
+   "41fAPfOO3EBszQdCbrmYeQ": {
+    "skip": true,
+    "i": 22
+   },
+   "UlQuG4JafJSm0QMXSRJ1oQ": {
+    "skip": true,
+    "i": 23
+   },
+   "cUl1y13z7w7WKabRp5pq1g": {
+    "skip": true,
+    "i": 6
+   },
+   "485Gt0pK14546lVK2klezA": {
+    "skip": true,
+    "i": 7
+   },
+   "BXaJRaJT_zwq7-RfPkGXZg": {
+    "skip": true,
+    "i": 30
+   },
+   "oE0G6EQfkLqNHADzHMOn2A": {
+    "skip": true,
+    "i": 31
+   },
+   "VUf33FWuq-9XWYk5khvBkQ": {
+    "skip": true,
+    "i": 32
+   },
+   "Jg5zbl6A_hjFH-Kf9s2p3g": {
+    "skip": true,
+    "i": 33
+   },
+   "MnHg5tcnmOQuuYUHoIWTBw": {
+    "skip": true,
+    "i": 35
+   },
+   "ggax8JLJg9eaZ9aCz9XVFw": {
+    "skip": true,
+    "i": 5
+   },
+   "VJZPIAXRTi0EKlyHbHht5Q": {
+    "dh": 35,
+    "i": 8
+   },
+   "nkPmS1d1Zya5LpUrq1DQ0A": {
+    "skip": true,
+    "i": 9
+   },
+   "Z-DnZRvVNZqvfKZtrNBBqg": {
+    "skip": true,
+    "i": 12
+   },
+   "D-lmJaYi8LfJnZ-BLI6PWw": {
+    "skip": true,
+    "i": 13
+   },
+   "T4hz81zp6OdQRU0X11MMhQ": {
+    "skip": true,
+    "i": 1
+   },
+   "zXqnAfhHcoiDr3HLaWX6MA": {
+    "skip": true,
+    "i": 29
+   },
+   "6TSEsJ47WPrhdaJr8Gdd8g": {
+    "skip": true,
+    "i": 34
+   },
+   "m_pfKlxzBgKupLi7ZuOi2g": {
+    "skip": true,
+    "i": 15
+   },
+   "94cyo8Sn9tR-QHE8gcO2nQ": {
+    "skip": true,
+    "i": 20
+   },
+   "l4qiBNC6vy5Xzfe9YzFS1w": {
+    "skip": true,
+    "i": 18
+   }
+  },
+  "panosNote": "review on real imagery 2026-11-02: skip = a box / a pier gate right in front of the quay view (360, 442, 535 m), and (fix2, a full-resolution content scan) 80 / 91 m (a political slogan, an anti-police tag), 270 / 279 / 289 m (graffiti on the quay wall) and 381-431 / 546 / 607 m (people 0.5-3 m from the lens); (fix3, a second scan) 10 m (spray tags on the pillars), 70 m (the slogan wall ahead), 115 / 166 / 175 m (rubbish), 211 / 240 m (poster boards), 260 m (a football slogan on the quay wall), 370 m (bins and litter), 421 m (people 2-3 m from the lens), 566 / 576 m (football-ultras tags on the rowing-club wall); k = the quay blend by the rowing club (556-617 m), whose wall stands between the quay and the water; dh = degrees added to the look there (fix3: 105 m +35, 556 m -18) to keep a person, bins or a tag out of the frame. i = the chain index at build time (for reading only; the key is the pano ID)."
+ },
+ "beat": {
+  "index": 24,
+  "dh": 15,
+  "holdMs": 2000,
+  "caption": "המרינה – 290 מ׳ מהבניין",
+  "captionEn": "The marina – 290 m from the building"
+ },
+ "arrival": {
+  "index": 57,
+  "pitch": 5,
+  "spin": {
+   "speed": [
+    30,
+    45
+   ],
+   "rampMs": 1500
+  }
+ },
+ "basin": [
+  37.9369,
+  23.6486
+ ],
+ "sections": [
+  {
+   "from": 0,
+   "label": "רחוב קונטוריוטו",
+   "sub": "יוצאים מהבניין",
+   "en": {
+    "label": "Kountouriotou St",
+    "sub": "leaving the building"
+   }
+  },
+  {
+   "from": 108,
+   "label": "רחוב בובולינס",
+   "sub": "יורדים אל המים",
+   "en": {
+    "label": "Bouboulinas St",
+    "sub": "down to the water"
+   }
+  },
+  {
+   "from": 289,
+   "label": "המרינה",
+   "sub": "מרינת זאה",
+   "en": {
+    "label": "The marina",
+    "sub": "Zea Marina"
+   }
+  },
+  {
+   "from": 318,
+   "label": "רציף המרינה",
+   "sub": "לאורך המזחים · ניקולאו גולנדרי",
+   "en": {
+    "label": "Marina quay",
+    "sub": "along the piers · Nikolaou Goulandri"
+   }
+  },
+  {
+   "from": 367,
+   "label": "רציף המרינה",
+   "sub": "מזח G",
+   "en": {
+    "label": "Marina quay",
+    "sub": "pier G"
+   }
+  },
+  {
+   "from": 448,
+   "label": "רציף המרינה",
+   "sub": "מזח F",
+   "en": {
+    "label": "Marina quay",
+    "sub": "pier F"
+   }
+  },
+  {
+   "from": 509,
+   "label": "רציף המרינה",
+   "sub": "מזח E",
+   "en": {
+    "label": "Marina quay",
+    "sub": "pier E"
+   }
+  },
+  {
+   "from": 610,
+   "label": "רציף המרינה",
+   "sub": "מזח D",
+   "en": {
+    "label": "Marina quay",
+    "sub": "pier D"
+   }
+  },
+  {
+   "from": 653,
+   "label": "מרינת זאה",
+   "sub": "",
+   "en": {
+    "label": "Zea Marina",
+    "sub": ""
+   }
+  }
+ ],
+ "piers": [
+  {
+   "ref": "G",
+   "along": 367,
+   "off": 52
+  },
+  {
+   "ref": "F",
+   "along": 448,
+   "off": 32
+  },
+  {
+   "ref": "E",
+   "along": 509,
+   "off": 55
+  },
+  {
+   "ref": "D",
+   "along": 610,
+   "off": 70
+  },
+  {
+   "ref": "C",
+   "along": 739,
+   "off": 56
+  }
+ ],
+ "line": [
+  [
+   37.940944,
+   23.648168
+  ],
+  [
+   37.940869,
+   23.648104
+  ],
+  [
+   37.940795,
+   23.64804
+  ],
+  [
+   37.940721,
+   23.647975
+  ],
+  [
+   37.940647,
+   23.647911
+  ],
+  [
+   37.940572,
+   23.647846
+  ],
+  [
+   37.940498,
+   23.647782
+  ],
+  [
+   37.940424,
+   23.647718
+  ],
+  [
+   37.94035,
+   23.647653
+  ],
+  [
+   37.940275,
+   23.647589
+  ],
+  [
+   37.940201,
+   23.647525
+  ],
+  [
+   37.940127,
+   23.64746
+  ],
+  [
+   37.940071,
+   23.647521
+  ],
+  [
+   37.94002,
+   23.647616
+  ],
+  [
+   37.93997,
+   23.64771
+  ],
+  [
+   37.939919,
+   23.647804
+  ],
+  [
+   37.939868,
+   23.647898
+  ],
+  [
+   37.939817,
+   23.647992
+  ],
+  [
+   37.939766,
+   23.648086
+  ],
+  [
+   37.939716,
+   23.64818
+  ],
+  [
+   37.939665,
+   23.648274
+  ],
+  [
+   37.939614,
+   23.648368
+  ],
+  [
+   37.939563,
+   23.648462
+  ],
+  [
+   37.939512,
+   23.648556
+  ],
+  [
+   37.939461,
+   23.64865
+  ],
+  [
+   37.939401,
+   23.648639
+  ],
+  [
+   37.939336,
+   23.648561
+  ],
+  [
+   37.93927,
+   23.648483
+  ],
+  [
+   37.939204,
+   23.648405
+  ],
+  [
+   37.939138,
+   23.648328
+  ],
+  [
+   37.939072,
+   23.64825
+  ],
+  [
+   37.93888,
+   23.648496
+  ],
+  [
+   37.938882,
+   23.648382
+  ],
+  [
+   37.938858,
+   23.648272
+  ],
+  [
+   37.938832,
+   23.648163
+  ],
+  [
+   37.938806,
+   23.648054
+  ],
+  [
+   37.93878,
+   23.647945
+  ],
+  [
+   37.938753,
+   23.647836
+  ],
+  [
+   37.938727,
+   23.647727
+  ],
+  [
+   37.9387,
+   23.647618
+  ],
+  [
+   37.938668,
+   23.647512
+  ],
+  [
+   37.93861,
+   23.647425
+  ],
+  [
+   37.938551,
+   23.647339
+  ],
+  [
+   37.938491,
+   23.647254
+  ],
+  [
+   37.938432,
+   23.647168
+  ],
+  [
+   37.938374,
+   23.647081
+  ],
+  [
+   37.938315,
+   23.646995
+  ],
+  [
+   37.938257,
+   23.646908
+  ],
+  [
+   37.938198,
+   23.646822
+  ],
+  [
+   37.938139,
+   23.646735
+  ],
+  [
+   37.938081,
+   23.646649
+  ],
+  [
+   37.938022,
+   23.646562
+  ],
+  [
+   37.93796,
+   23.64648
+  ],
+  [
+   37.937882,
+   23.646423
+  ],
+  [
+   37.937802,
+   23.646371
+  ],
+  [
+   37.937722,
+   23.646319
+  ],
+  [
+   37.937643,
+   23.646266
+  ],
+  [
+   37.937562,
+   23.646215
+  ],
+  [
+   37.937481,
+   23.646166
+  ],
+  [
+   37.937398,
+   23.646121
+  ],
+  [
+   37.937315,
+   23.64608
+  ],
+  [
+   37.93723,
+   23.64604
+  ],
+  [
+   37.937146,
+   23.646001
+  ],
+  [
+   37.937061,
+   23.645962
+  ],
+  [
+   37.936977,
+   23.645922
+  ],
+  [
+   37.936907,
+   23.645912
+  ]
+ ],
+ "alongMap": [
+  [
+   0,
+   0
+  ],
+  [
+   289,
+   295
+  ],
+  [
+   317,
+   325.4
+  ],
+  [
+   658,
+   663.1
+  ]
+ ],
+ "osmAttribution": "© OpenStreetMap contributors"
+}

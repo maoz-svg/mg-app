@@ -1,0 +1,294 @@
+{
+ "unit": "Y3",
+ "level": "basement",
+ "start": "living",
+ "northAt0": 124.4,
+ "eyeH": 1.6,
+ "_meta": {
+  "stage": "v22 apartment tour (owner 2026-11-03)",
+  "links": "doorways from the plan section (blender/tour/tour_links.py)"
+ },
+ "nodes": {
+  "living": {
+   "pano": "tours/Y3/living.jpg",
+   "panoLow": "tours/Y3/living-4096.jpg",
+   "centreAzDeg": 0,
+   "eye": [
+    4.12,
+    10.8
+   ],
+   "label": {
+    "he": "סלון",
+    "en": "Living room"
+   },
+   "to": {
+    "he": "לסלון",
+    "en": "To the living room"
+   },
+   "rooms": [
+    "living"
+   ],
+   "view": {
+    "yaw": 30.0,
+    "pitch": -10.0,
+    "hfov": 100
+   },
+   "links": [
+    {
+     "to": "kitchen",
+     "at": [
+      2.52,
+      10.38
+     ]
+    },
+    {
+     "to": "bath",
+     "at": [
+      3.6,
+      7.86
+     ]
+    },
+    {
+     "to": "garden",
+     "via": [
+      2.0,
+      11.9
+     ],
+     "at": [
+      2.04,
+      11.46
+     ]
+    }
+   ],
+   "_meta": {
+    "status": "photoreal",
+    "size": [
+     8192,
+     4096
+    ],
+    "bytes": {
+     "pano": 3097290,
+     "low": 870270
+    },
+    "src": "h3d/v22/Y3/living/final/pano_v32b.png",
+    "at": "2026-11-04T21:23:14Z"
+   }
+  },
+  "kitchen": {
+   "pano": "tours/Y3/kitchen.jpg",
+   "panoLow": "tours/Y3/kitchen-4096.jpg",
+   "centreAzDeg": 0,
+   "eye": [
+    2.02,
+    10.05
+   ],
+   "label": {
+    "he": "מטבח",
+    "en": "Kitchen"
+   },
+   "to": {
+    "he": "למטבח",
+    "en": "To the kitchen"
+   },
+   "rooms": [
+    "kitchen"
+   ],
+   "view": {
+    "yaw": 20.0,
+    "pitch": -8.0,
+    "hfov": 100
+   },
+   "links": [
+    {
+     "to": "living",
+     "at": [
+      3.36,
+      10.74
+     ]
+    },
+    {
+     "to": "garden",
+     "at": [
+      2.34,
+      11.39
+     ]
+    }
+   ],
+   "_meta": {
+    "status": "photoreal",
+    "size": [
+     8192,
+     4096
+    ],
+    "bytes": {
+     "pano": 2658020,
+     "low": 787226
+    },
+    "src": "h3d/v22/Y3/kitchen/final/pano_v32.png",
+    "at": "2026-11-04T21:23:17Z"
+   }
+  },
+  "bedroom": {
+   "pano": "tours/Y3/bedroom.jpg",
+   "panoLow": "tours/Y3/bedroom-4096.jpg",
+   "centreAzDeg": 0,
+   "eye": [
+    2.667,
+    1.664
+   ],
+   "label": {
+    "he": "חדר שינה",
+    "en": "Bedroom"
+   },
+   "to": {
+    "he": "לחדר השינה",
+    "en": "To the bedroom"
+   },
+   "rooms": [
+    "bedroom"
+   ],
+   "view": {
+    "yaw": 270.0,
+    "pitch": -10.0,
+    "hfov": 100
+   },
+   "links": [
+    {
+     "to": "bath",
+     "at": [
+      2.52,
+      6.78
+     ]
+    }
+   ],
+   "_meta": {
+    "status": "photoreal",
+    "size": [
+     8192,
+     4096
+    ],
+    "bytes": {
+     "pano": 4043454,
+     "low": 1184779
+    },
+    "src": "h3d/v22/Y3/bedroom/final/pano_v32d.png",
+    "at": "2026-11-04T21:23:20Z"
+   }
+  },
+  "bath": {
+   "pano": "tours/Y3/bath.jpg",
+   "panoLow": "tours/Y3/bath-4096.jpg",
+   "centreAzDeg": 0,
+   "eye": [
+    1.85,
+    7.0
+   ],
+   "label": {
+    "he": "חדר רחצה",
+    "en": "Bathroom"
+   },
+   "to": {
+    "he": "לחדר הרחצה",
+    "en": "To the bathroom"
+   },
+   "rooms": [
+    "bathroom",
+    "bath"
+   ],
+   "view": {
+    "yaw": -35.0,
+    "pitch": -18.0,
+    "hfov": 100
+   },
+   "links": [
+    {
+     "to": "living",
+     "at": [
+      3.36,
+      7.5
+     ]
+    },
+    {
+     "to": "bedroom",
+     "at": [
+      2.28,
+      7.14
+     ]
+    }
+   ],
+   "_meta": {
+    "status": "photoreal",
+    "size": [
+     8192,
+     4096
+    ],
+    "bytes": {
+     "pano": 2518249,
+     "low": 779520
+    },
+    "src": "h3d/v22/Y3/bath2/final/pano_v32b.png",
+    "at": "2026-11-05T10:42:48Z"
+   }
+  },
+  "garden": {
+   "pano": "tours/Y3/garden.jpg",
+   "panoLow": "tours/Y3/garden-4096.jpg",
+   "centreAzDeg": 0,
+   "eye": [
+    2.95,
+    13.9
+   ],
+   "label": {
+    "he": "גינה",
+    "en": "Garden"
+   },
+   "to": {
+    "he": "לגינה",
+    "en": "To the garden"
+   },
+   "rooms": [],
+   "view": {
+    "yaw": -150.0,
+    "pitch": -10.0,
+    "hfov": 100
+   },
+   "links": [
+    {
+     "to": "kitchen",
+     "at": [
+      2.76,
+      12.18
+     ]
+    }
+   ],
+   "_meta": {
+    "status": "photoreal",
+    "size": [
+     8192,
+     4096
+    ],
+    "bytes": {
+     "pano": 5782057,
+     "low": 1587227
+    },
+    "src": "h3d/v22/Y3/garden/final/pano_v32b.png",
+    "at": "2026-11-04T21:23:23Z"
+   }
+  }
+ },
+ "map": {
+  "img": "tours/Y3/map.png",
+  "size": [
+   1759,
+   842
+  ],
+  "m": [
+   0.0,
+   120.0,
+   12.3,
+   120.0,
+   0.0,
+   9.9
+  ]
+ }
+}

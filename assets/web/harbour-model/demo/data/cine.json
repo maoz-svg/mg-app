@@ -1,0 +1,218 @@
+{
+ "version": 3,
+ "note": "THE CINEMATIC TOUR (src/demo/cine/cine.ts). labels.<slug> = a viewpoint's name. units.<CODE>: z = its floor level (m, building frame); order = the owner's viewpoints in his order (the menu, the arrows; the walks run between consecutive ones, both ways); rooms.<slug>: at = the pin, box = the extent the dive pushes in on (m: x0 y0 x1 y1). Media by name under cine/<code>/: <slug>.jpg, <slug>-night.jpg, dive-<slug>.mp4, back-<slug>.mp4, <a>-<b>.mp4, <b>-<a>.mp4.",
+ "labels": {
+  "kitchen": {
+   "he": "מטבח",
+   "en": "Kitchen"
+  },
+  "living": {
+   "he": "סלון",
+   "en": "Living room"
+  },
+  "bedroom": {
+   "he": "חדר שינה",
+   "en": "Bedroom"
+  },
+  "bath": {
+   "he": "חדר רחצה",
+   "en": "Bathroom"
+  },
+  "bath1": {
+   "he": "חדר רחצה 1",
+   "en": "Bathroom 1"
+  },
+  "bath2": {
+   "he": "חדר רחצה 2",
+   "en": "Bathroom 2"
+  },
+  "balcony": {
+   "he": "מרפסת",
+   "en": "Balcony"
+  },
+  "balconies": {
+   "he": "מרפסות",
+   "en": "Balconies"
+  },
+  "garden": {
+   "he": "מרפסת גן",
+   "en": "Garden terrace"
+  }
+ },
+ "plans": {
+  "C4": [
+   "kitchen",
+   "balconies",
+   "bedroom",
+   "bath"
+  ],
+  "Y1": [
+   "bedroom",
+   "bath",
+   "kitchen",
+   "garden"
+  ],
+  "Y3": [
+   "living",
+   "garden",
+   "kitchen",
+   "bath1",
+   "bath2",
+   "bedroom"
+  ],
+  "Y3_owner": [
+   "living",
+   "kitchen",
+   "garden",
+   "bath1",
+   "bath2",
+   "bedroom"
+  ]
+ },
+ "units": {
+  "C1": {
+   "z": 9.62,
+   "order": [
+    "kitchen",
+    "balconies",
+    "bedroom",
+    "bath"
+   ],
+   "rooms": {
+    "kitchen": {
+     "at": [
+      8.6,
+      9.55
+     ],
+     "box": [
+      7.1,
+      7.9,
+      10.1,
+      11.8
+     ]
+    },
+    "balconies": {
+     "at": [
+      9.3,
+      11.95
+     ],
+     "box": [
+      7.1,
+      11.0,
+      11.5,
+      12.55
+     ]
+    },
+    "bedroom": {
+     "at": [
+      11.0,
+      9.6
+     ],
+     "box": [
+      9.85,
+      8.15,
+      12.45,
+      11.2
+     ]
+    },
+    "bath": {
+     "at": [
+      11.2,
+      6.9
+     ],
+     "box": [
+      10.2,
+      5.65,
+      12.4,
+      8.1
+     ]
+    }
+   }
+  },
+  "Y3": {
+   "z": -3.2,
+   "order": [
+    "living",
+    "garden",
+    "kitchen",
+    "bath1",
+    "bath2",
+    "bedroom"
+   ],
+   "rooms": {
+    "living": {
+     "at": [
+      5.0,
+      12.0
+     ],
+     "box": [
+      3.6,
+      9.0,
+      6.4,
+      14.2
+     ]
+    },
+    "garden": {
+     "at": [
+      2.0,
+      13.1
+     ],
+     "box": [
+      0.5,
+      11.9,
+      3.4,
+      14.3
+     ]
+    },
+    "kitchen": {
+     "at": [
+      1.8,
+      10.0
+     ],
+     "box": [
+      0.4,
+      8.6,
+      3.6,
+      11.8
+     ]
+    },
+    "bath1": {
+     "at": [
+      1.4,
+      7.0
+     ],
+     "box": [
+      0.6,
+      6.2,
+      2.3,
+      8.6
+     ]
+    },
+    "bath2": {
+     "at": [
+      1.2,
+      4.1
+     ],
+     "box": [
+      0.4,
+      3.1,
+      2.3,
+      5.1
+     ]
+    },
+    "bedroom": {
+     "at": [
+      1.5,
+      1.7
+     ],
+     "box": [
+      0.3,
+      0.25,
+      3.0,
+      3.1
+     ]
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,321 @@
+{
+ "version": 1,
+ "generatedAt": "2026-11-01T22:32:18+02:00",
+ "generatedBy": "stages job (scratchpad h3d/v8/stages/py/light.py + declutter.py + verify.py)",
+ "paths": "relative to public/demo/ (the page serves them as demo/<path>)",
+ "geometry": "IDENTICAL to public/showcase/img/floor-<id>.jpg: same matte, same fit, same transform, same resampling (the navy stills rebuilt by the same code match the shipped ones bit for bit). public/showcase/data/unit-masks.json applies unchanged; -zoom.jpg is exactly 2x the base grid. Interior JPEG blocks are bit-identical to the navy stills.",
+ "stage": {
+  "centre": "#FBF9F6",
+  "edge": "#E6E5E3",
+  "backdrop": "#E6E5E3",
+  "backdropNote": "every border pixel of every still is this colour (+-1 dither): use it as the CSS background behind a still that is scaled below cover (the old navy was #0B1324)",
+  "css": "radial-gradient(80% 95% at 42.5% 51.41%, #FBF9F6 0.0%, #FAF8F5 9.5%, #F9F7F4 19.0%, #F7F5F2 28.5%, #F4F2F0 38.0%, #F1EFED 47.5%, #EEECEA 57.0%, #EBE9E7 66.5%, #E8E7E5 76.0%, #E7E6E4 85.5%, #E6E5E3 95.0%)",
+  "gradient": "radial, centred at (0.425W, 0.5141H), radii 0.80W x 0.95H, smoothstep to the edge colour at r=0.95, mixed in linear light; flattened to the edge colour over the last 10% of H at every border; +-0.6/255 dither",
+  "shadow": {
+   "tint": [
+    0.38,
+    0.35,
+    0.32
+   ],
+   "layers": [
+    {
+     "sigmaPx": 64,
+     "dyPx": 44,
+     "dxPx": 12,
+     "strength": 0.22
+    },
+    {
+     "sigmaPx": 11,
+     "dyPx": 10,
+     "dxPx": 2,
+     "strength": 0.36
+    },
+    {
+     "sigmaPx": 2.5,
+     "dyPx": 2.5,
+     "dxPx": 0,
+     "strength": 0.26
+    }
+   ],
+   "note": "base-grid px (zoom = 2x): ambient (wide, soft, under the model), contact (tight, under the slab edge), occlusion line; multiplicative warm grey"
+  }
+ },
+ "floors": {
+  "1": {
+   "src": "img/floors-light/floor-1.jpg",
+   "zoomSrc": "img/floors-light/floor-1-zoom.jpg",
+   "w": 3840,
+   "h": 2160,
+   "zoomW": 7680,
+   "zoomH": 4320,
+   "modelBox": [
+    402.8,
+    300.8,
+    2860.3,
+    1989.2
+   ],
+   "transform": {
+    "sx": 0.76318359375,
+    "sy": 0.7632955536181343,
+    "tx": 38,
+    "ty": 271
+   },
+   "zoomTransform": {
+    "sx": 1.5263671875,
+    "sy": 1.5265911072362686,
+    "tx": 76,
+    "ty": 542
+   },
+   "matte": "img/floors-light/floor-1-matte.png"
+  },
+  "2": {
+   "src": "img/floors-light/floor-2.jpg",
+   "zoomSrc": "img/floors-light/floor-2-zoom.jpg",
+   "w": 3840,
+   "h": 2160,
+   "zoomW": 7680,
+   "zoomH": 4320,
+   "modelBox": [
+    476.1,
+    280.6,
+    2787.8,
+    2008.3
+   ],
+   "transform": {
+    "sx": 0.794921875,
+    "sy": 0.7947048611111112,
+    "tx": 27,
+    "ty": 256
+   },
+   "zoomTransform": {
+    "sx": 1.58984375,
+    "sy": 1.5894097222222223,
+    "tx": 54,
+    "ty": 512
+   },
+   "outlineCleanup": "his source cut-out carries a 3-6 px black/white/yellow dashed selection outline round every wall (invisible on navy): the wall silhouette is redrawn as straight segments on the outline's outer envelope (+-6 src px) and the 8 px rim repainted with the wall colour; railings and plants keep their own contour",
+   "alphaChangedPx": 22831,
+   "alphaChangedMaxPxFromNavyOutline": 5,
+   "matte": "img/floors-light/floor-2-matte.png"
+  },
+  "3": {
+   "src": "img/floors-light/floor-3.jpg",
+   "zoomSrc": "img/floors-light/floor-3-zoom.jpg",
+   "w": 3840,
+   "h": 2160,
+   "zoomW": 7680,
+   "zoomH": 4320,
+   "modelBox": [
+    463.3,
+    280.8,
+    2800.5,
+    2008.3
+   ],
+   "transform": {
+    "sx": 0.7822265625,
+    "sy": 0.7820401046207498,
+    "tx": 87,
+    "ty": 255
+   },
+   "zoomTransform": {
+    "sx": 1.564453125,
+    "sy": 1.5640802092414996,
+    "tx": 174,
+    "ty": 510
+   },
+   "matte": "img/floors-light/floor-3-matte.png"
+  },
+  "ground": {
+   "src": "img/floors-light/floor-ground.jpg",
+   "zoomSrc": "img/floors-light/floor-ground-zoom.jpg",
+   "w": 3840,
+   "h": 2160,
+   "zoomW": 7680,
+   "zoomH": 4320,
+   "modelBox": [
+    490.5,
+    281.3,
+    2774.5,
+    2008.9
+   ],
+   "transform": {
+    "sx": 1.02375,
+    "sy": 1.0234375,
+    "tx": 427,
+    "ty": 225
+   },
+   "zoomTransform": {
+    "sx": 2.0475,
+    "sy": 2.046875,
+    "tx": 854,
+    "ty": 450
+   },
+   "outlineCleanup": "a 1 px grey dashed outline on the walls: silhouette redrawn as straight segments (+-2.5 src px), 3 px rim repainted with the wall colour, dark details (window frames) never repainted",
+   "alphaChangedPx": 22584,
+   "alphaChangedMaxPxFromNavyOutline": 6.71,
+   "matte": "img/floors-light/floor-ground-matte.png"
+  },
+  "garden": {
+   "src": "img/floors-light/floor-garden.jpg",
+   "zoomSrc": "img/floors-light/floor-garden-zoom.jpg",
+   "w": 3840,
+   "h": 2160,
+   "zoomW": 7680,
+   "zoomH": 4320,
+   "modelBox": [
+    402.9,
+    351.9,
+    2860.8,
+    1937.8
+   ],
+   "transform": {
+    "sx": 0.5445130813953488,
+    "sy": 0.5445963541666666,
+    "tx": 135,
+    "ty": 316
+   },
+   "zoomTransform": {
+    "sx": 1.0890261627906976,
+    "sy": 1.0891927083333333,
+    "tx": 270,
+    "ty": 632
+   },
+   "outlineCleanup": "a dark strip stuck outside the right wall and three dots above the top wall (dashed-outline remnants) removed; his left-facade window frames are untouched",
+   "alphaChangedPx": 1851,
+   "alphaChangedMaxPxFromNavyOutline": 9,
+   "matte": "img/floors-light/floor-garden-matte.png"
+  }
+ },
+ "alternates": {
+  "generic": {
+   "src": "img/floors-light/floor-generic.jpg",
+   "w": 3840,
+   "h": 2160,
+   "note": "the app \"generic\" floor picture (assets.json alternates.generic), restaged; not used by the demo"
+  }
+ },
+ "verify": {
+  "1": {
+   "navyRebuildMaxDiff": 0,
+   "zoomNavyRebuildMaxDiff": 0,
+   "transformEqualsAssetsJson": true,
+   "zoomTransformEqualsAssetsJson": true,
+   "shiftLightVsNavyPx": [
+    0,
+    0
+   ],
+   "interiorBitIdenticalFrac": 0.999969,
+   "zoomInteriorBitIdenticalFrac": 0.99997,
+   "alphaMaxAbsDiff": 0,
+   "alphaChangedPx": 0,
+   "unitCoverageMaxDelta": 0,
+   "zoomVsBaseShiftPx": [
+    -0.149,
+    -0.155
+   ],
+   "borderVsEdgeMeanMax": [
+    0.32,
+    3
+   ],
+   "darkFringePx": 500
+  },
+  "2": {
+   "navyRebuildMaxDiff": 0,
+   "zoomNavyRebuildMaxDiff": 0,
+   "transformEqualsAssetsJson": true,
+   "zoomTransformEqualsAssetsJson": true,
+   "shiftLightVsNavyPx": [
+    0,
+    0
+   ],
+   "interiorBitIdenticalFrac": 0.999907,
+   "zoomInteriorBitIdenticalFrac": 0.996683,
+   "alphaMaxAbsDiff": 1,
+   "alphaChangedPx": 22831,
+   "unitCoverageMaxDelta": 0.00022,
+   "zoomVsBaseShiftPx": [
+    0.073,
+    0.21
+   ],
+   "borderVsEdgeMeanMax": [
+    0.47,
+    3
+   ],
+   "darkFringePx": 6
+  },
+  "3": {
+   "navyRebuildMaxDiff": 0,
+   "zoomNavyRebuildMaxDiff": 0,
+   "transformEqualsAssetsJson": true,
+   "zoomTransformEqualsAssetsJson": true,
+   "shiftLightVsNavyPx": [
+    0,
+    0
+   ],
+   "interiorBitIdenticalFrac": 0.999999,
+   "zoomInteriorBitIdenticalFrac": 0.99988,
+   "alphaMaxAbsDiff": 0,
+   "alphaChangedPx": 0,
+   "unitCoverageMaxDelta": 0,
+   "zoomVsBaseShiftPx": [
+    -0.172,
+    0.306
+   ],
+   "borderVsEdgeMeanMax": [
+    0.42,
+    3
+   ],
+   "darkFringePx": 27
+  },
+  "ground": {
+   "navyRebuildMaxDiff": 0,
+   "zoomNavyRebuildMaxDiff": 0,
+   "transformEqualsAssetsJson": true,
+   "zoomTransformEqualsAssetsJson": true,
+   "shiftLightVsNavyPx": [
+    0,
+    0
+   ],
+   "interiorBitIdenticalFrac": 0.999967,
+   "zoomInteriorBitIdenticalFrac": 0.999524,
+   "alphaMaxAbsDiff": 1,
+   "alphaChangedPx": 22584,
+   "unitCoverageMaxDelta": 0.00008,
+   "zoomVsBaseShiftPx": [
+    0.224,
+    0.262
+   ],
+   "borderVsEdgeMeanMax": [
+    0.42,
+    3
+   ],
+   "darkFringePx": 20
+  },
+  "garden": {
+   "navyRebuildMaxDiff": 0,
+   "zoomNavyRebuildMaxDiff": 0,
+   "transformEqualsAssetsJson": true,
+   "zoomTransformEqualsAssetsJson": true,
+   "shiftLightVsNavyPx": [
+    0,
+    0
+   ],
+   "interiorBitIdenticalFrac": 0.999999,
+   "zoomInteriorBitIdenticalFrac": 0.999951,
+   "alphaMaxAbsDiff": 1,
+   "alphaChangedPx": 1851,
+   "unitCoverageMaxDelta": 0,
+   "zoomVsBaseShiftPx": [
+    -0.073,
+    -0.034
+   ],
+   "borderVsEdgeMeanMax": [
+    0.27,
+    2
+   ],
+   "darkFringePx": 15
+  }
+ },
+ "verifyNotes": "navyRebuildMaxDiff 0 = the navy stills rebuilt by light.py --mode navy equal the shipped public/showcase ones bit for bit, so the light stills share their exact canvas; shift = best integer shift (SSD, +-3 px) of a crop inside the model; interior = 8x8 JPEG blocks fully inside the opaque model; alphaChangedPx = only the outline clean-up (floors 2, ground, garden); darkFringePx = silhouette pixels darker than both sides (floor 1: the real dark frame lines of his glass balustrades)",
+ "matteNote": "img/floors-light/floor-<id>-matte.png (tools/demo-mattes.mjs): the model + its stage shadow as alpha (960 x 540, white): light == navy for the model, darker than the stage gradient for the shadow; dilated 6 px and feathered. The demo masks the still with it while the dollhouse tips out of the extracted storey (Demo.tip)."
+}

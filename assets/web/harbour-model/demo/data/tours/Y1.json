@@ -1,0 +1,180 @@
+{
+ "unit": "Y1",
+ "level": "basement",
+ "start": "main",
+ "northAt0": 124.4,
+ "eyeH": 1.6,
+ "_meta": {
+  "stage": "v22 apartment tour (owner 2026-11-03)",
+  "links": "doorways from the plan section (blender/tour/tour_links.py)"
+ },
+ "nodes": {
+  "main": {
+   "pano": "tours/Y1/main.jpg",
+   "panoLow": "tours/Y1/main-4096.jpg",
+   "centreAzDeg": 0,
+   "eye": [
+    8.61,
+    9.53
+   ],
+   "label": {
+    "he": "חלל המגורים והשינה",
+    "en": "Living & sleeping area"
+   },
+   "to": {
+    "he": "לחלל המגורים",
+    "en": "To the living area"
+   },
+   "rooms": [
+    "living",
+    "bedroom"
+   ],
+   "view": {
+    "yaw": 330.0,
+    "pitch": -10.0,
+    "hfov": 100
+   },
+   "links": [
+    {
+     "to": "kitchen",
+     "at": [
+      7.93,
+      11.31
+     ]
+    },
+    {
+     "to": "bedroom",
+     "at": [
+      9.97,
+      9.03
+     ]
+    },
+    {
+     "to": "bath",
+     "at": [
+      8.63,
+      8.68
+     ]
+    }
+   ]
+  },
+  "kitchen": {
+   "pano": "tours/Y1/kitchen.jpg",
+   "panoLow": "tours/Y1/kitchen-4096.jpg",
+   "centreAzDeg": 0,
+   "eye": [
+    8.21,
+    12.58
+   ],
+   "label": {
+    "he": "מטבח",
+    "en": "Kitchen"
+   },
+   "to": {
+    "he": "למטבח",
+    "en": "To the kitchen"
+   },
+   "rooms": [
+    "kitchen"
+   ],
+   "view": {
+    "yaw": 230.0,
+    "pitch": -10.0,
+    "hfov": 100
+   },
+   "links": [
+    {
+     "to": "main",
+     "at": [
+      8.17,
+      10.35
+     ]
+    }
+   ]
+  },
+  "bedroom": {
+   "pano": "tours/Y1/bedroom.jpg",
+   "panoLow": "tours/Y1/bedroom-4096.jpg",
+   "centreAzDeg": 0,
+   "eye": [
+    10.96,
+    8.88
+   ],
+   "label": {
+    "he": "חדר שינה",
+    "en": "Bedroom"
+   },
+   "to": {
+    "he": "לחדר השינה",
+    "en": "To the bedroom"
+   },
+   "rooms": [
+    "bedroom"
+   ],
+   "view": {
+    "yaw": 0.0,
+    "pitch": -10.0,
+    "hfov": 100
+   },
+   "links": [
+    {
+     "to": "main",
+     "at": [
+      9.55,
+      9.27
+     ]
+    }
+   ]
+  },
+  "bath": {
+   "pano": "tours/Y1/bath.jpg",
+   "panoLow": "tours/Y1/bath-4096.jpg",
+   "centreAzDeg": 0,
+   "eye": [
+    9.96,
+    7.63
+   ],
+   "label": {
+    "he": "חדר רחצה",
+    "en": "Bathroom"
+   },
+   "to": {
+    "he": "לחדר הרחצה",
+    "en": "To the bathroom"
+   },
+   "rooms": [
+    "bathroom",
+    "bath"
+   ],
+   "view": {
+    "yaw": 115.0,
+    "pitch": -15.0,
+    "hfov": 100
+   },
+   "links": [
+    {
+     "to": "main",
+     "at": [
+      8.41,
+      8.19
+     ]
+    }
+   ]
+  }
+ },
+ "map": {
+  "img": "tours/Y1/map.png",
+  "size": [
+   1027,
+   721
+  ],
+  "m": [
+   0.0,
+   120.0,
+   -717.3,
+   120.0,
+   0.0,
+   -768.9
+  ]
+ }
+}

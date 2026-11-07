@@ -1,0 +1,624 @@
+{
+ "_meta": {
+  "generatedBy": "tools/demo-sequences.mjs",
+  "generatedAt": "2026-11-02T14:52:32.258Z",
+  "paths": "relative to public/demo/ (served at demo/...)",
+  "rule": "extract.<view>:<storey> = THAT storey alone sliding out of the facade toward the camera; rev = the same clip reversed (the way back). An entry with contract \"push-doll\" (v11, the reel's technique) starts on the push-in END frame - img/<view>.jpg cropped at rect [x0,y0,x1,y1] (still px, 16:9; the page's 2D push on that storey ends there at a 16:9 viewport, pushCam/pushScale, scale = the push factor) - and ends on its dollhouse still `end` (img/doll/doll-<storey>.jpg, full 16:9 frame): the page plays it full-frame after its push and hands over to the dollhouse at that framing. An entry without a contract = the older one: frame 1 = img/<view>.jpg exactly, played over the pushed plate. status \"cut\" (no src) = the judge rejected every take: the page dissolves. null / absent = not rendered yet: the page extracts the storey in 2D from its own pixels (BuildingView.stageX). switch = parsed, not played (the view switch is a light dip). \"final\" entries are never replaced by tools/demo-sequences.mjs."
+ },
+ "extract": {
+  "front:3": {
+   "src": "clips/extract-front-3.mp4",
+   "rev": "clips/extract-front-3-rev.mp4",
+   "w": 2560,
+   "h": 1440,
+   "fps": 60,
+   "frames": 49,
+   "status": "final",
+   "contract": "push-doll",
+   "start": "img/front.jpg cropped at rect (the page's push-in end frame)",
+   "rect": [
+    1305.32,
+    608.18,
+    2488.68,
+    1273.82
+   ],
+   "scale": 3.245,
+   "viewport": [
+    1920,
+    1080
+   ],
+   "pushTo": "rect (cover-fit to the viewport): the clip's frame 1 is exactly this rect of the still; push to it whenever this clip plays",
+   "rectFrom": "authoritative: the clip was cut at this rect; the page pushes to it (BuildingView.rectCam) whatever pushCam says",
+   "bboxAtCut": null,
+   "end": "img/doll/doll-3.jpg",
+   "durMs": 817,
+   "ease": "0.25,0,0.25,1",
+   "grade": {
+    "k_g_warm": "24,1.7,0.25",
+    "ramp": "0.35,0.75",
+    "why": "the Kling input was cut from the ungraded front still; img/front.jpg is graded (demo_grade.py k=24 g=1.7 warm=0.25): the frames are graded the same way, fading out as the scene turns to the light stage"
+   },
+   "startSSIM": 0.9921,
+   "endSSIM": 0.9929,
+   "source": {
+    "model": "kling3_0 4k start+end, sound off",
+    "job": "698f5955-df9d-4866-a7cc-f45002f0ecc9",
+    "variant": "B 3s (clips stage pilot winner); fix: 0.85 s, wood-box melt raw 33-41 squashed x0.15 (new takes C1/C2 rejected: they pulled the roof-terrace level out)",
+    "rawFrames": 73,
+    "srcRange": [
+     4,
+     66
+    ],
+    "retime": {
+     "dur": 0.8,
+     "tailMad": 9,
+     "ease": "0.25,0,0.25,1",
+     "squash": "33,41,0.15",
+     "trim": 0.004,
+     "lockIn": 5,
+     "lockOut": 8
+    }
+   },
+   "postedBy": "v11 fix stage (h3d/v11/fix/py/fpost.py)",
+   "src720": "clips/extract-front-3-720.mp4",
+   "rev720": "clips/extract-front-3-720-rev.mp4",
+   "phone": "src720 / rev720: 1280x720 encodes for phones (coarse pointer, screen <= 1000 css px): about a third of the bytes",
+   "from": "C:/Users/info/AppData/Local/Temp/claude/C--Users-info-maoz-group-app/345cbcf1-36ea-4c12-b09c-5da24fa673ec/scratchpad/h3d/v11/fix/clips/final/extract-front-3-final.mp4",
+   "copiedAt": "2026-11-02T14:52:27.846Z"
+  },
+  "front:2": {
+   "src": "clips/extract-front-2.mp4",
+   "rev": "clips/extract-front-2-rev.mp4",
+   "w": 2560,
+   "h": 1440,
+   "fps": 60,
+   "frames": 49,
+   "status": "final",
+   "contract": "push-doll",
+   "start": "img/front.jpg cropped at rect (the page's push-in end frame)",
+   "rect": [
+    1305.82,
+    848.68,
+    2489.18,
+    1514.32
+   ],
+   "scale": 3.245,
+   "viewport": [
+    1920,
+    1080
+   ],
+   "pushTo": "rect (cover-fit to the viewport): the clip's frame 1 is exactly this rect of the still; push to it whenever this clip plays",
+   "rectFrom": "authoritative: the clip was cut at this rect; the page pushes to it (BuildingView.rectCam) whatever pushCam says",
+   "bboxAtCut": null,
+   "end": "img/doll/doll-2.jpg",
+   "durMs": 817,
+   "ease": "0.25,0,0.25,1",
+   "grade": {
+    "k_g_warm": "24,1.7,0.25",
+    "ramp": "0.35,0.75",
+    "why": "the Kling input was cut from the ungraded front still; img/front.jpg is graded (demo_grade.py k=24 g=1.7 warm=0.25): the frames are graded the same way, fading out as the scene turns to the light stage"
+   },
+   "startSSIM": 0.9924,
+   "endSSIM": 0.9935,
+   "source": {
+    "model": "kling3_0 4k start+end, sound off",
+    "job": "ea0613da-7a85-43d0-90c6-d12c96177666",
+    "variant": "B 3s; fix: 0.85 s",
+    "rawFrames": 73,
+    "srcRange": [
+     6,
+     66
+    ],
+    "retime": {
+     "dur": 0.8,
+     "tailMad": 9,
+     "ease": "0.25,0,0.25,1",
+     "squash": null,
+     "trim": 0.004,
+     "lockIn": 5,
+     "lockOut": 8
+    }
+   },
+   "postedBy": "v11 fix stage (h3d/v11/fix/py/fpost.py)",
+   "src720": "clips/extract-front-2-720.mp4",
+   "rev720": "clips/extract-front-2-720-rev.mp4",
+   "phone": "src720 / rev720: 1280x720 encodes for phones (coarse pointer, screen <= 1000 css px): about a third of the bytes",
+   "from": "C:/Users/info/AppData/Local/Temp/claude/C--Users-info-maoz-group-app/345cbcf1-36ea-4c12-b09c-5da24fa673ec/scratchpad/h3d/v11/fix/clips/final/extract-front-2-final.mp4",
+   "copiedAt": "2026-11-02T14:52:28.444Z"
+  },
+  "front:1": {
+   "src": "clips/extract-front-1.mp4",
+   "rev": "clips/extract-front-1-rev.mp4",
+   "w": 2560,
+   "h": 1440,
+   "fps": 60,
+   "frames": 49,
+   "status": "final",
+   "contract": "push-doll",
+   "start": "img/front.jpg cropped at rect (the page's push-in end frame)",
+   "rect": [
+    1268.41,
+    1051.42,
+    2525.59,
+    1758.58
+   ],
+   "scale": 3.0544,
+   "viewport": [
+    1920,
+    1080
+   ],
+   "pushTo": "rect (cover-fit to the viewport): the clip's frame 1 is exactly this rect of the still; push to it whenever this clip plays",
+   "rectFrom": "authoritative: the clip was cut at this rect; the page pushes to it (BuildingView.rectCam) whatever pushCam says",
+   "bboxAtCut": null,
+   "end": "img/doll/doll-1.jpg",
+   "durMs": 817,
+   "ease": "0.25,0,0.25,1",
+   "grade": {
+    "k_g_warm": "24,1.7,0.25",
+    "ramp": "0.35,0.75",
+    "why": "the Kling input was cut from the ungraded front still; img/front.jpg is graded (demo_grade.py k=24 g=1.7 warm=0.25): the frames are graded the same way, fading out as the scene turns to the light stage"
+   },
+   "startSSIM": 0.9919,
+   "endSSIM": 0.9936,
+   "source": {
+    "model": "kling3_0 4k start+end, sound off",
+    "job": "c6069737-0a69-4a75-b14d-8c50f5148c5e",
+    "variant": "B 3s; fix: 0.85 s, ghosting raw 17-30 squashed x0.3",
+    "rawFrames": 73,
+    "srcRange": [
+     6,
+     68
+    ],
+    "retime": {
+     "dur": 0.8,
+     "tailMad": 9,
+     "ease": "0.25,0,0.25,1",
+     "squash": "17,30,0.3",
+     "trim": 0.004,
+     "lockIn": 5,
+     "lockOut": 8
+    }
+   },
+   "postedBy": "v11 fix stage (h3d/v11/fix/py/fpost.py)",
+   "src720": "clips/extract-front-1-720.mp4",
+   "rev720": "clips/extract-front-1-720-rev.mp4",
+   "phone": "src720 / rev720: 1280x720 encodes for phones (coarse pointer, screen <= 1000 css px): about a third of the bytes",
+   "from": "C:/Users/info/AppData/Local/Temp/claude/C--Users-info-maoz-group-app/345cbcf1-36ea-4c12-b09c-5da24fa673ec/scratchpad/h3d/v11/fix/clips/final/extract-front-1-final.mp4",
+   "copiedAt": "2026-11-02T14:52:29.030Z"
+  },
+  "front:ground": {
+   "src": "clips/extract-front-ground.mp4",
+   "rev": "clips/extract-front-ground-rev.mp4",
+   "w": 2560,
+   "h": 1440,
+   "fps": 60,
+   "frames": 49,
+   "status": "final",
+   "contract": "push-doll",
+   "start": "img/front.jpg cropped at rect (the page's push-in end frame)",
+   "rect": [
+    1071.73,
+    1156.22,
+    2788.27,
+    2121.78
+   ],
+   "scale": 2.2371,
+   "viewport": [
+    1920,
+    1080
+   ],
+   "pushTo": "rect (cover-fit to the viewport): the clip's frame 1 is exactly this rect of the still; push to it whenever this clip plays",
+   "rectFrom": "authoritative: the clip was cut at this rect; the page pushes to it (BuildingView.rectCam) whatever pushCam says",
+   "bboxAtCut": null,
+   "end": "img/doll/doll-ground.jpg",
+   "durMs": 817,
+   "ease": "0.25,0,0.25,1",
+   "grade": {
+    "k_g_warm": "24,1.7,0.25",
+    "ramp": "0.35,0.75",
+    "why": "the Kling input was cut from the ungraded front still; img/front.jpg is graded (demo_grade.py k=24 g=1.7 warm=0.25): the frames are graded the same way, fading out as the scene turns to the light stage"
+   },
+   "startSSIM": 0.9897,
+   "endSSIM": 0.9932,
+   "source": {
+    "model": "kling3_0 4k start+end, sound off",
+    "job": "6b9aaca1-c37f-4559-afbe-c3d15a20767b",
+    "variant": "FG2 3s (retry 1); fix: 0.85 s",
+    "rawFrames": 73,
+    "srcRange": [
+     1,
+     65
+    ],
+    "retime": {
+     "dur": 0.8,
+     "tailMad": 9,
+     "ease": "0.25,0,0.25,1",
+     "squash": null,
+     "trim": 0.004,
+     "lockIn": 5,
+     "lockOut": 8
+    }
+   },
+   "postedBy": "v11 fix stage (h3d/v11/fix/py/fpost.py)",
+   "src720": "clips/extract-front-ground-720.mp4",
+   "rev720": "clips/extract-front-ground-720-rev.mp4",
+   "phone": "src720 / rev720: 1280x720 encodes for phones (coarse pointer, screen <= 1000 css px): about a third of the bytes",
+   "from": "C:/Users/info/AppData/Local/Temp/claude/C--Users-info-maoz-group-app/345cbcf1-36ea-4c12-b09c-5da24fa673ec/scratchpad/h3d/v11/fix/clips/final/extract-front-ground-final.mp4",
+   "copiedAt": "2026-11-02T14:52:29.469Z"
+  },
+  "front:garden": {
+   "src": "clips/extract-front-garden.mp4",
+   "rev": "clips/extract-front-garden-rev.mp4",
+   "w": 2560,
+   "h": 1440,
+   "fps": 60,
+   "frames": 49,
+   "status": "final",
+   "contract": "push-doll",
+   "start": "img/front.jpg cropped at rect (the page's push-in end frame)",
+   "rect": [
+    1149.32,
+    1459.18,
+    2332.68,
+    2124.82
+   ],
+   "scale": 3.245,
+   "viewport": [
+    1920,
+    1080
+   ],
+   "pushTo": "rect (cover-fit to the viewport): the clip's frame 1 is exactly this rect of the still; push to it whenever this clip plays",
+   "rectFrom": "authoritative: the clip was cut at this rect; the page pushes to it (BuildingView.rectCam) whatever pushCam says",
+   "bboxAtCut": [
+    1417,
+    1686,
+    2065,
+    1898
+   ],
+   "end": "img/doll/doll-garden.jpg",
+   "durMs": 817,
+   "ease": "0.25,0,0.25,1",
+   "grade": null,
+   "startSSIM": 0.9892,
+   "endSSIM": 0.9938,
+   "source": {
+    "model": "kling3_0 4k start+end, sound off",
+    "job": "1ba055cc-e3d8-46c1-83e2-1772e9f2efe9",
+    "variant": "G2 3s (fix stage: start = the page's push rect, inside the photo; rigid slab rises out of the ground; road-crack frames 10-20 squashed x0.25)",
+    "rawFrames": 73,
+    "srcRange": [
+     3,
+     69
+    ],
+    "retime": {
+     "dur": 0.8,
+     "tailMad": 9,
+     "ease": "0.25,0,0.25,1",
+     "squash": "10,20,0.25",
+     "trim": 0.004,
+     "lockIn": 5,
+     "lockOut": 8
+    }
+   },
+   "postedBy": "v11 fix stage (h3d/v11/fix/py/fpost.py)",
+   "src720": "clips/extract-front-garden-720.mp4",
+   "rev720": "clips/extract-front-garden-720-rev.mp4",
+   "phone": "src720 / rev720: 1280x720 encodes for phones (coarse pointer, screen <= 1000 css px): about a third of the bytes",
+   "from": "C:/Users/info/AppData/Local/Temp/claude/C--Users-info-maoz-group-app/345cbcf1-36ea-4c12-b09c-5da24fa673ec/scratchpad/h3d/v11/fix/clips/final/extract-front-garden-final.mp4",
+   "copiedAt": "2026-11-02T14:52:29.895Z"
+  },
+  "rear:3": {
+   "src": "clips/extract-rear-3.mp4",
+   "rev": "clips/extract-rear-3-rev.mp4",
+   "w": 2560,
+   "h": 1440,
+   "fps": 60,
+   "frames": 49,
+   "status": "final",
+   "contract": "push-doll",
+   "start": "img/rear.jpg cropped at rect (the page's push-in end frame)",
+   "rect": [
+    1083.52,
+    145.82,
+    2993.48,
+    1220.18
+   ],
+   "scale": 2.3446,
+   "viewport": [
+    1920,
+    1080
+   ],
+   "pushTo": "rect (cover-fit to the viewport): the clip's frame 1 is exactly this rect of the still; push to it whenever this clip plays",
+   "rectFrom": "authoritative: the clip was cut at this rect; the page pushes to it (BuildingView.rectCam) whatever pushCam says",
+   "bboxAtCut": null,
+   "end": "img/doll/doll-3-rear.jpg",
+   "durMs": 817,
+   "ease": "0.25,0,0.25,1",
+   "grade": null,
+   "startSSIM": 0.9847,
+   "endSSIM": 0.9939,
+   "source": {
+    "model": "kling3_0 4k start+end, sound off",
+    "job": "5d7f4b10-7f72-4f8c-96ae-1cebcdb9a33f",
+    "variant": "R5 3s (fix stage: lands on the REAR-yaw dollhouse doll-3-rear, no spin; parapet wobble raw 20-28 squashed x0.2)",
+    "rawFrames": 73,
+    "srcRange": [
+     0,
+     56
+    ],
+    "retime": {
+     "dur": 0.8,
+     "tailMad": 9,
+     "ease": "0.25,0,0.25,1",
+     "squash": "20,28,0.2",
+     "trim": 0.004,
+     "lockIn": 5,
+     "lockOut": 8
+    }
+   },
+   "postedBy": "v11 fix stage (h3d/v11/fix/py/fpost.py)",
+   "src720": "clips/extract-rear-3-720.mp4",
+   "rev720": "clips/extract-rear-3-720-rev.mp4",
+   "phone": "src720 / rev720: 1280x720 encodes for phones (coarse pointer, screen <= 1000 css px): about a third of the bytes",
+   "from": "C:/Users/info/AppData/Local/Temp/claude/C--Users-info-maoz-group-app/345cbcf1-36ea-4c12-b09c-5da24fa673ec/scratchpad/h3d/v11/fix/clips/final/extract-rear-3-final.mp4",
+   "copiedAt": "2026-11-02T14:52:30.442Z"
+  },
+  "rear:2": {
+   "src": "clips/extract-rear-2.mp4",
+   "rev": "clips/extract-rear-2-rev.mp4",
+   "w": 2560,
+   "h": 1440,
+   "fps": 60,
+   "frames": 49,
+   "status": "final",
+   "contract": "push-doll",
+   "start": "img/rear.jpg cropped at rect (the page's push-in end frame)",
+   "rect": [
+    1358.32,
+    610.08,
+    2776.68,
+    1407.92
+   ],
+   "scale": 3.055,
+   "viewport": [
+    1920,
+    1080
+   ],
+   "pushTo": "rect (cover-fit to the viewport): the clip's frame 1 is exactly this rect of the still; push to it whenever this clip plays",
+   "rectFrom": "authoritative: the clip was cut at this rect; the page pushes to it (BuildingView.rectCam) whatever pushCam says",
+   "bboxAtCut": [
+    1608,
+    833,
+    2527,
+    1185
+   ],
+   "end": "img/doll/doll-2-rear.jpg",
+   "durMs": 817,
+   "ease": "0.25,0,0.25,1",
+   "grade": null,
+   "startSSIM": 0.9873,
+   "endSSIM": 0.9936,
+   "source": {
+    "model": "kling3_0 4k start+end, sound off",
+    "job": "f630c772-dc0c-48f7-b741-e69afcea4a3b",
+    "variant": "R4b 3s (fix stage: lands on the REAR-yaw dollhouse doll-2-rear, no spin; bay-opening frames 19-29 squashed x0.2; R4a rejected: the facade crumbles)",
+    "rawFrames": 73,
+    "srcRange": [
+     5,
+     57
+    ],
+    "retime": {
+     "dur": 0.8,
+     "tailMad": 9,
+     "ease": "0.25,0,0.25,1",
+     "squash": "19,29,0.2",
+     "trim": 0.004,
+     "lockIn": 5,
+     "lockOut": 8
+    }
+   },
+   "postedBy": "v11 fix stage (h3d/v11/fix/py/fpost.py)",
+   "src720": "clips/extract-rear-2-720.mp4",
+   "rev720": "clips/extract-rear-2-720-rev.mp4",
+   "phone": "src720 / rev720: 1280x720 encodes for phones (coarse pointer, screen <= 1000 css px): about a third of the bytes",
+   "from": "C:/Users/info/AppData/Local/Temp/claude/C--Users-info-maoz-group-app/345cbcf1-36ea-4c12-b09c-5da24fa673ec/scratchpad/h3d/v11/fix/clips/final/extract-rear-2-final.mp4",
+   "copiedAt": "2026-11-02T14:52:30.854Z"
+  },
+  "rear:1": {
+   "src": "clips/extract-rear-1.mp4",
+   "rev": "clips/extract-rear-1-rev.mp4",
+   "w": 2560,
+   "h": 1440,
+   "fps": 60,
+   "frames": 49,
+   "status": "final",
+   "contract": "push-doll",
+   "start": "img/rear.jpg cropped at rect (the page's push-in end frame)",
+   "rect": [
+    793.58,
+    498.29,
+    3281.42,
+    1897.71
+   ],
+   "scale": 1.8,
+   "viewport": [
+    1920,
+    1080
+   ],
+   "pushTo": "rect (cover-fit to the viewport): the clip's frame 1 is exactly this rect of the still; push to it whenever this clip plays",
+   "rectFrom": "authoritative: the clip was cut at this rect; the page pushes to it (BuildingView.rectCam) whatever pushCam says",
+   "bboxAtCut": null,
+   "end": "img/doll/doll-1.jpg",
+   "durMs": 817,
+   "ease": "0.25,0,0.25,1",
+   "grade": null,
+   "startSSIM": 0.9835,
+   "endSSIM": 0.9931,
+   "source": {
+    "model": "kling3_0 4k start+end, sound off",
+    "job": "32ed2cd1-fef7-4bbe-a6a6-1105a9bf081f",
+    "variant": "R1 3s; fix: 0.85 s",
+    "rawFrames": 73,
+    "srcRange": [
+     4,
+     67
+    ],
+    "retime": {
+     "dur": 0.8,
+     "tailMad": 9,
+     "ease": "0.25,0,0.25,1",
+     "squash": null,
+     "trim": 0.004,
+     "lockIn": 5,
+     "lockOut": 8
+    }
+   },
+   "postedBy": "v11 fix stage (h3d/v11/fix/py/fpost.py)",
+   "src720": "clips/extract-rear-1-720.mp4",
+   "rev720": "clips/extract-rear-1-720-rev.mp4",
+   "phone": "src720 / rev720: 1280x720 encodes for phones (coarse pointer, screen <= 1000 css px): about a third of the bytes",
+   "from": "C:/Users/info/AppData/Local/Temp/claude/C--Users-info-maoz-group-app/345cbcf1-36ea-4c12-b09c-5da24fa673ec/scratchpad/h3d/v11/fix/clips/final/extract-rear-1-final.mp4",
+   "copiedAt": "2026-11-02T14:52:31.318Z"
+  },
+  "rear:ground": {
+   "src": "clips/extract-rear-ground.mp4",
+   "rev": "clips/extract-rear-ground-rev.mp4",
+   "w": 2560,
+   "h": 1440,
+   "fps": 60,
+   "frames": 49,
+   "status": "final",
+   "contract": "push-doll",
+   "start": "img/rear.jpg cropped at rect (the page's push-in end frame)",
+   "rect": [
+    1060.57,
+    983.19,
+    3143.43,
+    2154.8
+   ],
+   "scale": 2.15,
+   "viewport": [
+    1920,
+    1080
+   ],
+   "pushTo": "rect (cover-fit to the viewport): the clip's frame 1 is exactly this rect of the still; push to it whenever this clip plays",
+   "rectFrom": "authoritative: the clip was cut at this rect; the page pushes to it (BuildingView.rectCam) whatever pushCam says",
+   "bboxAtCut": null,
+   "end": "img/doll/doll-ground.jpg",
+   "durMs": 817,
+   "ease": "0.25,0,0.25,1",
+   "grade": null,
+   "startSSIM": 0.9834,
+   "endSSIM": 0.9931,
+   "source": {
+    "model": "kling3_0 4k start+end, sound off",
+    "job": "80ae048c-8c4a-4fe2-8241-bafe0750140b",
+    "variant": "RISE 3s; fix: 0.85 s, zoom-cropped inside the photo",
+    "rawFrames": 73,
+    "srcRange": [
+     3,
+     69
+    ],
+    "retime": {
+     "dur": 0.8,
+     "tailMad": 9,
+     "ease": "0.25,0,0.25,1",
+     "squash": null,
+     "trim": 0.004,
+     "lockIn": 5,
+     "lockOut": 8
+    }
+   },
+   "postedBy": "v11 fix stage (h3d/v11/fix/py/fpost.py)",
+   "rectBeforeZoomCrop": [
+    1024.12,
+    983.19,
+    3179.88,
+    2195.81
+   ],
+   "zoomCrop": {
+    "z0": 1.035,
+    "hold": 0.4,
+    "end": 0.75,
+    "why": "the old rect reached below the 4K still (the page's blurred ambient band; the clip's smeared pad): the clip is cropped toward its top until the scene has turned to the light stage, then eases out to the full frame, landing on the dollhouse still exactly"
+   },
+   "src720": "clips/extract-rear-ground-720.mp4",
+   "rev720": "clips/extract-rear-ground-720-rev.mp4",
+   "phone": "src720 / rev720: 1280x720 encodes for phones (coarse pointer, screen <= 1000 css px): about a third of the bytes",
+   "from": "C:/Users/info/AppData/Local/Temp/claude/C--Users-info-maoz-group-app/345cbcf1-36ea-4c12-b09c-5da24fa673ec/scratchpad/h3d/v11/fix/clips/final/extract-rear-ground-final.mp4",
+   "copiedAt": "2026-11-02T14:52:31.779Z"
+  },
+  "rear:garden": {
+   "src": "clips/extract-rear-garden.mp4",
+   "rev": "clips/extract-rear-garden-rev.mp4",
+   "w": 2560,
+   "h": 1440,
+   "fps": 60,
+   "frames": 49,
+   "status": "final",
+   "contract": "push-doll",
+   "start": "img/rear.jpg cropped at rect (the page's push-in end frame)",
+   "rect": [
+    1122.19,
+    1062.29,
+    3065.81,
+    2155.59
+   ],
+   "scale": 2.304,
+   "viewport": [
+    1920,
+    1080
+   ],
+   "pushTo": "rect (cover-fit to the viewport): the clip's frame 1 is exactly this rect of the still; push to it whenever this clip plays",
+   "rectFrom": "authoritative: the clip was cut at this rect; the page pushes to it (BuildingView.rectCam) whatever pushCam says",
+   "bboxAtCut": null,
+   "end": "img/doll/doll-garden.jpg",
+   "durMs": 817,
+   "ease": "0.25,0,0.25,1",
+   "grade": null,
+   "startSSIM": 0.9861,
+   "endSSIM": 0.9933,
+   "source": {
+    "model": "kling3_0 4k start+end, sound off",
+    "job": "6904d168-7993-4e68-8961-73e299d2d9e4",
+    "variant": "RGa3 3s (retry 2); fix: 0.85 s, zoom-cropped inside the photo",
+    "rawFrames": 73,
+    "srcRange": [
+     3,
+     68
+    ],
+    "retime": {
+     "dur": 0.8,
+     "tailMad": 9,
+     "ease": "0.25,0,0.25,1",
+     "squash": null,
+     "trim": 0.004,
+     "lockIn": 5,
+     "lockOut": 8
+    }
+   },
+   "postedBy": "v11 fix stage (h3d/v11/fix/py/fpost.py)",
+   "rectBeforeZoomCrop": [
+    850.08,
+    1062.29,
+    3337.92,
+    2461.71
+   ],
+   "zoomCrop": {
+    "z0": 1.28,
+    "hold": 0.45,
+    "end": 0.8,
+    "why": "the old rect reached below the 4K still (the page's blurred ambient band; the clip's smeared pad): the clip is cropped toward its top until the scene has turned to the light stage, then eases out to the full frame, landing on the dollhouse still exactly"
+   },
+   "src720": "clips/extract-rear-garden-720.mp4",
+   "rev720": "clips/extract-rear-garden-720-rev.mp4",
+   "phone": "src720 / rev720: 1280x720 encodes for phones (coarse pointer, screen <= 1000 css px): about a third of the bytes",
+   "from": "C:/Users/info/AppData/Local/Temp/claude/C--Users-info-maoz-group-app/345cbcf1-36ea-4c12-b09c-5da24fa673ec/scratchpad/h3d/v11/fix/clips/final/extract-rear-garden-final.mp4",
+   "copiedAt": "2026-11-02T14:52:32.258Z"
+  }
+ },
+ "switch": {
+  "front>rear": null,
+  "rear>front": null
+ }
+}

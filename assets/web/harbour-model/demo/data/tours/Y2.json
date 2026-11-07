@@ -1,0 +1,137 @@
+{
+ "unit": "Y2",
+ "level": "basement",
+ "start": "main",
+ "northAt0": 124.4,
+ "eyeH": 1.6,
+ "_meta": {
+  "stage": "v22 apartment tour (owner 2026-11-03)",
+  "links": "doorways from the plan section (blender/tour/tour_links.py)"
+ },
+ "nodes": {
+  "main": {
+   "pano": "tours/Y2/main.jpg",
+   "panoLow": "tours/Y2/main-4096.jpg",
+   "centreAzDeg": 0,
+   "eye": [
+    8.04,
+    1.53
+   ],
+   "label": {
+    "he": "חלל המגורים והשינה",
+    "en": "Living & sleeping area"
+   },
+   "to": {
+    "he": "לחלל המגורים",
+    "en": "To the living area"
+   },
+   "rooms": [
+    "living",
+    "bedroom"
+   ],
+   "view": {
+    "yaw": 270.0,
+    "pitch": -10.0,
+    "hfov": 100
+   },
+   "links": [
+    {
+     "to": "hall",
+     "at": [
+      9.14,
+      2.06
+     ]
+    }
+   ]
+  },
+  "hall": {
+   "pano": "tours/Y2/hall.jpg",
+   "panoLow": "tours/Y2/hall-4096.jpg",
+   "centreAzDeg": 0,
+   "eye": [
+    9.7,
+    4.9
+   ],
+   "label": {
+    "he": "מבואה",
+    "en": "Hallway"
+   },
+   "to": {
+    "he": "למבואה",
+    "en": "To the hallway"
+   },
+   "rooms": [],
+   "view": {
+    "yaw": 225.0,
+    "pitch": -10.0,
+    "hfov": 100
+   },
+   "links": [
+    {
+     "to": "main",
+     "at": [
+      9.14,
+      2.06
+     ]
+    },
+    {
+     "to": "bath",
+     "at": [
+      10.08,
+      4.44
+     ]
+    }
+   ]
+  },
+  "bath": {
+   "pano": "tours/Y2/bath.jpg",
+   "panoLow": "tours/Y2/bath-4096.jpg",
+   "centreAzDeg": 0,
+   "eye": [
+    10.79,
+    4.13
+   ],
+   "label": {
+    "he": "חדר רחצה",
+    "en": "Bathroom"
+   },
+   "to": {
+    "he": "לחדר הרחצה",
+    "en": "To the bathroom"
+   },
+   "rooms": [
+    "bathroom",
+    "bath"
+   ],
+   "view": {
+    "yaw": 25.0,
+    "pitch": -15.0,
+    "hfov": 100
+   },
+   "links": [
+    {
+     "to": "hall",
+     "at": [
+      10.08,
+      4.44
+     ]
+    }
+   ]
+  }
+ },
+ "map": {
+  "img": "tours/Y2/map.png",
+  "size": [
+   839,
+   761
+  ],
+  "m": [
+   0.0,
+   120.0,
+   20.7,
+   120.0,
+   0.0,
+   -706.5
+  ]
+ }
+}

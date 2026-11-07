@@ -1,0 +1,464 @@
+{
+ "_meta": {
+  "generatedBy": "h3d/v28/night (v28b: py/day2.py, fin.py, night2.py, ext2.py, pub2.py)",
+  "generatedAt": "2026-11-05T09:49:57Z",
+  "clean": "the DAY rest layer: the published still cleaned (most grime off the neighbours, 18 % of the original weathering kept) and refined by 3x3 overlapping 2x tiles of structure-locked gpt_image_2_5 xhigh edits, each registered back at 2x and area-scaled; OUR building = the original pixels (bit-identical); shown at rest over the original still, which stays the base every clip starts from (BuildingView.applyNight)",
+  "night": "the night rebuilt from the cleaned day: whole frame + a 2.6x building tile relit to the end of blue hour (dark desaturated sky, about a third of the neighbours' windows lit, lamp pools, no LED strips), registered onto the cleaned still, rearx = the rear night outside the x-ray zone, natural long-exposure grain",
+  "coords": "every picture has the published day still's exact geometry (cams.json masks, glow, hit polygons, tag and clip rects hold); ext / ext1920 the day canvas's (extGeo)",
+  "check": "check.* = fresh sign-free patch matches against the PUBLISHED day still (px at 3840: median / p90 / p99) + edge F-score (2 px)",
+  "fallback": "a missing entry or file = the original day / no night"
+ },
+ "front": {
+  "still": "img/night/front.jpg",
+  "still1920": "img/night/front-1920.jpg",
+  "w": 3840,
+  "h": 2160,
+  "ext": "img/night/ext/front-ext.jpg",
+  "ext1920": "img/night/ext/front-ext-1920.jpg",
+  "extGeo": {
+   "offset": [
+    848,
+    384
+   ],
+   "w": 5536,
+   "h": 2928
+  },
+  "bytes": [
+   2457302,
+   585635,
+   3641204,
+   942421
+  ],
+  "day": "img/front.jpg",
+  "check": {
+   "building": {
+    "matches": 2597,
+    "resid_med": 0.14263711869716644,
+    "resid_p90": 0.4590549170970917,
+    "resid_p99": 4.819136619567871,
+    "edge_recall": 0.9357386255612268,
+    "edge_precision": 0.9095245443959652,
+    "edge_iou_tol": 0.8771192203082502,
+    "edge_f": 0.9224453844239741,
+    "tol": 2
+   },
+   "frame": {
+    "matches": 14336,
+    "resid_med": 0.5792478322982788,
+    "resid_p90": 2.0532472133636475,
+    "resid_p99": 7.58379602432251,
+    "edge_recall": 0.8296613808680239,
+    "edge_precision": 0.8330337950085457,
+    "edge_iou_tol": 0.7705079308219502,
+    "edge_f": 0.8313441678354,
+    "tol": 2
+   },
+   "baseline_shift3_building": {
+    "matches": 2600,
+    "resid_med": 2.9663705825805664,
+    "resid_p90": 3.157050132751465,
+    "resid_p99": 4.379848003387451,
+    "edge_recall": 0.8439826257367243,
+    "edge_precision": 0.8189142985258674,
+    "edge_iou_tol": 0.78530800942821,
+    "edge_f": 0.8312595084385018,
+    "tol": 2
+   }
+  },
+  "registration": {
+   "whole": {
+    "similarity": {
+     "scale": 0.9999214925842995,
+     "rot_deg": 0.007259420107784746,
+     "tx": -0.4636672820723652,
+     "ty": -1.004042474172788,
+     "matches": 4875,
+     "inliers": 4702
+    },
+    "matches": 44918,
+    "kept": 41594,
+    "drift_before": {
+     "med": 1.0213379859924316,
+     "p90": 2.9735145568847656
+    },
+    "field_max": 3.287553310394287
+   },
+   "tile": {
+    "similarity": {
+     "scale": 1.000234317688155,
+     "rot_deg": -0.00042198558162551575,
+     "tx": -1.4588023726587285,
+     "ty": -0.8980315597303588,
+     "matches": 4720,
+     "inliers": 4622
+    },
+    "matches": 40495,
+    "kept": 38185,
+    "drift_before": {
+     "med": 1.261418342590332,
+     "p90": 3.128469228744507
+    },
+    "field_max": 4.9233198165893555,
+    "fine": {
+     "sigma": 32,
+     "matches": 81743,
+     "field2_max": 5.373010635375977
+    }
+   }
+  },
+  "sky": {
+   "sat": 149.85948181152344,
+   "val": 110.84516906738281
+  },
+  "clean": {
+   "still": "img/clean/front.jpg",
+   "still1920": "img/clean/front-1920.jpg",
+   "w": 3840,
+   "h": 2160,
+   "ext": "img/clean/ext/front-ext.jpg",
+   "ext1920": "img/clean/ext/front-ext-1920.jpg",
+   "extGeo": {
+    "offset": [
+     848,
+     384
+    ],
+    "w": 5536,
+    "h": 2928
+   },
+   "bytes": [
+    2399076,
+    624032,
+    3741428,
+    1072502
+   ],
+   "check": {
+    "frame": {
+     "matches": 19719,
+     "resid_med": 0.11986160278320312,
+     "resid_p90": 0.518957793712616,
+     "resid_p99": 1.9620267152786255,
+     "edge_recall": 0.9232885877810699,
+     "edge_precision": 0.9270014143040957,
+     "edge_iou_tol": 0.8803092765870097,
+     "edge_f": 0.925141275929013,
+     "tol": 2
+    },
+    "building": {
+     "matches": 2806,
+     "resid_med": 0.013137837871909142,
+     "resid_p90": 0.0824744924902916,
+     "resid_p99": 0.2295641154050827,
+     "edge_recall": 0.9972139754595843,
+     "edge_precision": 0.9985435565314467,
+     "edge_iou_tol": 0.9958044191515926,
+     "edge_f": 0.9978783231095941,
+     "tol": 2
+    },
+    "building_max_abs_diff": 0
+   },
+   "keep_original_weathering": 0.18
+  }
+ },
+ "rear": {
+  "still": "img/night/rear.jpg",
+  "still1920": "img/night/rear-1920.jpg",
+  "w": 3840,
+  "h": 2160,
+  "ext": "img/night/ext/rear-ext.jpg",
+  "ext1920": "img/night/ext/rear-ext-1920.jpg",
+  "extGeo": {
+   "offset": [
+    848,
+    384
+   ],
+   "w": 5536,
+   "h": 2928
+  },
+  "bytes": [
+   1993193,
+   446829,
+   3224156,
+   831575
+  ],
+  "day": "img/rear.jpg",
+  "check": {
+   "building": {
+    "matches": 3037,
+    "resid_med": 0.2252788543701172,
+    "resid_p90": 0.932452917098999,
+    "resid_p99": 4.947491645812988,
+    "edge_recall": 0.9145826210130416,
+    "edge_precision": 0.9030323756065636,
+    "edge_iou_tol": 0.8611046461216909,
+    "edge_f": 0.9087707996224573,
+    "tol": 2
+   },
+   "frame": {
+    "matches": 12029,
+    "resid_med": 0.4542884826660156,
+    "resid_p90": 2.01948881149292,
+    "resid_p99": 7.110531330108643,
+    "edge_recall": 0.7812873791052938,
+    "edge_precision": 0.8407096994323645,
+    "edge_iou_tol": 0.740143776459625,
+    "edge_f": 0.8099100625385762,
+    "tol": 2
+   },
+   "baseline_shift3_building": {
+    "matches": 3045,
+    "resid_med": 3.011021137237549,
+    "resid_p90": 3.4222300052642822,
+    "resid_p99": 5.672482967376709,
+    "edge_recall": 0.80100009768964,
+    "edge_precision": 0.792575097618002,
+    "edge_iou_tol": 0.7489705663743125,
+    "edge_f": 0.7967653267793695,
+    "tol": 2
+   }
+  },
+  "registration": {
+   "whole": {
+    "similarity": {
+     "scale": 1.0007426243441533,
+     "rot_deg": 0.016578806146709004,
+     "tx": -2.113786953932173,
+     "ty": -1.2607590667002717,
+     "matches": 3738,
+     "inliers": 3442
+    },
+    "matches": 36807,
+    "kept": 34183,
+    "drift_before": {
+     "med": 1.2401587963104248,
+     "p90": 3.2075765132904053
+    },
+    "field_max": 6.2163825035095215
+   },
+   "tile": {
+    "similarity": {
+     "scale": 1.000483511173038,
+     "rot_deg": 0.005638892720741236,
+     "tx": -1.2842086877267869,
+     "ty": -1.7197159215887305,
+     "matches": 4616,
+     "inliers": 4422
+    },
+    "matches": 38947,
+    "kept": 36987,
+    "drift_before": {
+     "med": 1.8032035827636719,
+     "p90": 4.136306285858154
+    },
+    "field_max": 6.096532821655273,
+    "fine": {
+     "sigma": 32,
+     "matches": 80805,
+     "field2_max": 7.353939056396484
+    }
+   }
+  },
+  "sky": {
+   "sat": 98.81448364257812,
+   "val": 66.5378646850586
+  },
+  "clean": {
+   "still": "img/clean/rear.jpg",
+   "still1920": "img/clean/rear-1920.jpg",
+   "w": 3840,
+   "h": 2160,
+   "ext": "img/clean/ext/rear-ext.jpg",
+   "ext1920": "img/clean/ext/rear-ext-1920.jpg",
+   "extGeo": {
+    "offset": [
+     848,
+     384
+    ],
+    "w": 5536,
+    "h": 2928
+   },
+   "bytes": [
+    2105649,
+    500535,
+    3532431,
+    967694
+   ],
+   "check": {
+    "frame": {
+     "matches": 14706,
+     "resid_med": 0.10725681483745575,
+     "resid_p90": 0.738756537437439,
+     "resid_p99": 3.084655523300171,
+     "edge_recall": 0.8167624385456995,
+     "edge_precision": 0.9386980833440839,
+     "edge_iou_tol": 0.8019370055305157,
+     "edge_f": 0.8734953888737181,
+     "tol": 2
+    },
+    "building": {
+     "matches": 3445,
+     "resid_med": 0.01280522532761097,
+     "resid_p90": 0.07208681851625443,
+     "resid_p99": 0.3069388270378113,
+     "edge_recall": 0.9989803643823573,
+     "edge_precision": 0.9991094737355747,
+     "edge_iou_tol": 0.9981023172343547,
+     "edge_f": 0.9990449148876758,
+     "tol": 2
+    },
+    "building_max_abs_diff": 0
+   },
+   "keep_original_weathering": 0.18
+  }
+ },
+ "rearx": {
+  "still": "img/night/rear-x.jpg",
+  "still1920": "img/night/rear-x-1920.jpg",
+  "w": 3840,
+  "h": 2160,
+  "ext": "img/night/ext/rear-x-ext.jpg",
+  "ext1920": "img/night/ext/rear-x-ext-1920.jpg",
+  "extGeo": {
+   "offset": [
+    848,
+    384
+   ],
+   "w": 5536,
+   "h": 2928
+  },
+  "bytes": [
+   1952562,
+   430136,
+   3178446,
+   811998
+  ],
+  "day": "img/rear-x.jpg",
+  "check": {
+   "building": {
+    "matches": 3407,
+    "resid_med": 0.22895818948745728,
+    "resid_p90": 1.0055692195892334,
+    "resid_p99": 4.119264602661133,
+    "edge_recall": 0.915214614788122,
+    "edge_precision": 0.8977479299835478,
+    "edge_iou_tol": 0.8566555215126898,
+    "edge_f": 0.9063971324572573,
+    "tol": 2
+   },
+   "frame": {
+    "matches": 11161,
+    "resid_med": 0.47745281457901,
+    "resid_p90": 1.9799957275390625,
+    "resid_p99": 6.795144081115723,
+    "edge_recall": 0.7666492129040912,
+    "edge_precision": 0.837222484021053,
+    "edge_iou_tol": 0.7268273631581126,
+    "edge_f": 0.8003831723333977,
+    "tol": 2
+   },
+   "baseline_shift3_building": {
+    "matches": 3366,
+    "resid_med": 2.9970107078552246,
+    "resid_p90": 3.4141039848327637,
+    "resid_p99": 5.340899467468262,
+    "edge_recall": 0.8081523970259544,
+    "edge_precision": 0.7936990931171449,
+    "edge_iou_tol": 0.7514162339285219,
+    "edge_f": 0.8008605399026667,
+    "tol": 2
+   }
+  },
+  "registration": {
+   "whole": {
+    "similarity": {
+     "scale": 1.000486388262773,
+     "rot_deg": -0.008422807274935882,
+     "tx": -1.876852211617721,
+     "ty": -0.6172016167578961,
+     "matches": 3221,
+     "inliers": 3004
+    },
+    "matches": 34761,
+    "kept": 32229,
+    "drift_before": {
+     "med": 1.105494499206543,
+     "p90": 3.253826379776001
+    },
+    "field_max": 4.953276634216309
+   },
+   "tile": {
+    "similarity": {
+     "scale": 1.0003671293197347,
+     "rot_deg": -0.018965257241912954,
+     "tx": -2.019843349383272,
+     "ty": -1.2706450557451006,
+     "matches": 3660,
+     "inliers": 3478
+    },
+    "matches": 34611,
+    "kept": 33298,
+    "drift_before": {
+     "med": 1.2618427276611328,
+     "p90": 3.3799362182617188
+    },
+    "field_max": 5.371673583984375,
+    "fine": {
+     "sigma": 32,
+     "matches": 70539,
+     "field2_max": 7.0141987800598145
+    }
+   }
+  },
+  "sky": {
+   "sat": 98.81448364257812,
+   "val": 66.5378646850586
+  },
+  "clean": {
+   "still": "img/clean/rear-x.jpg",
+   "still1920": "img/clean/rear-x-1920.jpg",
+   "w": 3840,
+   "h": 2160,
+   "ext": "img/clean/ext/rear-x-ext.jpg",
+   "ext1920": "img/clean/ext/rear-x-ext-1920.jpg",
+   "extGeo": {
+    "offset": [
+     848,
+     384
+    ],
+    "w": 5536,
+    "h": 2928
+   },
+   "bytes": [
+    1954961,
+    463254,
+    3381562,
+    928337
+   ],
+   "check": {
+    "frame": {
+     "matches": 13409,
+     "resid_med": 0.08472743630409241,
+     "resid_p90": 0.7167421579360962,
+     "resid_p99": 3.08683705329895,
+     "edge_recall": 0.7942781751446384,
+     "edge_precision": 0.9380182905243876,
+     "edge_iou_tol": 0.7812251279445788,
+     "edge_f": 0.8601846979607626,
+     "tol": 2
+    },
+    "building": {
+     "matches": 3858,
+     "resid_med": 0.011798568069934845,
+     "resid_p90": 0.06857194751501083,
+     "resid_p99": 0.3091541826725006,
+     "edge_recall": 0.9997092095059983,
+     "edge_precision": 0.9993859449624745,
+     "edge_iou_tol": 0.9990995123774572,
+     "edge_f": 0.9995475510974202,
+     "tol": 2
+    },
+    "building_max_abs_diff": 0
+   },
+   "keep_original_weathering": 0.18
+  }
+ }
+}

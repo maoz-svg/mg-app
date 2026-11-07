@@ -1,0 +1,2225 @@
+{
+ "_meta": {
+  "generated": "2026-10-31T12:05:35.254Z",
+  "liveState": {
+   "url": "https://maoz-harbour-admin-default-rtdb.europe-west1.firebasedatabase.app/harbour/state.json",
+   "rev": 4,
+   "at": 1793263999702,
+   "atIso": "2026-10-29T08:53:19.702Z",
+   "fetchedAt": "2026-10-31T12:01:20Z"
+  },
+  "bakedSoldList": [
+   "I1",
+   "I2",
+   "I3",
+   "I4",
+   "A1",
+   "A2",
+   "A3",
+   "A4",
+   "B1",
+   "B2",
+   "B3",
+   "B4",
+   "C2",
+   "C3"
+  ],
+  "sources": {
+   "harbourHtml": "C:/Users/info/maoz-group-app/assets/web/harbour.html (8,691,258 bytes, mtime 2026-10-28 22:09) - APTDATA, sold-gate-js, harbour-interior-js, harbour-floorrender-js, flp-js",
+   "adminJs": "C:/Users/info/maoz-group-app/assets/web/harbour-admin.js - UNITS, FLOORS, STATUSES avail|reserved|sold, applyStatus/applyPrice",
+   "architectPdf": "OneDrive .../שיווק/מפרטי דירות ותשריטים/KOUNTOURIOTOU 161, PIREAUS.pdf (6 pages A01-A06, 1683.8 x 1190.6 pt)"
+  },
+  "fieldNotes": {
+   "maxGuests": "APTDATA.beds is shown under \"מס׳ אורחים מקסימלי\" (Max. guests) - it is NOT a bedroom count",
+   "outdoor": "APTDATA.balcony is the one-decimal sum of the plan's BALCONY/GARDEN labels; parts[] keep the exact plan values and which facade each is on (x<300 pt street, x>1000 pt rear)",
+   "price": "live price from Firebase wins; APTDATA.p is the offline floor (identical to live at fetch time)",
+   "status": "live status wins; offline floor = sold-gate-js SOLD list (everything else avail). Values: avail | reserved | sold",
+   "type": "APTDATA.n minus the code. English in both languages (the page translator has no entries for type names)",
+   "position": "sheet coordinates of the architect PDF: street (KOUNTOURIOTOU STREET) on the left edge of every sheet; top/bottom are the side neighbours - no compass on the sheets (title block gives only 37°56'N · 23°38'E)"
+  },
+  "copiedBy": "tools/copy-media.mjs 2026-11-05T21:42:28.010Z from tools/inputs/units.src.json (= understand phase scratchpad h3d/data/units.json; its sources are listed above)",
+  "added": {
+   "levelId": "contract level id (basement, ground, first, second, third, roof); `level` keeps the data id (garden, ground, 1, 2, 3)",
+   "glbUnitNode": "unit floor patch node in public/models/harbour.glb (under interior_<levelId>)",
+   "fflM": "finished floor level, frame z metres",
+   "labelAnchorFrame": "deepest point of the unit footprint [x, y], frame metres (use z = fflM) - a safe spot for a 3D tag (tools/inputs/unit-anchors.json; C1-C4 reuse B1-B4)",
+   "facing": "which facade the unit opens to; bearingDeg (a list for Y3, which opens both ways) from site.json headingDeg",
+   "media": "public/data/media.json units.<code>"
+  },
+  "statusColors": {
+   "avail": "#4FA3E0",
+   "reserved": "#F0A83C",
+   "sold": "#E0605A"
+  },
+  "liveStatus": "GET/EventSource https://maoz-harbour-admin-default-rtdb.europe-west1.firebasedatabase.app/harbour/state.json (public read - never write); the status/price in this file are the offline fallback"
+ },
+ "units": [
+  {
+   "code": "Y1",
+   "level": "garden",
+   "levelIndex": 0,
+   "floorLetter": "Y",
+   "floorName": {
+    "he": "קומת גן",
+    "en": "Garden floor"
+   },
+   "floorPhrase": {
+    "he": "בקומת הגן",
+    "en": "on the garden floor"
+   },
+   "name": "Garden Classic Y1",
+   "type": "Garden Classic",
+   "interiorM2": 35.05,
+   "interiorM2Plan": 35.05,
+   "outdoor": {
+    "kind": "garden",
+    "m2App": 7,
+    "appText": "7.0 מ״ר",
+    "m2Plan": 7,
+    "parts": [
+     {
+      "label": "GARDEN Y1",
+      "m2": 7,
+      "facade": "rear",
+      "pdf": {
+       "page": 1,
+       "x": 1078.3,
+       "y": 770.4
+      }
+     }
+    ]
+   },
+   "maxGuests": 2,
+   "price": {
+    "eur": 162900,
+    "display": "€162,900",
+    "baked": 162900,
+    "live": 162900,
+    "perM2": 4648
+   },
+   "status": {
+    "value": "avail",
+    "baked": "avail",
+    "live": "avail",
+    "label": {
+     "he": "זמינה",
+     "en": "Available"
+    },
+    "tag": null
+   },
+   "goldenVisa": false,
+   "position": {
+    "facade": "rear",
+    "sheetHalf": "bottom",
+    "pdfLabel": {
+     "page": 1,
+     "x": 863,
+     "y": 710.4
+    },
+    "stack": "bottom-right/rear (garden floor differs: Y3 spans the top band)"
+   },
+   "calc": {
+    "pool": "5.42%",
+    "creditPerYear": 1100,
+    "costs": {
+     "closing": 10300,
+     "furniture": 5300,
+     "opex": 907,
+     "enfia": 88,
+     "insurance": 88
+    },
+    "adrByScenario": {
+     "cons": 110,
+     "real": 120,
+     "opt": 130
+    },
+    "longTermRental": null
+   },
+   "app": {
+    "typeImage": "B1",
+    "openCalculator": "selectApt('Y1')",
+    "gate": null,
+    "floorPlanKey": "garden",
+    "modelTab": false,
+    "interiorRenders": true,
+    "bookletRenders": true
+   },
+   "notes": [
+    "The outdoor area is a GARDEN (ground-level courtyard) on the plans; the app labels it \"מרפסת\"/balcony."
+   ],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 1 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "basement",
+   "glbUnitNode": "unit_Y1",
+   "fflM": -3.2,
+   "labelAnchorFrame": [
+    9.906,
+    9.242
+   ],
+   "facing": {
+    "side": "rear",
+    "bearingDeg": 124.4,
+    "he": "לחזית האחורית (דרום-מזרח, לכיוון המרינה)",
+    "en": "to the back (south-east, towards the marina)"
+   }
+  },
+  {
+   "code": "Y2",
+   "level": "garden",
+   "levelIndex": 0,
+   "floorLetter": "Y",
+   "floorName": {
+    "he": "קומת גן",
+    "en": "Garden floor"
+   },
+   "floorPhrase": {
+    "he": "בקומת הגן",
+    "en": "on the garden floor"
+   },
+   "name": "Studio Classic Y2",
+   "type": "Studio Classic",
+   "interiorM2": 28,
+   "interiorM2Plan": 28,
+   "outdoor": {
+    "kind": "garden",
+    "m2App": null,
+    "appText": "—",
+    "m2Plan": null,
+    "parts": []
+   },
+   "maxGuests": 2,
+   "price": {
+    "eur": 138000,
+    "display": "€138,000",
+    "baked": 138000,
+    "live": 138000,
+    "perM2": 4929
+   },
+   "status": {
+    "value": "avail",
+    "baked": "avail",
+    "live": "avail",
+    "label": {
+     "he": "זמינה",
+     "en": "Available"
+    },
+    "tag": null
+   },
+   "goldenVisa": false,
+   "position": {
+    "facade": "street",
+    "sheetHalf": "bottom",
+    "pdfLabel": {
+     "page": 1,
+     "x": 533.1,
+     "y": 784.8
+    },
+    "stack": "bottom-left/street (garden floor differs: Y3 spans the top band)"
+   },
+   "calc": {
+    "pool": "4.74%",
+    "creditPerYear": 950,
+    "costs": {
+     "closing": 8700,
+     "furniture": 4200,
+     "opex": 797,
+     "enfia": 70,
+     "insurance": 70
+    },
+    "adrByScenario": {
+     "cons": 95,
+     "real": 105,
+     "opt": 115
+    },
+    "longTermRental": null
+   },
+   "app": {
+    "typeImage": "B2",
+    "openCalculator": "selectApt('Y2')",
+    "gate": null,
+    "floorPlanKey": "garden",
+    "modelTab": false,
+    "interiorRenders": false,
+    "bookletRenders": false
+   },
+   "notes": [
+    "The outdoor area is a GARDEN (ground-level courtyard) on the plans; the app labels it \"מרפסת\"/balcony."
+   ],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 1 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "basement",
+   "glbUnitNode": "unit_Y2",
+   "fflM": -3.2,
+   "labelAnchorFrame": [
+    10.306,
+    1.758
+   ],
+   "facing": {
+    "side": "street",
+    "bearingDeg": 304.4,
+    "he": "לחזית הרחוב (צפון-מערב)",
+    "en": "to the street (north-west)"
+   }
+  },
+  {
+   "code": "Y3",
+   "level": "garden",
+   "levelIndex": 0,
+   "floorLetter": "Y",
+   "floorName": {
+    "he": "קומת גן",
+    "en": "Garden floor"
+   },
+   "floorPhrase": {
+    "he": "בקומת הגן",
+    "en": "on the garden floor"
+   },
+   "name": "Garden Comfort Y3",
+   "type": "Garden Comfort",
+   "interiorM2": 55.4,
+   "interiorM2Plan": 55.4,
+   "outdoor": {
+    "kind": "garden",
+    "m2App": 6.6,
+    "appText": "6.6 מ״ר",
+    "m2Plan": 6.6,
+    "parts": [
+     {
+      "label": "GARDEN Y3",
+      "m2": 6.6,
+      "facade": "rear",
+      "pdf": {
+       "page": 1,
+       "x": 1059.6,
+       "y": 279
+      }
+     }
+    ]
+   },
+   "maxGuests": 4,
+   "price": {
+    "eur": 250000,
+    "display": "€250,000",
+    "baked": 250000,
+    "live": 250000,
+    "perM2": 4513
+   },
+   "status": {
+    "value": "reserved",
+    "baked": "avail",
+    "live": "reserved",
+    "label": {
+     "he": "שמורה",
+     "en": "Reserved"
+    },
+    "tag": "RESERVED"
+   },
+   "goldenVisa": true,
+   "position": {
+    "facade": "street+rear",
+    "sheetHalf": "top",
+    "pdfLabel": {
+     "page": 1,
+     "x": 934.7,
+     "y": 461.4
+    },
+    "stack": "top-left/street (garden floor differs: Y3 spans the top band)"
+   },
+   "calc": {
+    "pool": "5.34%",
+    "creditPerYear": 1150,
+    "costs": {
+     "closing": 15700,
+     "furniture": 8400,
+     "opex": 1224,
+     "enfia": 139,
+     "insurance": 139
+    },
+    "adrByScenario": {
+     "cons": 115,
+     "real": 125,
+     "opt": 135
+    },
+    "longTermRental": {
+     "rent": [
+      800,
+      900,
+      1000
+     ],
+     "mgmt": 0.08,
+     "vat": 0.24,
+     "bump": 0.1,
+     "bumpFrom": 3
+    }
+   },
+   "app": {
+    "typeImage": "B3",
+    "openCalculator": "selectApt('Y3')",
+    "gate": "mzReservedGate('Y3')",
+    "floorPlanKey": "garden",
+    "modelTab": false,
+    "interiorRenders": true,
+    "bookletRenders": true
+   },
+   "notes": [
+    "The architect sheet A01 and the designed plan floors/plan-garden.png both print this unit as \"FLAT I2 55,40 m2\" - a drawing typo; the entrance arrow and the app call it Y3. Never show \"I2\" for it.",
+    "The outdoor area is a GARDEN (ground-level courtyard) on the plans; the app labels it \"מרפסת\"/balcony.",
+    "Spans the plan's top band: bedroom on the street facade, kitchen/living and GARDEN Y3 at the rear."
+   ],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 1 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "basement",
+   "glbUnitNode": "unit_Y3",
+   "fflM": -3.2,
+   "labelAnchorFrame": [
+    2.67,
+    8.842
+   ],
+   "facing": {
+    "side": "street+rear",
+    "bearingDeg": [
+     304.4,
+     124.4
+    ],
+    "he": "לרחוב (צפון-מערב) ולגן האחורי (דרום-מזרח)",
+    "en": "to the street (north-west) and the back garden (south-east)"
+   }
+  },
+  {
+   "code": "I1",
+   "level": "ground",
+   "levelIndex": 1,
+   "floorLetter": "I",
+   "floorName": {
+    "he": "קומת קרקע",
+    "en": "Ground floor"
+   },
+   "floorPhrase": {
+    "he": "בקומת הקרקע",
+    "en": "on the ground floor"
+   },
+   "name": "Classic Comfort I1",
+   "type": "Classic Comfort",
+   "interiorM2": 34.7,
+   "interiorM2Plan": 34.7,
+   "outdoor": {
+    "kind": "balcony",
+    "m2App": null,
+    "appText": "—",
+    "m2Plan": null,
+    "parts": []
+   },
+   "maxGuests": 2,
+   "price": {
+    "eur": 149000,
+    "display": "€149,000",
+    "baked": 149000,
+    "live": 149000,
+    "perM2": 4294
+   },
+   "status": {
+    "value": "sold",
+    "baked": "sold",
+    "live": "sold",
+    "label": {
+     "he": "נמכרה",
+     "en": "Sold"
+    },
+    "tag": "SOLD"
+   },
+   "goldenVisa": false,
+   "position": {
+    "facade": "rear",
+    "sheetHalf": "bottom",
+    "pdfLabel": {
+     "page": 2,
+     "x": 915,
+     "y": 708.2
+    },
+    "stack": "bottom-right/rear"
+   },
+   "calc": {
+    "pool": "4.97%",
+    "creditPerYear": 1000,
+    "costs": {
+     "closing": 9400,
+     "furniture": 5400,
+     "opex": 917,
+     "enfia": 89,
+     "insurance": 89
+    },
+    "adrByScenario": {
+     "cons": 100,
+     "real": 110,
+     "opt": 120
+    },
+    "longTermRental": null
+   },
+   "app": {
+    "typeImage": "B1",
+    "openCalculator": "selectApt('I1')",
+    "gate": "soldGate('I1')",
+    "floorPlanKey": "ground",
+    "modelTab": true,
+    "interiorRenders": false,
+    "bookletRenders": false
+   },
+   "notes": [],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 2 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "ground",
+   "glbUnitNode": "unit_I1",
+   "fflM": 0,
+   "labelAnchorFrame": [
+    9.889,
+    9.111
+   ],
+   "facing": {
+    "side": "rear",
+    "bearingDeg": 124.4,
+    "he": "לחזית האחורית (דרום-מזרח, לכיוון המרינה)",
+    "en": "to the back (south-east, towards the marina)"
+   }
+  },
+  {
+   "code": "I2",
+   "level": "ground",
+   "levelIndex": 1,
+   "floorLetter": "I",
+   "floorName": {
+    "he": "קומת קרקע",
+    "en": "Ground floor"
+   },
+   "floorPhrase": {
+    "he": "בקומת הקרקע",
+    "en": "on the ground floor"
+   },
+   "name": "Classic Studio I2",
+   "type": "Classic Studio",
+   "interiorM2": 27.25,
+   "interiorM2Plan": 27.25,
+   "outdoor": {
+    "kind": "balcony",
+    "m2App": null,
+    "appText": "—",
+    "m2Plan": null,
+    "parts": []
+   },
+   "maxGuests": 2,
+   "price": {
+    "eur": 138000,
+    "display": "€138,000",
+    "baked": 138000,
+    "live": 138000,
+    "perM2": 5064
+   },
+   "status": {
+    "value": "sold",
+    "baked": "sold",
+    "live": "sold",
+    "label": {
+     "he": "נמכרה",
+     "en": "Sold"
+    },
+    "tag": "SOLD"
+   },
+   "goldenVisa": false,
+   "position": {
+    "facade": "street",
+    "sheetHalf": "bottom",
+    "pdfLabel": {
+     "page": 2,
+     "x": 543.2,
+     "y": 781.8
+    },
+    "stack": "bottom-left/street"
+   },
+   "calc": {
+    "pool": "4.74%",
+    "creditPerYear": 950,
+    "costs": {
+     "closing": 8700,
+     "furniture": 4100,
+     "opex": 785,
+     "enfia": 68,
+     "insurance": 68
+    },
+    "adrByScenario": {
+     "cons": 95,
+     "real": 105,
+     "opt": 115
+    },
+    "longTermRental": null
+   },
+   "app": {
+    "typeImage": "B2",
+    "openCalculator": "selectApt('I2')",
+    "gate": "soldGate('I2')",
+    "floorPlanKey": "ground",
+    "modelTab": true,
+    "interiorRenders": false,
+    "bookletRenders": false
+   },
+   "notes": [],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 2 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "ground",
+   "glbUnitNode": "unit_I2",
+   "fflM": 0,
+   "labelAnchorFrame": [
+    10.351,
+    1.804
+   ],
+   "facing": {
+    "side": "street",
+    "bearingDeg": 304.4,
+    "he": "לחזית הרחוב (צפון-מערב)",
+    "en": "to the street (north-west)"
+   }
+  },
+  {
+   "code": "I3",
+   "level": "ground",
+   "levelIndex": 1,
+   "floorLetter": "I",
+   "floorName": {
+    "he": "קומת קרקע",
+    "en": "Ground floor"
+   },
+   "floorPhrase": {
+    "he": "בקומת הקרקע",
+    "en": "on the ground floor"
+   },
+   "name": "Classic Studio I3",
+   "type": "Classic Studio",
+   "interiorM2": 27.1,
+   "interiorM2Plan": 27.1,
+   "outdoor": {
+    "kind": "balcony",
+    "m2App": null,
+    "appText": "—",
+    "m2Plan": null,
+    "parts": []
+   },
+   "maxGuests": 2,
+   "price": {
+    "eur": 138000,
+    "display": "€138,000",
+    "baked": 138000,
+    "live": 138000,
+    "perM2": 5092
+   },
+   "status": {
+    "value": "sold",
+    "baked": "sold",
+    "live": "sold",
+    "label": {
+     "he": "נמכרה",
+     "en": "Sold"
+    },
+    "tag": "SOLD"
+   },
+   "goldenVisa": false,
+   "position": {
+    "facade": "street",
+    "sheetHalf": "top",
+    "pdfLabel": {
+     "page": 2,
+     "x": 644,
+     "y": 395.6
+    },
+    "stack": "top-left/street"
+   },
+   "calc": {
+    "pool": "4.74%",
+    "creditPerYear": 950,
+    "costs": {
+     "closing": 8700,
+     "furniture": 4100,
+     "opex": 783,
+     "enfia": 68,
+     "insurance": 68
+    },
+    "adrByScenario": {
+     "cons": 95,
+     "real": 105,
+     "opt": 115
+    },
+    "longTermRental": null
+   },
+   "app": {
+    "typeImage": "B3",
+    "openCalculator": "selectApt('I3')",
+    "gate": "soldGate('I3')",
+    "floorPlanKey": "ground",
+    "modelTab": true,
+    "interiorRenders": false,
+    "bookletRenders": false
+   },
+   "notes": [],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 2 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "ground",
+   "glbUnitNode": "unit_I3",
+   "fflM": 0,
+   "labelAnchorFrame": [
+    2.216,
+    3.206
+   ],
+   "facing": {
+    "side": "street",
+    "bearingDeg": 304.4,
+    "he": "לחזית הרחוב (צפון-מערב)",
+    "en": "to the street (north-west)"
+   }
+  },
+  {
+   "code": "I4",
+   "level": "ground",
+   "levelIndex": 1,
+   "floorLetter": "I",
+   "floorName": {
+    "he": "קומת קרקע",
+    "en": "Ground floor"
+   },
+   "floorPhrase": {
+    "he": "בקומת הקרקע",
+    "en": "on the ground floor"
+   },
+   "name": "Classic Comfort I4",
+   "type": "Classic Comfort",
+   "interiorM2": 31.75,
+   "interiorM2Plan": 31.75,
+   "outdoor": {
+    "kind": "balcony",
+    "m2App": 0.8,
+    "appText": "0.8 מ״ר",
+    "m2Plan": 0.82,
+    "parts": [
+     {
+      "label": "BALCONY I4",
+      "m2": 0.82,
+      "facade": "rear",
+      "pdf": {
+       "page": 2,
+       "x": 1055.5,
+       "y": 346.7
+      }
+     }
+    ]
+   },
+   "maxGuests": 2,
+   "price": {
+    "eur": 146000,
+    "display": "€146,000",
+    "baked": 146000,
+    "live": 146000,
+    "perM2": 4598
+   },
+   "status": {
+    "value": "sold",
+    "baked": "sold",
+    "live": "sold",
+    "label": {
+     "he": "נמכרה",
+     "en": "Sold"
+    },
+    "tag": "SOLD"
+   },
+   "goldenVisa": false,
+   "position": {
+    "facade": "rear",
+    "sheetHalf": "top",
+    "pdfLabel": {
+     "page": 2,
+     "x": 785.4,
+     "y": 462.4
+    },
+    "stack": "top-right/rear"
+   },
+   "calc": {
+    "pool": "4.97%",
+    "creditPerYear": 1000,
+    "costs": {
+     "closing": 9200,
+     "furniture": 4800,
+     "opex": 855,
+     "enfia": 79,
+     "insurance": 79
+    },
+    "adrByScenario": {
+     "cons": 100,
+     "real": 110,
+     "opt": 120
+    },
+    "longTermRental": null
+   },
+   "app": {
+    "typeImage": "B4",
+    "openCalculator": "selectApt('I4')",
+    "gate": "soldGate('I4')",
+    "floorPlanKey": "ground",
+    "modelTab": true,
+    "interiorRenders": false,
+    "bookletRenders": false
+   },
+   "notes": [
+    "Its \"balcony\" (BALCONY I4 0,82 m2) is the narrow railing strip of about 1.74 x 0.47 m in the X-crossed corner of the ground plan - not a usable terrace."
+   ],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 2 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "ground",
+   "glbUnitNode": "unit_I4",
+   "fflM": 0,
+   "labelAnchorFrame": [
+    2.324,
+    9.959
+   ],
+   "facing": {
+    "side": "rear",
+    "bearingDeg": 124.4,
+    "he": "לחזית האחורית (דרום-מזרח, לכיוון המרינה)",
+    "en": "to the back (south-east, towards the marina)"
+   }
+  },
+  {
+   "code": "A1",
+   "level": "1",
+   "levelIndex": 2,
+   "floorLetter": "A",
+   "floorName": {
+    "he": "קומה 1",
+    "en": "Floor 1"
+   },
+   "floorPhrase": {
+    "he": "בקומה הראשונה",
+    "en": "on the first floor"
+   },
+   "name": "Executive Studio A1",
+   "type": "Executive Studio",
+   "interiorM2": 26.9,
+   "interiorM2Plan": 26.9,
+   "outdoor": {
+    "kind": "balcony",
+    "m2App": 8.1,
+    "appText": "8.1 מ״ר",
+    "m2Plan": 8.06,
+    "parts": [
+     {
+      "label": "BALCONY A1",
+      "m2": 1.22,
+      "facade": "rear",
+      "pdf": {
+       "page": 3,
+       "x": 1051.8,
+       "y": 822.2
+      }
+     },
+     {
+      "label": "BALCONY A1",
+      "m2": 6.84,
+      "facade": "rear",
+      "pdf": {
+       "page": 3,
+       "x": 1075.6,
+       "y": 715.5
+      }
+     }
+    ]
+   },
+   "maxGuests": 2,
+   "price": {
+    "eur": 155000,
+    "display": "€155,000",
+    "baked": 155000,
+    "live": 155000,
+    "perM2": 5762
+   },
+   "status": {
+    "value": "sold",
+    "baked": "sold",
+    "live": "sold",
+    "label": {
+     "he": "נמכרה",
+     "en": "Sold"
+    },
+    "tag": "SOLD"
+   },
+   "goldenVisa": false,
+   "position": {
+    "facade": "rear",
+    "sheetHalf": "bottom",
+    "pdfLabel": {
+     "page": 3,
+     "x": 775.6,
+     "y": 783.9
+    },
+    "stack": "bottom-right/rear"
+   },
+   "calc": {
+    "pool": "5.42%",
+    "creditPerYear": 1100,
+    "costs": {
+     "closing": 9800,
+     "furniture": 4100,
+     "opex": 780,
+     "enfia": 67,
+     "insurance": 67
+    },
+    "adrByScenario": {
+     "cons": 110,
+     "real": 120,
+     "opt": 130
+    },
+    "longTermRental": null
+   },
+   "app": {
+    "typeImage": "B1",
+    "openCalculator": "selectApt('A1')",
+    "gate": "soldGate('A1')",
+    "floorPlanKey": "1",
+    "modelTab": true,
+    "interiorRenders": false,
+    "bookletRenders": false
+   },
+   "notes": [],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 3 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "first",
+   "glbUnitNode": "unit_A1",
+   "fflM": 3.2,
+   "labelAnchorFrame": [
+    10.68,
+    9.705
+   ],
+   "facing": {
+    "side": "rear",
+    "bearingDeg": 124.4,
+    "he": "לחזית האחורית (דרום-מזרח, לכיוון המרינה)",
+    "en": "to the back (south-east, towards the marina)"
+   }
+  },
+  {
+   "code": "A2",
+   "level": "1",
+   "levelIndex": 2,
+   "floorLetter": "A",
+   "floorName": {
+    "he": "קומה 1",
+    "en": "Floor 1"
+   },
+   "floorPhrase": {
+    "he": "בקומה הראשונה",
+    "en": "on the first floor"
+   },
+   "name": "Comfort Suite A2",
+   "type": "Comfort Suite",
+   "interiorM2": 28.3,
+   "interiorM2Plan": 28.3,
+   "outdoor": {
+    "kind": "balcony",
+    "m2App": 3.7,
+    "appText": "3.7 מ״ר",
+    "m2Plan": 3.69,
+    "parts": [
+     {
+      "label": "BALCONY A2",
+      "m2": 3.69,
+      "facade": "street",
+      "pdf": {
+       "page": 3,
+       "x": 236.4,
+       "y": 752.4
+      }
+     }
+    ]
+   },
+   "maxGuests": 2,
+   "price": {
+    "eur": 162000,
+    "display": "€162,000",
+    "baked": 162000,
+    "live": 162000,
+    "perM2": 5724
+   },
+   "status": {
+    "value": "sold",
+    "baked": "sold",
+    "live": "sold",
+    "label": {
+     "he": "נמכרה",
+     "en": "Sold"
+    },
+    "tag": "SOLD"
+   },
+   "goldenVisa": false,
+   "position": {
+    "facade": "street",
+    "sheetHalf": "bottom",
+    "pdfLabel": {
+     "page": 3,
+     "x": 512.7,
+     "y": 785.7
+    },
+    "stack": "bottom-left/street"
+   },
+   "calc": {
+    "pool": "5.64%",
+    "creditPerYear": 1150,
+    "costs": {
+     "closing": 10200,
+     "furniture": 4300,
+     "opex": 801,
+     "enfia": 71,
+     "insurance": 71
+    },
+    "adrByScenario": {
+     "cons": 115,
+     "real": 125,
+     "opt": 135
+    },
+    "longTermRental": null
+   },
+   "app": {
+    "typeImage": "B2",
+    "openCalculator": "selectApt('A2')",
+    "gate": "soldGate('A2')",
+    "floorPlanKey": "1",
+    "modelTab": true,
+    "interiorRenders": false,
+    "bookletRenders": false
+   },
+   "notes": [],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 3 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "first",
+   "glbUnitNode": "unit_A2",
+   "fflM": 3.2,
+   "labelAnchorFrame": [
+    10.67,
+    1.655
+   ],
+   "facing": {
+    "side": "street",
+    "bearingDeg": 304.4,
+    "he": "לחזית הרחוב (צפון-מערב)",
+    "en": "to the street (north-west)"
+   }
+  },
+  {
+   "code": "A3",
+   "level": "1",
+   "levelIndex": 2,
+   "floorLetter": "A",
+   "floorName": {
+    "he": "קומה 1",
+    "en": "Floor 1"
+   },
+   "floorPhrase": {
+    "he": "בקומה הראשונה",
+    "en": "on the first floor"
+   },
+   "name": "Comfort Suite A3",
+   "type": "Comfort Suite",
+   "interiorM2": 31.3,
+   "interiorM2Plan": 31.3,
+   "outdoor": {
+    "kind": "balcony",
+    "m2App": 5.2,
+    "appText": "5.2 מ״ר",
+    "m2Plan": 5.2,
+    "parts": [
+     {
+      "label": "BALCONY A3",
+      "m2": 5.2,
+      "facade": "street",
+      "pdf": {
+       "page": 3,
+       "x": 221.3,
+       "y": 447.5
+      }
+     }
+    ]
+   },
+   "maxGuests": 4,
+   "price": {
+    "eur": 170000,
+    "display": "€170,000",
+    "baked": 170000,
+    "live": 170000,
+    "perM2": 5431
+   },
+   "status": {
+    "value": "sold",
+    "baked": "sold",
+    "live": "sold",
+    "label": {
+     "he": "נמכרה",
+     "en": "Sold"
+    },
+    "tag": "SOLD"
+   },
+   "goldenVisa": false,
+   "position": {
+    "facade": "street",
+    "sheetHalf": "top",
+    "pdfLabel": {
+     "page": 3,
+     "x": 487.8,
+     "y": 514.8
+    },
+    "stack": "top-left/street"
+   },
+   "calc": {
+    "pool": "6.09%",
+    "creditPerYear": 1250,
+    "costs": {
+     "closing": 10700,
+     "furniture": 4700,
+     "opex": 848,
+     "enfia": 78,
+     "insurance": 78
+    },
+    "adrByScenario": {
+     "cons": 125,
+     "real": 135,
+     "opt": 145
+    },
+    "longTermRental": null
+   },
+   "app": {
+    "typeImage": "B3",
+    "openCalculator": "selectApt('A3')",
+    "gate": "soldGate('A3')",
+    "floorPlanKey": "1",
+    "modelTab": true,
+    "interiorRenders": false,
+    "bookletRenders": false
+   },
+   "notes": [],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 3 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "first",
+   "glbUnitNode": "unit_A3",
+   "fflM": 3.2,
+   "labelAnchorFrame": [
+    4.635,
+    3.355
+   ],
+   "facing": {
+    "side": "street",
+    "bearingDeg": 304.4,
+    "he": "לחזית הרחוב (צפון-מערב)",
+    "en": "to the street (north-west)"
+   }
+  },
+  {
+   "code": "A4",
+   "level": "1",
+   "levelIndex": 2,
+   "floorLetter": "A",
+   "floorName": {
+    "he": "קומה 1",
+    "en": "Floor 1"
+   },
+   "floorPhrase": {
+    "he": "בקומה הראשונה",
+    "en": "on the first floor"
+   },
+   "name": "Executive Studio A4",
+   "type": "Executive Studio",
+   "interiorM2": 28.7,
+   "interiorM2Plan": 28.7,
+   "outdoor": {
+    "kind": "balcony",
+    "m2App": 7.5,
+    "appText": "7.5 מ״ר",
+    "m2Plan": 7.51,
+    "parts": [
+     {
+      "label": "BALCONY A4",
+      "m2": 1.27,
+      "facade": "rear",
+      "pdf": {
+       "page": 3,
+       "x": 1029.7,
+       "y": 360.3
+      }
+     },
+     {
+      "label": "BALCONY A4",
+      "m2": 6.24,
+      "facade": "rear",
+      "pdf": {
+       "page": 3,
+       "x": 1063.7,
+       "y": 445.4
+      }
+     }
+    ]
+   },
+   "maxGuests": 2,
+   "price": {
+    "eur": 162000,
+    "display": "€162,000",
+    "baked": 162000,
+    "live": 162000,
+    "perM2": 5645
+   },
+   "status": {
+    "value": "sold",
+    "baked": "sold",
+    "live": "sold",
+    "label": {
+     "he": "נמכרה",
+     "en": "Sold"
+    },
+    "tag": "SOLD"
+   },
+   "goldenVisa": false,
+   "position": {
+    "facade": "rear",
+    "sheetHalf": "top",
+    "pdfLabel": {
+     "page": 3,
+     "x": 756.7,
+     "y": 367.3
+    },
+    "stack": "top-right/rear"
+   },
+   "calc": {
+    "pool": "5.42%",
+    "creditPerYear": 1100,
+    "costs": {
+     "closing": 10200,
+     "furniture": 4400,
+     "opex": 808,
+     "enfia": 72,
+     "insurance": 72
+    },
+    "adrByScenario": {
+     "cons": 110,
+     "real": 120,
+     "opt": 130
+    },
+    "longTermRental": null
+   },
+   "app": {
+    "typeImage": "B4",
+    "openCalculator": "selectApt('A4')",
+    "gate": "soldGate('A4')",
+    "floorPlanKey": "1",
+    "modelTab": true,
+    "interiorRenders": false,
+    "bookletRenders": false
+   },
+   "notes": [],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 3 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "first",
+   "glbUnitNode": "unit_A4",
+   "fflM": 3.2,
+   "labelAnchorFrame": [
+    1.86,
+    9.105
+   ],
+   "facing": {
+    "side": "rear",
+    "bearingDeg": 124.4,
+    "he": "לחזית האחורית (דרום-מזרח, לכיוון המרינה)",
+    "en": "to the back (south-east, towards the marina)"
+   }
+  },
+  {
+   "code": "B1",
+   "level": "2",
+   "levelIndex": 3,
+   "floorLetter": "B",
+   "floorName": {
+    "he": "קומה 2",
+    "en": "Floor 2"
+   },
+   "floorPhrase": {
+    "he": "בקומה השנייה",
+    "en": "on the second floor"
+   },
+   "name": "Classic Studio B1",
+   "type": "Classic Studio",
+   "interiorM2": 27.35,
+   "interiorM2Plan": 27.35,
+   "outdoor": {
+    "kind": "balcony",
+    "m2App": 2.6,
+    "appText": "2.6 מ״ר",
+    "m2Plan": 2.6,
+    "parts": [
+     {
+      "label": "BALCONY B1",
+      "m2": 1.28,
+      "facade": "rear",
+      "pdf": {
+       "page": 4,
+       "x": 1054.3,
+       "y": 817.7
+      }
+     },
+     {
+      "label": "BALCONY B1",
+      "m2": 1.32,
+      "facade": "rear",
+      "pdf": {
+       "page": 4,
+       "x": 1079.8,
+       "y": 688.3
+      }
+     }
+    ]
+   },
+   "maxGuests": 2,
+   "price": {
+    "eur": 159700,
+    "display": "€159,700",
+    "baked": 159700,
+    "live": 159700,
+    "perM2": 5839
+   },
+   "status": {
+    "value": "sold",
+    "baked": "sold",
+    "live": "sold",
+    "label": {
+     "he": "נמכרה",
+     "en": "Sold"
+    },
+    "tag": "SOLD"
+   },
+   "goldenVisa": false,
+   "position": {
+    "facade": "rear",
+    "sheetHalf": "bottom",
+    "pdfLabel": {
+     "page": 4,
+     "x": 855.4,
+     "y": 786.7
+    },
+    "stack": "bottom-right/rear"
+   },
+   "calc": {
+    "pool": "5.64%",
+    "creditPerYear": 1150,
+    "costs": {
+     "closing": 10100,
+     "furniture": 4200,
+     "opex": 787,
+     "enfia": 68,
+     "insurance": 68
+    },
+    "adrByScenario": {
+     "cons": 115,
+     "real": 125,
+     "opt": 135
+    },
+    "longTermRental": null
+   },
+   "app": {
+    "typeImage": "B1",
+    "openCalculator": "selectApt('B1')",
+    "gate": "soldGate('B1')",
+    "floorPlanKey": "2",
+    "modelTab": true,
+    "interiorRenders": false,
+    "bookletRenders": false
+   },
+   "notes": [],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 4 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "second",
+   "glbUnitNode": "unit_B1",
+   "fflM": 6.4,
+   "labelAnchorFrame": [
+    10.03,
+    8.79
+   ],
+   "facing": {
+    "side": "rear",
+    "bearingDeg": 124.4,
+    "he": "לחזית האחורית (דרום-מזרח, לכיוון המרינה)",
+    "en": "to the back (south-east, towards the marina)"
+   }
+  },
+  {
+   "code": "B2",
+   "level": "2",
+   "levelIndex": 3,
+   "floorLetter": "B",
+   "floorName": {
+    "he": "קומה 2",
+    "en": "Floor 2"
+   },
+   "floorPhrase": {
+    "he": "בקומה השנייה",
+    "en": "on the second floor"
+   },
+   "name": "Comfort Suite B2",
+   "type": "Comfort Suite",
+   "interiorM2": 28.3,
+   "interiorM2Plan": 28.3,
+   "outdoor": {
+    "kind": "balcony",
+    "m2App": 3.9,
+    "appText": "3.9 מ״ר",
+    "m2Plan": 3.87,
+    "parts": [
+     {
+      "label": "BALCONY B2",
+      "m2": 3.87,
+      "facade": "street",
+      "pdf": {
+       "page": 4,
+       "x": 237.9,
+       "y": 785.9
+      }
+     }
+    ]
+   },
+   "maxGuests": 2,
+   "price": {
+    "eur": 166900,
+    "display": "€166,900",
+    "baked": 166900,
+    "live": 166900,
+    "perM2": 5898
+   },
+   "status": {
+    "value": "sold",
+    "baked": "sold",
+    "live": "sold",
+    "label": {
+     "he": "נמכרה",
+     "en": "Sold"
+    },
+    "tag": "SOLD"
+   },
+   "goldenVisa": false,
+   "position": {
+    "facade": "street",
+    "sheetHalf": "bottom",
+    "pdfLabel": {
+     "page": 4,
+     "x": 517.3,
+     "y": 776.4
+    },
+    "stack": "bottom-left/street"
+   },
+   "calc": {
+    "pool": "5.87%",
+    "creditPerYear": 1200,
+    "costs": {
+     "closing": 10500,
+     "furniture": 4300,
+     "opex": 801,
+     "enfia": 71,
+     "insurance": 71
+    },
+    "adrByScenario": {
+     "cons": 120,
+     "real": 130,
+     "opt": 140
+    },
+    "longTermRental": null
+   },
+   "app": {
+    "typeImage": "B2",
+    "openCalculator": "selectApt('B2')",
+    "gate": "soldGate('B2')",
+    "floorPlanKey": "2",
+    "modelTab": true,
+    "interiorRenders": false,
+    "bookletRenders": false
+   },
+   "notes": [],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 4 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "second",
+   "glbUnitNode": "unit_B2",
+   "fflM": 6.4,
+   "labelAnchorFrame": [
+    10.523,
+    1.827
+   ],
+   "facing": {
+    "side": "street",
+    "bearingDeg": 304.4,
+    "he": "לחזית הרחוב (צפון-מערב)",
+    "en": "to the street (north-west)"
+   }
+  },
+  {
+   "code": "B3",
+   "level": "2",
+   "levelIndex": 3,
+   "floorLetter": "B",
+   "floorName": {
+    "he": "קומה 2",
+    "en": "Floor 2"
+   },
+   "floorPhrase": {
+    "he": "בקומה השנייה",
+    "en": "on the second floor"
+   },
+   "name": "Comfort Suite B3",
+   "type": "Comfort Suite",
+   "interiorM2": 30,
+   "interiorM2Plan": 30,
+   "outdoor": {
+    "kind": "balcony",
+    "m2App": 5.5,
+    "appText": "5.5 מ״ר",
+    "m2Plan": 5.53,
+    "parts": [
+     {
+      "label": "BALCONY B3",
+      "m2": 5.53,
+      "facade": "street",
+      "pdf": {
+       "page": 4,
+       "x": 220.7,
+       "y": 449.7
+      }
+     }
+    ]
+   },
+   "maxGuests": 4,
+   "price": {
+    "eur": 175100,
+    "display": "€175,100",
+    "baked": 175100,
+    "live": 175100,
+    "perM2": 5837
+   },
+   "status": {
+    "value": "sold",
+    "baked": "sold",
+    "live": "sold",
+    "label": {
+     "he": "נמכרה",
+     "en": "Sold"
+    },
+    "tag": "SOLD"
+   },
+   "goldenVisa": false,
+   "position": {
+    "facade": "street",
+    "sheetHalf": "top",
+    "pdfLabel": {
+     "page": 4,
+     "x": 487.9,
+     "y": 507.6
+    },
+    "stack": "top-left/street"
+   },
+   "calc": {
+    "pool": "6.32%",
+    "creditPerYear": 1300,
+    "costs": {
+     "closing": 11000,
+     "furniture": 4500,
+     "opex": 828,
+     "enfia": 75,
+     "insurance": 75
+    },
+    "adrByScenario": {
+     "cons": 130,
+     "real": 140,
+     "opt": 150
+    },
+    "longTermRental": null
+   },
+   "app": {
+    "typeImage": "B3",
+    "openCalculator": "selectApt('B3')",
+    "gate": "soldGate('B3')",
+    "floorPlanKey": "2",
+    "modelTab": true,
+    "interiorRenders": false,
+    "bookletRenders": false
+   },
+   "notes": [],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 4 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "second",
+   "glbUnitNode": "unit_B3",
+   "fflM": 6.4,
+   "labelAnchorFrame": [
+    3.803,
+    2.433
+   ],
+   "facing": {
+    "side": "street",
+    "bearingDeg": 304.4,
+    "he": "לחזית הרחוב (צפון-מערב)",
+    "en": "to the street (north-west)"
+   }
+  },
+  {
+   "code": "B4",
+   "level": "2",
+   "levelIndex": 3,
+   "floorLetter": "B",
+   "floorName": {
+    "he": "קומה 2",
+    "en": "Floor 2"
+   },
+   "floorPhrase": {
+    "he": "בקומה השנייה",
+    "en": "on the second floor"
+   },
+   "name": "Classic Studio B4",
+   "type": "Classic Studio",
+   "interiorM2": 29.05,
+   "interiorM2Plan": 29.05,
+   "outdoor": {
+    "kind": "balcony",
+    "m2App": 2.4,
+    "appText": "2.4 מ״ר",
+    "m2Plan": 2.4,
+    "parts": [
+     {
+      "label": "BALCONY B4",
+      "m2": 1.25,
+      "facade": "rear",
+      "pdf": {
+       "page": 4,
+       "x": 1065.3,
+       "y": 491.7
+      }
+     },
+     {
+      "label": "BALCONY B4",
+      "m2": 1.15,
+      "facade": "rear",
+      "pdf": {
+       "page": 4,
+       "x": 1028.1,
+       "y": 355.5
+      }
+     }
+    ]
+   },
+   "maxGuests": 2,
+   "price": {
+    "eur": 166900,
+    "display": "€166,900",
+    "baked": 166900,
+    "live": 166900,
+    "perM2": 5745
+   },
+   "status": {
+    "value": "sold",
+    "baked": "sold",
+    "live": "sold",
+    "label": {
+     "he": "נמכרה",
+     "en": "Sold"
+    },
+    "tag": "SOLD"
+   },
+   "goldenVisa": false,
+   "position": {
+    "facade": "rear",
+    "sheetHalf": "top",
+    "pdfLabel": {
+     "page": 4,
+     "x": 758.2,
+     "y": 390.1
+    },
+    "stack": "top-right/rear"
+   },
+   "calc": {
+    "pool": "5.64%",
+    "creditPerYear": 1150,
+    "costs": {
+     "closing": 10500,
+     "furniture": 4400,
+     "opex": 813,
+     "enfia": 73,
+     "insurance": 73
+    },
+    "adrByScenario": {
+     "cons": 115,
+     "real": 125,
+     "opt": 135
+    },
+    "longTermRental": null
+   },
+   "app": {
+    "typeImage": "B4",
+    "openCalculator": "selectApt('B4')",
+    "gate": "soldGate('B4')",
+    "floorPlanKey": "2",
+    "modelTab": true,
+    "interiorRenders": false,
+    "bookletRenders": false
+   },
+   "notes": [],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 4 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "second",
+   "glbUnitNode": "unit_B4",
+   "fflM": 6.4,
+   "labelAnchorFrame": [
+    2.668,
+    8.603
+   ],
+   "facing": {
+    "side": "rear",
+    "bearingDeg": 124.4,
+    "he": "לחזית האחורית (דרום-מזרח, לכיוון המרינה)",
+    "en": "to the back (south-east, towards the marina)"
+   }
+  },
+  {
+   "code": "C1",
+   "level": "3",
+   "levelIndex": 4,
+   "floorLetter": "C",
+   "floorName": {
+    "he": "קומה 3",
+    "en": "Floor 3"
+   },
+   "floorPhrase": {
+    "he": "בקומה השלישית",
+    "en": "on the third floor"
+   },
+   "name": "Classic Studio C1",
+   "type": "Classic Studio",
+   "interiorM2": 27.35,
+   "interiorM2Plan": 27.35,
+   "outdoor": {
+    "kind": "balcony",
+    "m2App": 2.6,
+    "appText": "2.6 מ״ר",
+    "m2Plan": 2.6,
+    "parts": [
+     {
+      "label": "BALCONY C1",
+      "m2": 1.28,
+      "facade": "rear",
+      "pdf": {
+       "page": 5,
+       "x": 1050.1,
+       "y": 817.1
+      }
+     },
+     {
+      "label": "BALCONY C1",
+      "m2": 1.32,
+      "facade": "rear",
+      "pdf": {
+       "page": 5,
+       "x": 1079.8,
+       "y": 688.3
+      }
+     }
+    ]
+   },
+   "maxGuests": 2,
+   "price": {
+    "eur": 164400,
+    "display": "€164,400",
+    "baked": 164400,
+    "live": 164400,
+    "perM2": 6011
+   },
+   "status": {
+    "value": "avail",
+    "baked": "avail",
+    "live": "avail",
+    "label": {
+     "he": "זמינה",
+     "en": "Available"
+    },
+    "tag": null
+   },
+   "goldenVisa": false,
+   "position": {
+    "facade": "rear",
+    "sheetHalf": "bottom",
+    "pdfLabel": {
+     "page": 5,
+     "x": 855.4,
+     "y": 786.7
+    },
+    "stack": "bottom-right/rear"
+   },
+   "calc": {
+    "pool": "5.87%",
+    "creditPerYear": 1200,
+    "costs": {
+     "closing": 10400,
+     "furniture": 4200,
+     "opex": 787,
+     "enfia": 68,
+     "insurance": 68
+    },
+    "adrByScenario": {
+     "cons": 120,
+     "real": 130,
+     "opt": 140
+    },
+    "longTermRental": null
+   },
+   "app": {
+    "typeImage": "B1",
+    "openCalculator": "selectApt('C1')",
+    "gate": null,
+    "floorPlanKey": "3",
+    "modelTab": false,
+    "interiorRenders": false,
+    "bookletRenders": false
+   },
+   "notes": [],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 5 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "third",
+   "glbUnitNode": "unit_C1",
+   "fflM": 9.6,
+   "labelAnchorFrame": [
+    10.03,
+    8.79
+   ],
+   "facing": {
+    "side": "rear",
+    "bearingDeg": 124.4,
+    "he": "לחזית האחורית (דרום-מזרח, לכיוון המרינה)",
+    "en": "to the back (south-east, towards the marina)"
+   }
+  },
+  {
+   "code": "C2",
+   "level": "3",
+   "levelIndex": 4,
+   "floorLetter": "C",
+   "floorName": {
+    "he": "קומה 3",
+    "en": "Floor 3"
+   },
+   "floorPhrase": {
+    "he": "בקומה השלישית",
+    "en": "on the third floor"
+   },
+   "name": "Comfort Suite C2",
+   "type": "Comfort Suite",
+   "interiorM2": 28.3,
+   "interiorM2Plan": 28.3,
+   "outdoor": {
+    "kind": "balcony",
+    "m2App": 3.9,
+    "appText": "3.9 מ״ר",
+    "m2Plan": 3.87,
+    "parts": [
+     {
+      "label": "BALCONY C2",
+      "m2": 3.87,
+      "facade": "street",
+      "pdf": {
+       "page": 5,
+       "x": 237.9,
+       "y": 785.9
+      }
+     }
+    ]
+   },
+   "maxGuests": 2,
+   "price": {
+    "eur": 171900,
+    "display": "€171,900",
+    "baked": 171900,
+    "live": 171900,
+    "perM2": 6074
+   },
+   "status": {
+    "value": "sold",
+    "baked": "sold",
+    "live": "sold",
+    "label": {
+     "he": "נמכרה",
+     "en": "Sold"
+    },
+    "tag": "SOLD"
+   },
+   "goldenVisa": false,
+   "position": {
+    "facade": "street",
+    "sheetHalf": "bottom",
+    "pdfLabel": {
+     "page": 5,
+     "x": 517.3,
+     "y": 775
+    },
+    "stack": "bottom-left/street"
+   },
+   "calc": {
+    "pool": "6.09%",
+    "creditPerYear": 1250,
+    "costs": {
+     "closing": 10800,
+     "furniture": 4300,
+     "opex": 801,
+     "enfia": 71,
+     "insurance": 71
+    },
+    "adrByScenario": {
+     "cons": 125,
+     "real": 135,
+     "opt": 145
+    },
+    "longTermRental": null
+   },
+   "app": {
+    "typeImage": "B2",
+    "openCalculator": "selectApt('C2')",
+    "gate": "soldGate('C2')",
+    "floorPlanKey": "3",
+    "modelTab": false,
+    "interiorRenders": false,
+    "bookletRenders": false
+   },
+   "notes": [],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 5 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "third",
+   "glbUnitNode": "unit_C2",
+   "fflM": 9.6,
+   "labelAnchorFrame": [
+    10.523,
+    1.827
+   ],
+   "facing": {
+    "side": "street",
+    "bearingDeg": 304.4,
+    "he": "לחזית הרחוב (צפון-מערב)",
+    "en": "to the street (north-west)"
+   }
+  },
+  {
+   "code": "C3",
+   "level": "3",
+   "levelIndex": 4,
+   "floorLetter": "C",
+   "floorName": {
+    "he": "קומה 3",
+    "en": "Floor 3"
+   },
+   "floorPhrase": {
+    "he": "בקומה השלישית",
+    "en": "on the third floor"
+   },
+   "name": "Comfort Suite C3",
+   "type": "Comfort Suite",
+   "interiorM2": 30,
+   "interiorM2Plan": 30,
+   "outdoor": {
+    "kind": "balcony",
+    "m2App": 5.5,
+    "appText": "5.5 מ״ר",
+    "m2Plan": 5.53,
+    "parts": [
+     {
+      "label": "BALCONY C3",
+      "m2": 5.53,
+      "facade": "street",
+      "pdf": {
+       "page": 5,
+       "x": 220.7,
+       "y": 449.7
+      }
+     }
+    ]
+   },
+   "maxGuests": 4,
+   "price": {
+    "eur": 180400,
+    "display": "€180,400",
+    "baked": 180400,
+    "live": 180400,
+    "perM2": 6013
+   },
+   "status": {
+    "value": "sold",
+    "baked": "sold",
+    "live": "sold",
+    "label": {
+     "he": "נמכרה",
+     "en": "Sold"
+    },
+    "tag": "SOLD"
+   },
+   "goldenVisa": false,
+   "position": {
+    "facade": "street",
+    "sheetHalf": "top",
+    "pdfLabel": {
+     "page": 5,
+     "x": 487.9,
+     "y": 507.6
+    },
+    "stack": "top-left/street"
+   },
+   "calc": {
+    "pool": "6.55%",
+    "creditPerYear": 1350,
+    "costs": {
+     "closing": 11400,
+     "furniture": 4500,
+     "opex": 828,
+     "enfia": 75,
+     "insurance": 75
+    },
+    "adrByScenario": {
+     "cons": 135,
+     "real": 145,
+     "opt": 155
+    },
+    "longTermRental": null
+   },
+   "app": {
+    "typeImage": "B3",
+    "openCalculator": "selectApt('C3')",
+    "gate": "soldGate('C3')",
+    "floorPlanKey": "3",
+    "modelTab": false,
+    "interiorRenders": false,
+    "bookletRenders": false
+   },
+   "notes": [],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 5 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "third",
+   "glbUnitNode": "unit_C3",
+   "fflM": 9.6,
+   "labelAnchorFrame": [
+    3.803,
+    2.433
+   ],
+   "facing": {
+    "side": "street",
+    "bearingDeg": 304.4,
+    "he": "לחזית הרחוב (צפון-מערב)",
+    "en": "to the street (north-west)"
+   }
+  },
+  {
+   "code": "C4",
+   "level": "3",
+   "levelIndex": 4,
+   "floorLetter": "C",
+   "floorName": {
+    "he": "קומה 3",
+    "en": "Floor 3"
+   },
+   "floorPhrase": {
+    "he": "בקומה השלישית",
+    "en": "on the third floor"
+   },
+   "name": "Classic Studio C4",
+   "type": "Classic Studio",
+   "interiorM2": 29.05,
+   "interiorM2Plan": 29.05,
+   "outdoor": {
+    "kind": "balcony",
+    "m2App": 2.4,
+    "appText": "2.4 מ״ר",
+    "m2Plan": 2.4,
+    "parts": [
+     {
+      "label": "BALCONY C4",
+      "m2": 1.25,
+      "facade": "rear",
+      "pdf": {
+       "page": 5,
+       "x": 1065.3,
+       "y": 491.7
+      }
+     },
+     {
+      "label": "BALCONY C4",
+      "m2": 1.15,
+      "facade": "rear",
+      "pdf": {
+       "page": 5,
+       "x": 1028.1,
+       "y": 355.5
+      }
+     }
+    ]
+   },
+   "maxGuests": 2,
+   "price": {
+    "eur": 171900,
+    "display": "€171,900",
+    "baked": 171900,
+    "live": 171900,
+    "perM2": 5917
+   },
+   "status": {
+    "value": "avail",
+    "baked": "avail",
+    "live": "avail",
+    "label": {
+     "he": "זמינה",
+     "en": "Available"
+    },
+    "tag": null
+   },
+   "goldenVisa": false,
+   "position": {
+    "facade": "rear",
+    "sheetHalf": "top",
+    "pdfLabel": {
+     "page": 5,
+     "x": 758.2,
+     "y": 389.1
+    },
+    "stack": "top-right/rear"
+   },
+   "calc": {
+    "pool": "5.87%",
+    "creditPerYear": 1200,
+    "costs": {
+     "closing": 10800,
+     "furniture": 4400,
+     "opex": 813,
+     "enfia": 73,
+     "insurance": 73
+    },
+    "adrByScenario": {
+     "cons": 120,
+     "real": 130,
+     "opt": 140
+    },
+    "longTermRental": null
+   },
+   "app": {
+    "typeImage": "B4",
+    "openCalculator": "selectApt('C4')",
+    "gate": null,
+    "floorPlanKey": "3",
+    "modelTab": false,
+    "interiorRenders": false,
+    "bookletRenders": false
+   },
+   "notes": [],
+   "sources": {
+    "name_type_m2_guests_balconyText_calc": "assets/web/harbour.html window.APTDATA (the inline script that also defines window.selectApt)",
+    "interiorM2Plan_outdoorParts": "architect PDF \"KOUNTOURIOTOU 161, PIREAUS.pdf\" page 5 text labels (PyMuPDF), PDF points, y down; street (KOUNTOURIOTOU STREET text) is on the sheet's left edge",
+    "price_status": "live Firebase /harbour/state rev 4; baked fallback = APTDATA.p and sold-gate-js SOLD list",
+    "goldenVisa": "harbour.html: .apt-unit.apt-gold + \"GOLDEN VISA\" label only on Y3; harbour-admin.js GV_MIN 250000 warns below €250,000",
+    "position": "facade/sheetHalf from the FLAT label position relative to the COMMON label on the architect sheet; read against floors/plan-*.png"
+   },
+   "levelId": "third",
+   "glbUnitNode": "unit_C4",
+   "fflM": 9.6,
+   "labelAnchorFrame": [
+    2.668,
+    8.603
+   ],
+   "facing": {
+    "side": "rear",
+    "bearingDeg": 124.4,
+    "he": "לחזית האחורית (דרום-מזרח, לכיוון המרינה)",
+    "en": "to the back (south-east, towards the marina)"
+   }
+  }
+ ]
+}

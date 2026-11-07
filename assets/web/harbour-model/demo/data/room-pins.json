@@ -1,0 +1,1175 @@
+{
+ "version": 2,
+ "generatedBy": "tools/room-pins.py",
+ "note": "units.<CODE>: z = its finished floor (m, building frame), order = its spaces in order, rooms.<slug> = the pin [x, y] (m), lines.<slug> = the indices of its dimension lines in doll2-dims.json. labels.<slug> = the name. Every pin shows on the zoomed apartment; one with a still in data/rooms.json opens it, one without lights up its room dimensions.",
+ "labels": {
+  "sleeping": {
+   "he": "חלל שינה",
+   "en": "Sleeping area"
+  },
+  "living": {
+   "he": "סלון",
+   "en": "Living room"
+  },
+  "bedroom": {
+   "he": "חדר שינה",
+   "en": "Bedroom"
+  },
+  "kitchen": {
+   "he": "מטבח",
+   "en": "Kitchen"
+  },
+  "bath": {
+   "he": "חדר רחצה",
+   "en": "Bathroom"
+  },
+  "bath1": {
+   "he": "חדר רחצה 1",
+   "en": "Bathroom 1"
+  },
+  "bath2": {
+   "he": "חדר רחצה 2",
+   "en": "Bathroom 2"
+  },
+  "balcony": {
+   "he": "מרפסת",
+   "en": "Balcony"
+  },
+  "balconies": {
+   "he": "מרפסות",
+   "en": "Balconies"
+  },
+  "garden": {
+   "he": "מרפסת גן",
+   "en": "Garden terrace"
+  }
+ },
+ "units": {
+  "A1": {
+   "z": 3.2,
+   "order": [
+    "kitchen",
+    "sleeping",
+    "bath",
+    "balconies"
+   ],
+   "rooms": {
+    "kitchen": [
+     8.235,
+     10.78
+    ],
+    "sleeping": [
+     9.739,
+     9.663
+    ],
+    "bath": [
+     11.112,
+     7.413
+    ],
+    "balconies": [
+     7.492,
+     13.033
+    ]
+   },
+   "lines": {
+    "kitchen": [
+     4,
+     5,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17
+    ],
+    "sleeping": [
+     4,
+     5,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17
+    ],
+    "bath": [
+     6,
+     7
+    ],
+    "balconies": [
+     0,
+     1
+    ]
+   },
+   "from": "model-input"
+  },
+  "A2": {
+   "z": 3.2,
+   "order": [
+    "kitchen",
+    "sleeping",
+    "bath",
+    "balcony"
+   ],
+   "rooms": {
+    "kitchen": [
+     11.154,
+     1.884
+    ],
+    "sleeping": [
+     8.654,
+     1.389
+    ],
+    "bath": [
+     11.192,
+     4.453
+    ],
+    "balcony": [
+     9.593,
+     -0.547
+    ]
+   },
+   "lines": {
+    "kitchen": [
+     3,
+     4,
+     5,
+     6,
+     7,
+     10,
+     11,
+     12,
+     13,
+     14
+    ],
+    "sleeping": [
+     3,
+     4,
+     5,
+     6,
+     7,
+     10,
+     11,
+     12,
+     13,
+     14
+    ],
+    "bath": [
+     8,
+     9
+    ],
+    "balcony": [
+     2
+    ]
+   },
+   "from": "model-input"
+  },
+  "A3": {
+   "z": 3.2,
+   "order": [
+    "kitchen",
+    "living",
+    "bedroom",
+    "bath",
+    "balcony"
+   ],
+   "rooms": {
+    "kitchen": [
+     5.101,
+     3.245
+    ],
+    "living": [
+     4.632,
+     3.333
+    ],
+    "bedroom": [
+     1.592,
+     1.433
+    ],
+    "bath": [
+     1.253,
+     3.753
+    ],
+    "balcony": [
+     1.213,
+     -0.687
+    ]
+   },
+   "lines": {
+    "kitchen": [
+     2,
+     3,
+     6,
+     7,
+     8,
+     11,
+     12,
+     15
+    ],
+    "living": [
+     2,
+     3,
+     6,
+     7,
+     8,
+     11,
+     12,
+     15
+    ],
+    "bedroom": [
+     0,
+     1,
+     4,
+     5
+    ],
+    "bath": [
+     9,
+     10
+    ]
+   },
+   "from": "model-input"
+  },
+  "A4": {
+   "z": 3.2,
+   "order": [
+    "kitchen",
+    "sleeping",
+    "bath",
+    "balconies"
+   ],
+   "rooms": {
+    "kitchen": [
+     4.457,
+     10.844
+    ],
+    "sleeping": [
+     2.915,
+     9.216
+    ],
+    "bath": [
+     2.292,
+     5.693
+    ],
+    "balconies": [
+     4.892,
+     12.973
+    ]
+   },
+   "lines": {
+    "kitchen": [
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     12,
+     13,
+     14,
+     15,
+     16
+    ],
+    "sleeping": [
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     12,
+     13,
+     14,
+     15,
+     16
+    ],
+    "bath": [
+     0,
+     1
+    ],
+    "balconies": [
+     10,
+     11
+    ]
+   },
+   "from": "model-input"
+  },
+  "B1": {
+   "z": 6.4,
+   "order": [
+    "kitchen",
+    "sleeping",
+    "bath",
+    "balconies"
+   ],
+   "rooms": {
+    "kitchen": [
+     8.269,
+     10.773
+    ],
+    "sleeping": [
+     9.902,
+     9.582
+    ],
+    "bath": [
+     11.168,
+     7.488
+    ],
+    "balconies": [
+     7.428,
+     12.148
+    ]
+   },
+   "lines": {
+    "kitchen": [
+     0,
+     4,
+     5,
+     6,
+     7,
+     8,
+     13,
+     14,
+     15,
+     16
+    ],
+    "sleeping": [
+     0,
+     4,
+     5,
+     6,
+     7,
+     8,
+     13,
+     14,
+     15,
+     16
+    ],
+    "bath": [
+     1,
+     2
+    ]
+   },
+   "from": "model-input"
+  },
+  "B2": {
+   "z": 6.4,
+   "order": [
+    "kitchen",
+    "sleeping",
+    "bath",
+    "balcony"
+   ],
+   "rooms": {
+    "kitchen": [
+     11.175,
+     1.912
+    ],
+    "sleeping": [
+     8.654,
+     1.389
+    ],
+    "bath": [
+     11.088,
+     4.508
+    ],
+    "balcony": [
+     9.488,
+     -0.572
+    ]
+   },
+   "lines": {
+    "kitchen": [
+     3,
+     4,
+     5,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14
+    ],
+    "sleeping": [
+     3,
+     4,
+     5,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14
+    ],
+    "bath": [
+     6,
+     7
+    ],
+    "balcony": [
+     2
+    ]
+   },
+   "from": "model-input"
+  },
+  "B3": {
+   "z": 6.4,
+   "order": [
+    "kitchen",
+    "living",
+    "bedroom",
+    "bath",
+    "balcony"
+   ],
+   "rooms": {
+    "kitchen": [
+     5.083,
+     3.179
+    ],
+    "living": [
+     4.648,
+     3.208
+    ],
+    "bedroom": [
+     1.547,
+     1.448
+    ],
+    "bath": [
+     1.248,
+     3.728
+    ],
+    "balcony": [
+     1.168,
+     -0.692
+    ]
+   },
+   "lines": {
+    "kitchen": [
+     0,
+     1,
+     7,
+     9,
+     10,
+     11,
+     12
+    ],
+    "living": [
+     0,
+     1,
+     7,
+     9,
+     10,
+     11,
+     12
+    ],
+    "bedroom": [
+     2,
+     3,
+     4,
+     5
+    ],
+    "bath": [
+     6,
+     8
+    ]
+   },
+   "from": "model-input"
+  },
+  "B4": {
+   "z": 6.4,
+   "order": [
+    "kitchen",
+    "sleeping",
+    "bath",
+    "balconies"
+   ],
+   "rooms": {
+    "kitchen": [
+     4.389,
+     10.796
+    ],
+    "sleeping": [
+     2.941,
+     9.252
+    ],
+    "bath": [
+     2.047,
+     5.668
+    ],
+    "balconies": [
+     3.888,
+     12.108
+    ]
+   },
+   "lines": {
+    "kitchen": [
+     4,
+     5,
+     6,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "sleeping": [
+     4,
+     5,
+     6,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "bath": [
+     7,
+     8
+    ]
+   },
+   "from": "model-input"
+  },
+  "C1": {
+   "z": 9.62,
+   "order": [
+    "kitchen",
+    "balconies",
+    "sleeping",
+    "bath"
+   ],
+   "rooms": {
+    "kitchen": [
+     8.6,
+     9.55
+    ],
+    "balconies": [
+     9.3,
+     11.95
+    ],
+    "sleeping": [
+     11.0,
+     9.6
+    ],
+    "bath": [
+     11.2,
+     6.9
+    ]
+   },
+   "lines": {
+    "kitchen": [
+     0,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     14,
+     15
+    ],
+    "sleeping": [
+     0,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     14,
+     15
+    ],
+    "bath": [
+     1,
+     2,
+     3
+    ]
+   },
+   "from": "cine.json"
+  },
+  "C2": {
+   "z": 9.6,
+   "order": [
+    "kitchen",
+    "sleeping",
+    "bath",
+    "balcony"
+   ],
+   "rooms": {
+    "kitchen": [
+     11.175,
+     1.912
+    ],
+    "sleeping": [
+     8.654,
+     1.389
+    ],
+    "bath": [
+     11.102,
+     4.505
+    ],
+    "balcony": [
+     9.722,
+     -0.555
+    ]
+   },
+   "lines": {
+    "kitchen": [
+     3,
+     4,
+     5,
+     6,
+     7,
+     10,
+     11,
+     12,
+     13,
+     14
+    ],
+    "sleeping": [
+     3,
+     4,
+     5,
+     6,
+     7,
+     10,
+     11,
+     12,
+     13,
+     14
+    ],
+    "bath": [
+     8,
+     9
+    ],
+    "balcony": [
+     2
+    ]
+   },
+   "from": "model-input"
+  },
+  "C3": {
+   "z": 9.6,
+   "order": [
+    "kitchen",
+    "living",
+    "bedroom",
+    "bath",
+    "balcony"
+   ],
+   "rooms": {
+    "kitchen": [
+     5.083,
+     3.179
+    ],
+    "living": [
+     4.642,
+     3.305
+    ],
+    "bedroom": [
+     1.542,
+     1.445
+    ],
+    "bath": [
+     1.263,
+     3.745
+    ],
+    "balcony": [
+     1.162,
+     -0.695
+    ]
+   },
+   "lines": {
+    "kitchen": [
+     0,
+     1,
+     7,
+     9,
+     10,
+     11,
+     12
+    ],
+    "living": [
+     0,
+     1,
+     7,
+     9,
+     10,
+     11,
+     12
+    ],
+    "bedroom": [
+     2,
+     3,
+     4,
+     5
+    ],
+    "bath": [
+     6,
+     8
+    ]
+   },
+   "from": "model-input"
+  },
+  "C4": {
+   "z": 9.6,
+   "order": [
+    "kitchen",
+    "sleeping",
+    "bath",
+    "balconies"
+   ],
+   "rooms": {
+    "kitchen": [
+     4.389,
+     10.796
+    ],
+    "sleeping": [
+     2.941,
+     9.252
+    ],
+    "bath": [
+     2.222,
+     5.665
+    ],
+    "balconies": [
+     3.883,
+     12.125
+    ]
+   },
+   "lines": {
+    "kitchen": [
+     4,
+     5,
+     6,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "sleeping": [
+     4,
+     5,
+     6,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15
+    ],
+    "bath": [
+     7,
+     8
+    ]
+   },
+   "from": "model-input"
+  },
+  "I1": {
+   "z": 0.0,
+   "order": [
+    "kitchen",
+    "sleeping",
+    "bath"
+   ],
+   "rooms": {
+    "kitchen": [
+     7.784,
+     12.021
+    ],
+    "sleeping": [
+     9.564,
+     10.111
+    ],
+    "bath": [
+     10.008,
+     7.587
+    ]
+   },
+   "lines": {
+    "kitchen": [
+     0,
+     1,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10
+    ],
+    "sleeping": [
+     0,
+     1,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10
+    ],
+    "bath": [
+     3
+    ]
+   },
+   "from": "model-input"
+  },
+  "I2": {
+   "z": 0.0,
+   "order": [
+    "kitchen",
+    "sleeping",
+    "bath"
+   ],
+   "rooms": {
+    "kitchen": [
+     7.414,
+     1.233
+    ],
+    "sleeping": [
+     9.533,
+     2.24
+    ],
+    "bath": [
+     11.048,
+     4.547
+    ]
+   },
+   "lines": {
+    "kitchen": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     8
+    ],
+    "sleeping": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     8
+    ],
+    "bath": [
+     6,
+     7
+    ]
+   },
+   "from": "model-input"
+  },
+  "I3": {
+   "z": 0.0,
+   "order": [
+    "kitchen",
+    "sleeping",
+    "bath"
+   ],
+   "rooms": {
+    "kitchen": [
+     1.24,
+     3.379
+    ],
+    "sleeping": [
+     1.769,
+     2.678
+    ],
+    "bath": [
+     1.527,
+     7.288
+    ]
+   },
+   "lines": {
+    "kitchen": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "sleeping": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "bath": [
+     6,
+     7
+    ]
+   },
+   "from": "model-input"
+  },
+  "I4": {
+   "z": 0.0,
+   "order": [
+    "kitchen",
+    "sleeping",
+    "bath",
+    "balcony"
+   ],
+   "rooms": {
+    "kitchen": [
+     5.101,
+     13.117
+    ],
+    "sleeping": [
+     2.935,
+     9.885
+    ],
+    "bath": [
+     5.188,
+     10.908
+    ],
+    "balcony": [
+     2.268,
+     12.088
+    ]
+   },
+   "lines": {
+    "kitchen": [
+     0,
+     1,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     12,
+     13
+    ],
+    "sleeping": [
+     0,
+     1,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     12,
+     13
+    ],
+    "bath": [
+     2,
+     3
+    ]
+   },
+   "from": "model-input"
+  },
+  "Y1": {
+   "z": -3.2,
+   "order": [
+    "kitchen",
+    "sleeping",
+    "bath",
+    "garden"
+   ],
+   "rooms": {
+    "kitchen": [
+     7.796,
+     11.974
+    ],
+    "sleeping": [
+     9.582,
+     10.143
+    ],
+    "bath": [
+     10.108,
+     7.538
+    ],
+    "garden": [
+     10.608,
+     13.138
+    ]
+   },
+   "lines": {
+    "kitchen": [
+     0,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10
+    ],
+    "sleeping": [
+     0,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10
+    ],
+    "bath": [
+     1,
+     2
+    ],
+    "garden": [
+     11,
+     12
+    ]
+   },
+   "from": "model-input"
+  },
+  "Y2": {
+   "z": -3.2,
+   "order": [
+    "kitchen",
+    "sleeping",
+    "bath"
+   ],
+   "rooms": {
+    "kitchen": [
+     7.343,
+     1.787
+    ],
+    "sleeping": [
+     9.376,
+     2.1
+    ],
+    "bath": [
+     10.928,
+     4.278
+    ]
+   },
+   "lines": {
+    "kitchen": [
+     0,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11
+    ],
+    "sleeping": [
+     0,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11
+    ],
+    "bath": [
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "from": "model-input"
+  },
+  "Y3": {
+   "z": -3.2,
+   "order": [
+    "living",
+    "garden",
+    "kitchen",
+    "bath1",
+    "bath2",
+    "bedroom"
+   ],
+   "rooms": {
+    "living": [
+     5.0,
+     12.0
+    ],
+    "garden": [
+     2.0,
+     13.1
+    ],
+    "kitchen": [
+     1.8,
+     10.0
+    ],
+    "bath1": [
+     1.4,
+     7.0
+    ],
+    "bath2": [
+     1.2,
+     4.1
+    ],
+    "bedroom": [
+     1.5,
+     1.7
+    ]
+   },
+   "lines": {
+    "living": [
+     2,
+     3,
+     9,
+     10,
+     13,
+     14,
+     15,
+     16,
+     17
+    ],
+    "garden": [
+     18,
+     19
+    ],
+    "kitchen": [
+     2,
+     3,
+     9,
+     10,
+     13,
+     14,
+     15,
+     16,
+     17
+    ],
+    "bath1": [
+     12
+    ],
+    "bath2": [
+     6,
+     7
+    ],
+    "bedroom": [
+     0,
+     1,
+     4,
+     5,
+     8
+    ]
+   },
+   "from": "cine.json"
+  }
+ }
+}

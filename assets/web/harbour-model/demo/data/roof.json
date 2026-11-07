@@ -1,0 +1,613 @@
+{
+ "_meta": {
+  "generatedBy": "h3d/v15/photoreal (structure-locked gpt_image_2_5 xhigh edits of the v15 Cycles roof renders, registered back onto the render geometry; py/assemble.py + py/export.py)",
+  "generatedAt": "2026-11-02T16:45:26Z",
+  "paths": "pano / panoLow / arrival / arrival1920 are relative to public/demo/ (served at /demo/...)",
+  "pano": "equirectangular 2:1, level: horizon on the middle row; yaw 0 = the image centre column = the arrival heading (compass 69.4 deg); image right = +yaw = clockwise; u = 0.5 + yaw/360, v = 0.5 - pitch/180",
+  "arrival": "the clip end frame AND the viewer first view: a rectilinear 16:9 view from the same eye, yaw yawDeg / pitch pitchDeg / horizontal FOV hfovDeg in the pano coordinates; the pano shows exactly this picture at that view (core = the treated arrival, outer 2.6 deg ring = the same face blend in both), so the hand-over clip -> viewer is seamless; arrival1920 is the same frame at 1920x1080",
+  "eye": "front-right corner of the roof terrace, 1.6 m above the deck (frame 10.0, -0.5, 14.43; lat 37.9410975, lon 23.6483928)",
+  "light": "front hero day light (sun compass 284.8, 21.8 deg up, 4300 K) - matches the FRONT hero still",
+  "handover": {
+   "psnr_full": 38.127,
+   "psnr_core": 37.29,
+   "dE_mean_full": 0.868,
+   "dE_mean_core": 0.975
+  },
+  "clips": "clips.<view> = the cinematic transition from that hero onto the roof terrace (contract push-arrival): frame 1 = img/<view>.jpg cropped at rect (the page's 2D push on the roof storey ends there), last frame = arrival (the viewer's first view); rev = the way back. Only the front exists (the roof is lit by the front hero's sun); a roof click on the rear hero has no clip.",
+  "fix": {
+   "at": "2026-11-02T19:56:18Z",
+   "by": "h3d/v15/fix (fix/py/assemble_fix.py + export_pano.py)",
+   "pano": "re-assembled for the check's MF3/MF4/MF7: the facades across the street re-edited in OPEN SHADE (the sun is behind them, as in the render); the deck right of / below the arrival from ONE straight-board source (an extra oblique face, the arrival as its material reference); the street railing's balusters + top rail = the render's own through an exact Blender coverage mask (colour-matched to the AI bars), and the street seen THROUGH the railing panel = the render's street, Lab-matched to the AI street (the AI faces drew extra balusters at another slant there, which no face blend could remove). Inside the arrival frame + 1 deg the pano is the published one pixel for pixel, so arrival.jpg and the clip hand-over are unchanged.",
+   "deckOwner": {
+    "face": "deck-m1b-r",
+    "px": 1505136,
+    "zone": "yaw 2..92, pitch -62..-25"
+   },
+   "railZone": {
+    "yaw": [
+     105.0,
+     -95.0
+    ],
+    "pitch": [
+     -88,
+     -12
+    ]
+   },
+   "railOverlayPx": 980836,
+   "railPanel": {
+    "fill": {
+     "mode": "synth-all (render street, histogram-matched to the AI street + local follow)",
+     "fill_px": 2138962,
+     "panel_ratio_BGR": [
+      1.627,
+      1.729,
+      1.857
+     ]
+    },
+    "ghost_components_unused": 8,
+    "ghost_px": 124872,
+    "inpaint_px": 1204505,
+    "dark_threshold": 0.22
+   },
+   "master": "h3d/v15/fix/final/pano_fix5.png (lossless)",
+   "v20": {
+    "at": "2026-11-02T22:57:25Z",
+    "by": "h3d/v20 (v15/fix/py/assemble_fix_v20.py --rail-zone 105,-76 --rail-soft-b 10 --bar-lift 5 + deghost_v20.py + v20/pano/export_v20.py)",
+    "pano": "MF3 follow-up: the street railing's render zone (render balusters + top rail + the render street seen through them) no longer stops in a hard 6-degree switch at yaw -95 (a vertical seam across the bars and the street when looking down there); it runs to yaw -76 and fades over 10 degrees into the AI railing exactly where the AI balusters are registered on the render's (correlation 0.48-0.60 at yaw -80..-70, 0.03-0.32 at -100..-85, where a wide fade showed offset ghost bars); the street fill fades with the zone instead of a hard cut at 0.3; the render bars lifted by L+5 (darks most) towards the AI bars' median. The arrival frame + 1 deg is unchanged (proof below).",
+    "railZone": {
+     "yaw": [
+      105.0,
+      -76.0
+     ],
+     "pitch": [
+      -88,
+      -12
+     ],
+     "softB": 10.0
+    },
+    "barFit": {
+     "n": 226810,
+     "contrast": 1.4,
+     "B": {
+      "render_mean": 0.1669,
+      "ai_bar_mean": 0.172
+     },
+     "G": {
+      "render_mean": 0.1493,
+      "ai_bar_mean": 0.1538
+     },
+     "R": {
+      "render_mean": 0.1389,
+      "ai_bar_mean": 0.1463
+     },
+     "lift": 5.0
+    },
+    "deghost": {
+     "fill": {
+      "mode": "synth-all (render street, histogram-matched to the AI street + local follow)",
+      "fill_px": 2508878,
+      "panel_ratio_BGR": [
+       1.654,
+       1.759,
+       1.872
+      ]
+     },
+     "ghost_components_unused": 8,
+     "ghost_px": 124872,
+     "inpaint_px": 1405227,
+     "dark_threshold": 0.224
+    },
+    "protect": {
+     "pano.jpg": {
+      "px": 1580624,
+      "maxdiff": 0,
+      "meandiff": 0.0,
+      "changed_share_sphere": 0.0471
+     },
+     "pano-4096.jpg": {
+      "px": 395172,
+      "maxdiff": 0,
+      "meandiff": 0.0,
+      "changed_share_sphere": 0.0489
+     }
+    },
+    "bytes": {
+     "pano.jpg": 4285011,
+     "pano-4096.jpg": 1256625
+    },
+    "master": "h3d/v20/pano/final/pano_v20bd.png (lossless)"
+   }
+  },
+  "integration": "v20 (2026-11-03): src/demo/roof/flow.ts, found by Demo.probeRoof through src/demo/roofFlow.ts (enterRoof + armRoof). Roof hover (mouse): predecodeRoofPano() + the view's 4K still. Click, FRONT hero: the 2D push onto clips.front.rect (cover-fit, 532 ms) starts, then RoofPano.open() hidden; the clip (blob, warmed at idle) on its frame 0; ALL awaited, then the clip plays full-viewport; at its last presented frame show(280). Back (button / Esc): toArrival(700), the reversed clip under the viewer at 0.999, hide(280), the clip, the pull-back home. REAR hero / reduced motion / no clip: the push rises into the page's cream (300 ms), the viewer opens out of it from hfov 80 settling on the arrival view; back = the same dip. Phones / iPads (coarse pointer): the 720 clips + panoLow / arrival1920. Forced quality: ?roofq=high|low or localStorage roofQuality. Checked by tools/demo-check.mjs --roof.",
+  "night": {
+   "at": "2026-11-04T14:39:45Z",
+   "by": "h3d/v28/night (py/proc_roof.py + pub.py)",
+   "how": "the DAY equirect of each node cut into 6 cube faces (FOV 100, 4096), each relit to blue hour by a structure-locked gpt_image_2_5 xhigh 4K edit (the pergola string lights on, lit windows round), registered back onto its day face (similarity + smooth robust field + a fine pass, sign-free gradient structure), re-projected and blended (smoothstep over the overlaps) after a low-frequency gain harmonisation of the faces; the front node: the relit arrival (registered onto arrival.jpg) in its frustum with the same 2.65 deg ring - so the night pano at the arrival view IS arrival-night.jpg, as the day one is arrival.jpg",
+   "handover": "the clip (daylight) still ends on arrival.jpg: the viewer opens in DAY (seamless as before) and dissolves to night in place (RoofPano.setVariant, flow.ts NIGHT_IN); the way back dissolves to day under the home glide, then the reversed clip; the rear hero's dip opens straight on night",
+   "faces": {
+    "front": {
+     "front": {
+      "matches": 12644,
+      "resid_med": 0.7968952655792236,
+      "resid_p90": 3.2724733352661133,
+      "resid_p99": 9.724390029907227,
+      "edge_recall": 0.8089434255127921,
+      "edge_precision": 0.7399928632900233,
+      "edge_iou_tol": 0.693761174367178,
+      "edge_f": 0.7729334847562037,
+      "tol": 2
+     },
+     "right": {
+      "matches": 11055,
+      "resid_med": 0.9053544998168945,
+      "resid_p90": 2.9157791137695312,
+      "resid_p99": 8.808384895324707,
+      "edge_recall": 0.7570991211805065,
+      "edge_precision": 0.6702725345553046,
+      "edge_iou_tol": 0.6370323488924482,
+      "edge_f": 0.7110450103503764,
+      "tol": 2
+     },
+     "back": {
+      "matches": 11996,
+      "resid_med": 0.5515551567077637,
+      "resid_p90": 2.958235740661621,
+      "resid_p99": 8.898975372314453,
+      "edge_recall": 0.8171182300377858,
+      "edge_precision": 0.7012354606135658,
+      "edge_iou_tol": 0.6749430139299283,
+      "edge_f": 0.754754681921948,
+      "tol": 2
+     },
+     "left": {
+      "matches": 14119,
+      "resid_med": 0.4558529257774353,
+      "resid_p90": 3.077198028564453,
+      "resid_p99": 8.928088188171387,
+      "edge_recall": 0.8422431238908025,
+      "edge_precision": 0.7456858946192436,
+      "edge_iou_tol": 0.7161803767840114,
+      "edge_f": 0.7910288306396942,
+      "tol": 2
+     },
+     "up": {
+      "matches": 1682,
+      "resid_med": 1.0098621845245361,
+      "resid_p90": 2.8981423377990723,
+      "resid_p99": 8.869266510009766,
+      "edge_recall": 0.7745054080269395,
+      "edge_precision": 0.7192523715160114,
+      "edge_iou_tol": 0.6849804273470927,
+      "edge_f": 0.745857004534964,
+      "tol": 2
+     },
+     "down": {
+      "matches": 8951,
+      "resid_med": 0.8881769776344299,
+      "resid_p90": 4.060094833374023,
+      "resid_p99": 10.8245267868042,
+      "edge_recall": 0.8578105491603423,
+      "edge_precision": 0.8050328807026319,
+      "edge_iou_tol": 0.7587981558061666,
+      "edge_f": 0.8305841489172107,
+      "tol": 2
+     }
+    },
+    "rear": {
+     "front": {
+      "matches": 7025,
+      "resid_med": 0.4702879786491394,
+      "resid_p90": 2.8540987968444824,
+      "resid_p99": 8.716829299926758,
+      "edge_recall": 0.7808656999969005,
+      "edge_precision": 0.493747118616757,
+      "edge_iou_tol": 0.5142255058904971,
+      "edge_f": 0.6049683225679046,
+      "tol": 2
+     },
+     "right": {
+      "matches": 4954,
+      "resid_med": 0.4738273620605469,
+      "resid_p90": 2.7084238529205322,
+      "resid_p99": 8.18311882019043,
+      "edge_recall": 0.7023156972440924,
+      "edge_precision": 0.49934241891203207,
+      "edge_iou_tol": 0.5019186280658069,
+      "edge_f": 0.583686848008925,
+      "tol": 2
+     },
+     "back": {
+      "matches": 14226,
+      "resid_med": 0.23740413784980774,
+      "resid_p90": 2.0408833026885986,
+      "resid_p99": 8.081951141357422,
+      "edge_recall": 0.8264326302744546,
+      "edge_precision": 0.6933104701279339,
+      "edge_iou_tol": 0.6704092523437107,
+      "edge_f": 0.7540411208617277,
+      "tol": 2
+     },
+     "left": {
+      "matches": 5604,
+      "resid_med": 0.2655754089355469,
+      "resid_p90": 3.0471608638763428,
+      "resid_p99": 9.117536544799805,
+      "edge_recall": 0.7611845080816015,
+      "edge_precision": 0.6341777581155956,
+      "edge_iou_tol": 0.5927948684028841,
+      "edge_f": 0.6919010160180039,
+      "tol": 2
+     },
+     "up": {
+      "matches": 192,
+      "resid_med": 0.2631239891052246,
+      "resid_p90": 2.0802481174468994,
+      "resid_p99": 4.211362361907959,
+      "edge_recall": 0.8298514770687122,
+      "edge_precision": 0.7054520826278361,
+      "edge_iou_tol": 0.686482798947471,
+      "edge_f": 0.7626119917101174,
+      "tol": 2
+     },
+     "down": {
+      "matches": 8302,
+      "resid_med": 0.13664817810058594,
+      "resid_p90": 1.3673509359359741,
+      "resid_p99": 8.439931869506836,
+      "edge_recall": 0.7511450751390696,
+      "edge_precision": 0.5995793358579012,
+      "edge_iou_tol": 0.557422972868212,
+      "edge_f": 0.6668585562208023,
+      "tol": 2
+     }
+    }
+   },
+   "seams_lowfreq_8bit": {
+    "front": {
+     "front|right": {
+      "px": 21572,
+      "lowfreq_med": 10.764223098754883,
+      "p90": 25.135692596435547
+     },
+     "front|left": {
+      "px": 21572,
+      "lowfreq_med": 8.16940975189209,
+      "p90": 18.126840591430664
+     },
+     "front|up": {
+      "px": 26776,
+      "lowfreq_med": 14.175580978393555,
+      "p90": 28.393959045410156
+     },
+     "front|down": {
+      "px": 26776,
+      "lowfreq_med": 9.57874870300293,
+      "p90": 15.413156509399414
+     },
+     "right|back": {
+      "px": 21572,
+      "lowfreq_med": 12.836344718933105,
+      "p90": 20.758304595947266
+     },
+     "right|up": {
+      "px": 26776,
+      "lowfreq_med": 10.015768051147461,
+      "p90": 22.662599563598633
+     },
+     "right|down": {
+      "px": 26776,
+      "lowfreq_med": 7.33984375,
+      "p90": 14.801965713500977
+     },
+     "back|left": {
+      "px": 21572,
+      "lowfreq_med": 8.73751449584961,
+      "p90": 24.342084884643555
+     },
+     "back|up": {
+      "px": 26776,
+      "lowfreq_med": 7.240054130554199,
+      "p90": 13.872861862182617
+     },
+     "back|down": {
+      "px": 26776,
+      "lowfreq_med": 11.083087921142578,
+      "p90": 27.012176513671875
+     },
+     "left|up": {
+      "px": 26776,
+      "lowfreq_med": 21.097454071044922,
+      "p90": 26.787044525146484
+     },
+     "left|down": {
+      "px": 26776,
+      "lowfreq_med": 11.91067123413086,
+      "p90": 22.059358596801758
+     }
+    },
+    "rear": {
+     "front|right": {
+      "px": 21572,
+      "lowfreq_med": 18.650634765625,
+      "p90": 43.44428253173828
+     },
+     "front|left": {
+      "px": 21572,
+      "lowfreq_med": 15.190431594848633,
+      "p90": 35.66881561279297
+     },
+     "front|up": {
+      "px": 26776,
+      "lowfreq_med": 16.25977325439453,
+      "p90": 25.77628517150879
+     },
+     "front|down": {
+      "px": 26776,
+      "lowfreq_med": 4.435617923736572,
+      "p90": 9.601219177246094
+     },
+     "right|back": {
+      "px": 21572,
+      "lowfreq_med": 5.579204559326172,
+      "p90": 13.988418579101562
+     },
+     "right|up": {
+      "px": 26776,
+      "lowfreq_med": 18.771255493164062,
+      "p90": 29.199718475341797
+     },
+     "right|down": {
+      "px": 26776,
+      "lowfreq_med": 7.192994117736816,
+      "p90": 13.70570182800293
+     },
+     "back|left": {
+      "px": 21572,
+      "lowfreq_med": 8.453250885009766,
+      "p90": 12.564029693603516
+     },
+     "back|up": {
+      "px": 26776,
+      "lowfreq_med": 4.986189842224121,
+      "p90": 14.898092269897461
+     },
+     "back|down": {
+      "px": 26776,
+      "lowfreq_med": 7.310335636138916,
+      "p90": 16.94620132446289
+     },
+     "left|up": {
+      "px": 26776,
+      "lowfreq_med": 7.625575065612793,
+      "p90": 12.640884399414062
+     },
+     "left|down": {
+      "px": 26776,
+      "lowfreq_med": 8.179774284362793,
+      "p90": 20.247770309448242
+     }
+    }
+   },
+   "arrival": {
+    "similarity": {
+     "scale": 1.0007471567744097,
+     "rot_deg": -0.02498057120732254,
+     "tx": -2.8092175147596454,
+     "ty": -0.03404828479130786,
+     "matches": 5111,
+     "inliers": 4787
+    },
+    "matches": 40789,
+    "kept": 38321,
+    "drift_before": {
+     "med": 1.4454225301742554,
+     "p90": 3.3896000385284424
+    },
+    "field_max": 5.180122375488281,
+    "check": {
+     "matches": 13569,
+     "resid_med": 0.8107323050498962,
+     "resid_p90": 2.1649420261383057,
+     "resid_p99": 6.847189426422119,
+     "edge_recall": 0.8612603792245292,
+     "edge_precision": 0.8118735376527341,
+     "edge_iou_tol": 0.7726097467633689,
+     "edge_f": 0.8358380687496969,
+     "tol": 2
+    }
+   },
+   "bytes": {
+    "pano-night.jpg": 5731793,
+    "pano-night-4096.jpg": 1512842,
+    "pano-rear-night.jpg": 4927715,
+    "pano-rear-night-4096.jpg": 1214318,
+    "arrival-night.jpg": 2101062,
+    "arrival-night-1920.jpg": 583301
+   }
+  }
+ },
+ "pano": "roof/pano.jpg",
+ "panoLow": "roof/pano-4096.jpg",
+ "arrival": "roof/arrival.jpg",
+ "arrival1920": "roof/arrival-1920.jpg",
+ "panoNight": "roof/pano-night.jpg",
+ "panoLowNight": "roof/pano-night-4096.jpg",
+ "arrivalNight": "roof/arrival-night.jpg",
+ "arrival1920Night": "roof/arrival-night-1920.jpg",
+ "yawDeg": 0.0,
+ "pitchDeg": -3.0,
+ "hfovDeg": 70.0,
+ "panoSize": [
+  8192,
+  4096
+ ],
+ "panoLowSize": [
+  4096,
+  2048
+ ],
+ "arrivalSize": [
+  3840,
+  2160
+ ],
+ "compassAtYaw0": 69.4,
+ "directions": {
+  "marinaZea": {
+   "yawDeg": 103.2,
+   "visible": false,
+   "note": "blocked by no. 163 and the taller buildings behind it"
+  },
+  "streetNNE": {
+   "yawDeg": -59.0
+  },
+  "streetSW": {
+   "yawDeg": 155.0
+  }
+ },
+ "clips": {
+  "front": {
+   "src": "roof/clip-front-roof.mp4",
+   "rev": "roof/clip-front-roof-rev.mp4",
+   "src720": "roof/clip-front-roof-720.mp4",
+   "rev720": "roof/clip-front-roof-720-rev.mp4",
+   "w": 2560,
+   "h": 1440,
+   "fps": 60,
+   "frames": 133,
+   "durMs": 2217,
+   "status": "final",
+   "contract": "push-arrival",
+   "view": "front",
+   "storey": "roof",
+   "start": "img/front.jpg cropped at rect (the page's push-in end frame on the roof storey: BuildingView.pushCam('roof') at a 1920x1080 viewport)",
+   "rect": [
+    1116.32,
+    372.18,
+    2299.68,
+    1037.82
+   ],
+   "scale": 3.245,
+   "viewport": [
+    1920,
+    1080
+   ],
+   "pushTo": "rect (cover-fit to the viewport): the clip's frame 1 is exactly this rect of the still; push to it (BuildingView.rectCam) whenever this clip plays",
+   "rectFrom": "measured live 2026-11-02T16:50:30.201Z (pushCam('roof'), k 0.500, cams.json roof bbox [1345, 566, 2071, 844]); authoritative: the clip was cut at this rect",
+   "end": "roof/arrival.jpg (= the pano viewer's first view: yawDeg / pitchDeg / hfovDeg of this file; hand the last frame to the viewer at that view)",
+   "rule": "forward: on the roof click start RoofPano.open() (hidden) at once and AWAIT it (with preloadRoofPano() on roof hover it is usually done already) - no texture upload may run while the clip plays; meanwhile do the 2D push onto the roof; then play src full-frame; at its last frame (ended) call show(280): a 280 ms cross-fade from the clip's last frame into the viewer at yawDeg/pitchDeg/hfovDeg (it hides the small sharpness step). Back: await toArrival(), show the rev video under the viewer on its first frame, hide(280) to cross-fade the viewer out over it, play rev, then the page is on the pushed still at rect; pull the camera back home; close() when done",
+   "encode": "H.264 High yuv420p, tagged BT.709 primaries + matrix, sRGB transfer (IEC 61966-2-1), tv range, in the VUI and the colr box; the hand-over frames (last 12 of src, first 12 of rev) at constant QP 15 so they are as sharp as the I-frame (VBV 50M/100M so the buffer never starves the hand-over I-frame)",
+   "ease": "0.5,0,0.3,1",
+   "startSSIM": 0.9928,
+   "endSSIM": 0.9934,
+   "revStartSSIM": 0.9968,
+   "revEndSSIM": 0.9863,
+   "bytes": {
+    "src": 11037904,
+    "rev": 10091241,
+    "src720": 3293313,
+    "rev720": 3238249
+   },
+   "phone": "src720 / rev720: 1280x720 encodes for phones (coarse pointer, screen <= 1000 css px)",
+   "light": "front hero day light only: a roof click from the REAR hero has no clip (no rear arrival render)",
+   "source": {
+    "model": "minimax_h3 2K (2560x1440, 24 fps) start+end 5 s",
+    "job": "66a5dec0-c10d-46a7-abbb-d97be8546503",
+    "variant": "A (task prompt verbatim); pilot winner over B (frame-specific): shorter rigidity dip (epi min 0.67 vs 0.63), same gentle railing bend while passing over it",
+    "rawFrames": 124,
+    "srcRange": [
+     3,
+     107
+    ],
+    "retime": {
+     "dur": 2.2,
+     "ease": "0.5,0,0.3,1",
+     "squash": null,
+     "lockIn": 5,
+     "lockOut": 8,
+     "alignIn": 12,
+     "alignOut": 18,
+     "flowFrames": 52,
+     "eccIn": 0.9889,
+     "eccOut": 0.9993,
+     "matchGain": true,
+     "gainStart": [
+      1.0104,
+      1.0144,
+      1.015
+     ],
+     "gainEnd": [
+      1.0225,
+      1.0283,
+      1.0312
+     ],
+     "lockRaw": {
+      "raw": [
+       26,
+       94
+      ],
+      "ramp": 8.0,
+      "outFrames": [
+       37,
+       105
+      ],
+      "preScale": 1.0174,
+      "postScale": 0.846,
+      "speedBefore": 0.87,
+      "speedAfter": 0.45
+     },
+     "lockNote": "raw frames in lockRaw.raw play 1:1 (whole frames, no optical-flow in-betweens): flow interpolation tore the repetitive foreground railing (check MF1)"
+    }
+   },
+   "postedBy": "h3d/v15/clip (py/post.py, py/retime.py); re-posted by h3d/v15/fix (MF1 railing lock, hand-over encode, colour tags, cut recipe)",
+   "note": "Kling 3.0 (the planned model) failed for every mode on 2026-11-02 (all refunded); the take is MiniMax H3 2K, native 2560x1440 = the encode size. v20 (2026-11-03, check MF1 closed): raw frames 26-94 - the whole railing pass - play 1:1 as WHOLE raw frames (no shutter blends, no optical-flow in-betweens; the 1.9 s cut blended 2-3 raw frames per output frame over raw 20-71 and the balusters doubled), so the move is 2.2 s",
+   "copiedAt": "2026-11-02T22:42:56Z"
+  }
+ },
+ "centreAzDeg": -55.0,
+ "eyeXY": [
+  10.0,
+  -0.5
+ ],
+ "nodes": {
+  "rear": {
+   "pano": "roof/pano-rear.jpg",
+   "panoLow": "roof/pano-rear-4096.jpg",
+   "panoSize": [
+    8192,
+    4096
+   ],
+   "panoLowSize": [
+    4096,
+    2048
+   ],
+   "centreAzDeg": 0.0,
+   "compassAtYaw0": 124.4,
+   "eye": [
+    10.3,
+    11.2
+   ],
+   "view": {
+    "yaw": 1.5,
+    "pitch": -2.0,
+    "hfov": 70.0
+   },
+   "where": "the rear-right corner of the roof terrace, behind the outdoor fitness frames, 0.6 m inside the rear parapet (1.37 m high there; 1.72 m behind the outdoor kitchen in the middle), eye 1.6 m over the deck (frame 10.3, 11.2, 14.43)",
+   "view_note": "over the rear parapet, across the back yards to the rear facades of the apartment blocks 14-35 m away (a gap to ~500 m at compass ~144); the tall blind wall of no. 163 fills the right; Zea Marina (compass 172.6) is NOT visible from any rear standing point - ray casts hit no. 163 or the blocks behind the yard (12-18 deg above the eye)",
+   "generatedBy": "h3d/v21 (Cycles 8192 equirect, front hero sun; gpt_image_2_5 xhigh 4k structure-locked face edits; photoreal/py/assemble21.py: narrow switching on foliage, thin members and the deck, sky-only refill at skyline edges; post21.py: parapet light lock + 2 AC maker marks inpainted; export_rear.py)",
+   "generatedAt": "2026-11-03T08:32:53Z",
+   "faces": {
+    "front": "front-a1r",
+    "right": "right-a1r",
+    "back": "back-a1r",
+    "left": "left-a1r",
+    "up": "up-orig",
+    "down": "down-a1r"
+   },
+   "bytes": {
+    "pano-rear.jpg": 4012742,
+    "pano-rear-4096.jpg": 1099741
+   },
+   "panoNight": "roof/pano-rear-night.jpg",
+   "panoLowNight": "roof/pano-rear-night-4096.jpg"
+  }
+ }
+}

@@ -1,0 +1,445 @@
+{
+ "version": 1,
+ "generatedAt": "2026-11-01T01:43:33+02:00",
+ "generatedBy": "assets stage (scratchpad h3d/v4/assets/py/*.py)",
+ "hero": {
+  "src": "img/hero.jpg",
+  "w": 3840,
+  "h": 2160,
+  "src2560": "img/hero-2560.jpg",
+  "w2560": 2560,
+  "h2560": 1440,
+  "sourceRender": "שיווק/הדמיות פרויקט/הדמיות פרויקט רוחב + אורך/לרוחב/12.png (gal-12 ORIGINAL, 5504x3072, dusk)",
+  "crop": {
+   "x0": 21.333,
+   "y0": 0,
+   "x1": 5482.667,
+   "y1": 3072,
+   "scale": 0.703125,
+   "convention": "hero px = (original px - [x0, 0]) * scale; full height kept, 21.3 px trimmed off each side; Lanczos; JPEG q93 4:4:4"
+  },
+  "note": "His exact render, no AI. Start frame of every floor clip."
+ },
+ "heroDay": null,
+ "heroDayNote": "Skipped on purpose: gal-11 (day) is NOT the same camera as gal-12. Edge-based ECC finds about 3 percent scale and 25-35 px shift (homography cc 0.70 vs identity 0.42), so an identical crop would not line up.",
+ "stage": {
+  "size": [
+   3840,
+   2160
+  ],
+  "background": "radial #18233D (centre, at the model) -> #0B1324 (edges), +-0.6/255 dither",
+  "shadow": "alpha blurred 70 px offset (15,48) at 55 percent + 10 px offset (3,10) at 50 percent, colour #030710",
+  "fit": "model fitted into 0.64W x 0.80H, centred at (0.425W, 0.53H): left of centre, room for the right panel",
+  "modelColours": "untouched (alpha-matted and edge-decontaminated only)"
+ },
+ "floors": {
+  "garden": {
+   "src": "img/floor-garden.jpg",
+   "w": 3840,
+   "h": 2160,
+   "zoomSrc": "img/floor-garden-zoom.jpg",
+   "zoomW": 7680,
+   "zoomH": 4320,
+   "sourceRender": "שיווק/מפרטי דירות ותשריטים/קומת גן/דוגמה 5 - מתוקנת.png (5504x3072; the ORIGINAL of the app image assets/web/floors/garden-render.webp)",
+   "note": "His garden-floor render, matted off black (own matte + GrabCut; a 6 px erosion removes the dashed outline left by an earlier cutout). Units Y1-Y3.",
+   "appImage": "assets/web/floors/garden-render.webp",
+   "generic": false,
+   "srcSize": [
+    5504,
+    3072
+   ],
+   "srcModelBBox": [
+    492,
+    66,
+    5006,
+    2978
+   ],
+   "transform": {
+    "sx": 0.5445130813953488,
+    "sy": 0.5445963541666666,
+    "tx": 135,
+    "ty": 316,
+    "convention": "floor-image px = src-render px * s + t (pixel-edge coordinates; centre of src px (u,v) -> ((u+0.5)*sx+tx-0.5, (v+0.5)*sy+ty-0.5))"
+   },
+   "modelBoxInImage": [
+    402.9,
+    351.9,
+    2860.8,
+    1937.8
+   ],
+   "zoomTransform": {
+    "sx": 1.0890261627906976,
+    "sy": 1.0891927083333333,
+    "tx": 270,
+    "ty": 632
+   },
+   "zoomNote": "exactly 2x the base grid (zoom px = 2 * base px); interior from a tiled ByteDance upscale registered to the source (<0.25 px) and colour-locked to his render (low frequencies are his pixels); edges/alpha from the source matte",
+   "zoomUpscale": {
+    "tiles": 2,
+    "k": 1.35
+   }
+  },
+  "ground": {
+   "src": "img/floor-ground.jpg",
+   "w": 3840,
+   "h": 2160,
+   "zoomSrc": "img/floor-ground-zoom.jpg",
+   "zoomW": 7680,
+   "zoomH": 4320,
+   "sourceRender": "שיווק/מפרטי דירות ותשריטים/קומת קרקע/דוגמה 1 - מתוקנת.png (2400x1792; white background)",
+   "note": "His REAL ground-floor render from the marketing folder (media.json levels.ground.dollhouseNotInApp; the newest, \"corrected\" one). Matches plan-ground (entrance stair, lobby, curved stair, lift, I1-I4). Not shown in the app because the floor is sold out. Base = his pixels at 1.024x; zoom from a 2-tile AI upscale.",
+   "appImage": null,
+   "generic": false,
+   "srcSize": [
+    2400,
+    1792
+   ],
+   "srcModelBBox": [
+    62,
+    55,
+    2293,
+    1743
+   ],
+   "transform": {
+    "sx": 1.02375,
+    "sy": 1.0234375,
+    "tx": 427,
+    "ty": 225,
+    "convention": "floor-image px = src-render px * s + t (pixel-edge coordinates; centre of src px (u,v) -> ((u+0.5)*sx+tx-0.5, (v+0.5)*sy+ty-0.5))"
+   },
+   "modelBoxInImage": [
+    490.5,
+    281.3,
+    2774.5,
+    2008.9
+   ],
+   "zoomTransform": {
+    "sx": 2.0475,
+    "sy": 2.046875,
+    "tx": 854,
+    "ty": 450
+   },
+   "zoomNote": "exactly 2x the base grid (zoom px = 2 * base px); interior from a tiled ByteDance upscale registered to the source (<0.25 px) and colour-locked to his render (low frequencies are his pixels); edges/alpha from the source matte",
+   "zoomUpscale": {
+    "tiles": 2,
+    "k": 2.29
+   }
+  },
+  "1": {
+   "src": "img/floor-1.jpg",
+   "w": 3840,
+   "h": 2160,
+   "zoomSrc": "img/floor-1-zoom.jpg",
+   "zoomW": 7680,
+   "zoomH": 4320,
+   "sourceRender": "שיווק/מפרטי דירות ותשריטים/קומה 1/הדמיה תלת מימד קומה 1 - אופציה 4 מעודכן 4K.png (4096x2294)",
+   "note": "His REAL floor-1 render (media.json levels.1.dollhouseNotInApp; newest file in that folder, 2026-07-12); same camera and style as floor 3; matches plan-1 (A1-A4, balconies). One include-polygon restores the bottom wall face that the colour key cut raggedly.",
+   "appImage": null,
+   "generic": false,
+   "srcSize": [
+    4096,
+    2294
+   ],
+   "srcModelBBox": [
+    478,
+    39,
+    3698,
+    2251
+   ],
+   "transform": {
+    "sx": 0.76318359375,
+    "sy": 0.7632955536181343,
+    "tx": 38,
+    "ty": 271,
+    "convention": "floor-image px = src-render px * s + t (pixel-edge coordinates; centre of src px (u,v) -> ((u+0.5)*sx+tx-0.5, (v+0.5)*sy+ty-0.5))"
+   },
+   "modelBoxInImage": [
+    402.8,
+    300.8,
+    2860.3,
+    1989.2
+   ],
+   "zoomTransform": {
+    "sx": 1.5263671875,
+    "sy": 1.5265911072362686,
+    "tx": 76,
+    "ty": 542
+   },
+   "zoomNote": "exactly 2x the base grid (zoom px = 2 * base px); interior from a tiled ByteDance upscale registered to the source (<0.25 px) and colour-locked to his render (low frequencies are his pixels); edges/alpha from the source matte",
+   "zoomUpscale": {
+    "tiles": 2,
+    "k": 1.78
+   }
+  },
+  "2": {
+   "src": "img/floor-2.jpg",
+   "w": 3840,
+   "h": 2160,
+   "zoomSrc": "img/floor-2-zoom.jpg",
+   "zoomW": 7680,
+   "zoomH": 4320,
+   "sourceRender": "שיווק/מפרטי דירות ותשריטים/קומה 2/ישן/הדמיה קומה 2 איכות משופרת.png (4096x2304, lossless original of the app image floors/floor2-render.jpg)",
+   "note": "The render the app uses for floor 2 (black background). NB: the floor-2 folder also holds \"הדמיה קומה 2 מעודכן.png\", the same size in bytes as the updated floor-3 render (floors 2 and 3 share the layout); the app choice was kept.",
+   "appImage": "assets/web/floors/floor2-render.jpg",
+   "generic": false,
+   "srcSize": [
+    4096,
+    2304
+   ],
+   "srcModelBBox": [
+    565,
+    31,
+    3473,
+    2205
+   ],
+   "transform": {
+    "sx": 0.794921875,
+    "sy": 0.7947048611111112,
+    "tx": 27,
+    "ty": 256,
+    "convention": "floor-image px = src-render px * s + t (pixel-edge coordinates; centre of src px (u,v) -> ((u+0.5)*sx+tx-0.5, (v+0.5)*sy+ty-0.5))"
+   },
+   "modelBoxInImage": [
+    476.1,
+    280.6,
+    2787.8,
+    2008.3
+   ],
+   "zoomTransform": {
+    "sx": 1.58984375,
+    "sy": 1.5894097222222223,
+    "tx": 54,
+    "ty": 512
+   },
+   "zoomNote": "exactly 2x the base grid (zoom px = 2 * base px); interior from a tiled ByteDance upscale registered to the source (<0.25 px) and colour-locked to his render (low frequencies are his pixels); edges/alpha from the source matte",
+   "zoomUpscale": {
+    "tiles": 2,
+    "k": 1.81
+   }
+  },
+  "3": {
+   "src": "img/floor-3.jpg",
+   "w": 3840,
+   "h": 2160,
+   "zoomSrc": "img/floor-3-zoom.jpg",
+   "zoomW": 7680,
+   "zoomH": 4320,
+   "sourceRender": "שיווק/מפרטי דירות ותשריטים/קומה 3/הדמיה קומה 3 מעודכן.png (4096x2294, lossless original of the app image floors/floor3-render.jpg)",
+   "note": "His floor-3 render (grey background; own matte: shadow-invariant colour key + local background model + GrabCut; one include-polygon for the notch wall face). Units C1-C4.",
+   "appImage": "assets/web/floors/floor3-render.jpg",
+   "generic": false,
+   "srcSize": [
+    4096,
+    2294
+   ],
+   "srcModelBBox": [
+    481,
+    33,
+    3469,
+    2242
+   ],
+   "transform": {
+    "sx": 0.7822265625,
+    "sy": 0.7820401046207498,
+    "tx": 87,
+    "ty": 255,
+    "convention": "floor-image px = src-render px * s + t (pixel-edge coordinates; centre of src px (u,v) -> ((u+0.5)*sx+tx-0.5, (v+0.5)*sy+ty-0.5))"
+   },
+   "modelBoxInImage": [
+    463.3,
+    280.8,
+    2800.5,
+    2008.3
+   ],
+   "zoomTransform": {
+    "sx": 1.564453125,
+    "sy": 1.5640802092414996,
+    "tx": 174,
+    "ty": 510
+   },
+   "zoomNote": "exactly 2x the base grid (zoom px = 2 * base px); interior from a tiled ByteDance upscale registered to the source (<0.25 px) and colour-locked to his render (low frequencies are his pixels); edges/alpha from the source matte",
+   "zoomUpscale": {
+    "tiles": 2,
+    "k": 1.78
+   }
+  }
+ },
+ "alternates": {
+  "generic": {
+   "src": "img/floor-generic.jpg",
+   "w": 3840,
+   "h": 2160,
+   "sourceRender": "assets/web/apt/floor-angle-1.png (2400x1792)",
+   "transform": {
+    "sx": 1.1091666666666666,
+    "sy": 1.109375,
+    "tx": 308,
+    "ty": 169,
+    "convention": "floor-image px = src-render px * s + t (pixel-edge coordinates; centre of src px (u,v) -> ((u+0.5)*sx+tx-0.5, (v+0.5)*sy+ty-0.5))"
+   },
+   "note": "The app \"generic\" floor picture, staged the same way, in case the real ground/floor-1 renders are not wanted. All four apt/floor-angle-*.png were checked: they are views of FLOOR 2 (same layout as floors/floor2-render: left balcony, curved stair, lift), not of ground or floor 1; angle-1 is the closest to the reference 3/4 view."
+  }
+ },
+ "rooms": {
+  "Y1": [
+   {
+    "slug": "living-bedroom",
+    "src": "img/room-Y1-living-bedroom.jpg",
+    "w": 3840,
+    "h": 2160,
+    "label": {
+     "he": "סלון וחדר שינה",
+     "en": "Living & bedroom"
+    },
+    "sourceRender": "assets/web/apt/interior/y1-living-bedroom.jpg (1627x967; same resolution as the OneDrive original, no larger copy exists)",
+    "method": "crop",
+    "crop": [
+     0,
+     26,
+     1627,
+     941
+    ],
+    "note": "aspect 1.68 >= 1.45: 16:9 crop [0, 26, 1627, 941] of his render, then ByteDance 4K upscale colour-locked to his pixels"
+   },
+   {
+    "slug": "kitchen",
+    "src": "img/room-Y1-kitchen.jpg",
+    "w": 3840,
+    "h": 2160,
+    "label": {
+     "he": "מטבח",
+     "en": "Kitchen"
+    },
+    "sourceRender": "assets/web/apt/interior/y1-kitchen.jpg (1587x842; same resolution as the OneDrive original, no larger copy exists)",
+    "method": "crop",
+    "crop": [
+     45,
+     0,
+     1542,
+     842
+    ],
+    "note": "aspect 1.88 >= 1.45: 16:9 crop [45, 0, 1542, 842] of his render, then ByteDance 4K upscale colour-locked to his pixels"
+   },
+   {
+    "slug": "bathroom",
+    "src": "img/room-Y1-bathroom.jpg",
+    "w": 3840,
+    "h": 2160,
+    "label": {
+     "he": "חדר רחצה",
+     "en": "Bathroom"
+    },
+    "sourceRender": "assets/web/apt/interior/y1-bathroom.jpg (1435x1096; same resolution as the OneDrive original, no larger copy exists)",
+    "method": "outpaint",
+    "canvasToSource": [
+     [
+      0.5608309633985096,
+      0.0,
+      -353.6656248450015
+     ],
+     [
+      0.0,
+      0.5608309633985096,
+      -75.75210741015383
+     ]
+    ],
+    "note": "aspect 1.31: AI outpaint to 16:9 (walls/floor/ceiling only, checked); the outpaint model squeezed the room 2.6 percent vertically, so the outpaint was un-squashed; the centre is HIS render (AI-upscaled, colour-locked, uniform scale 1.783 canvas px per source px) and the outpaint fills only the sides, blended over ~20 px at the edge of his pixels"
+   }
+  ],
+  "Y3": [
+   {
+    "slug": "living",
+    "src": "img/room-Y3-living.jpg",
+    "w": 3840,
+    "h": 2160,
+    "label": {
+     "he": "סלון",
+     "en": "Living room"
+    },
+    "sourceRender": "assets/web/apt/interior/y3-living.jpg (1677x938; same resolution as the OneDrive original, no larger copy exists)",
+    "method": "crop",
+    "crop": [
+     5,
+     0,
+     1673,
+     938
+    ],
+    "note": "aspect 1.79 >= 1.45: 16:9 crop [5, 0, 1673, 938] of his render, then ByteDance 4K upscale colour-locked to his pixels"
+   },
+   {
+    "slug": "kitchen",
+    "src": "img/room-Y3-kitchen.jpg",
+    "w": 3840,
+    "h": 2160,
+    "label": {
+     "he": "מטבח",
+     "en": "Kitchen"
+    },
+    "sourceRender": "assets/web/apt/interior/y3-kitchen.jpg (1769x889; same resolution as the OneDrive original, no larger copy exists)",
+    "method": "crop",
+    "crop": [
+     0,
+     0,
+     1580,
+     889
+    ],
+    "note": "aspect 1.99 >= 1.45: 16:9 crop [0, 0, 1580, 889] of his render, then ByteDance 4K upscale colour-locked to his pixels"
+   },
+   {
+    "slug": "bedroom",
+    "src": "img/room-Y3-bedroom.jpg",
+    "w": 3840,
+    "h": 2160,
+    "label": {
+     "he": "חדר שינה",
+     "en": "Bedroom"
+    },
+    "sourceRender": "assets/web/apt/interior/y3-bedroom.jpg (1254x1254; same resolution as the OneDrive original, no larger copy exists)",
+    "method": "outpaint",
+    "canvasToSource": [
+     [
+      0.5211047602429474,
+      0.0,
+      -373.455178347059
+     ],
+     [
+      0.0,
+      0.5211047602429474,
+      66.7838244313997
+     ]
+    ],
+    "note": "aspect 1.00: AI outpaint to 16:9 (walls/floor/ceiling only, checked); the outpaint model squeezed the room 9.9 percent vertically, so the outpaint was un-squashed; the centre is HIS render (AI-upscaled, colour-locked, uniform scale 1.919 canvas px per source px) and the outpaint fills only the sides, blended over ~20 px at the edge of his pixels"
+   },
+   {
+    "slug": "bathroom",
+    "src": "img/room-Y3-bathroom.jpg",
+    "w": 3840,
+    "h": 2160,
+    "label": {
+     "he": "חדר רחצה",
+     "en": "Bathroom"
+    },
+    "sourceRender": "assets/web/apt/interior/y3-bathroom.jpg (1310x1201; no OneDrive original was matched (media.json original: null))",
+    "method": "outpaint",
+    "canvasToSource": [
+     [
+      0.5376447820998588,
+      0.0,
+      -377.75436040946875
+     ],
+     [
+      0.0,
+      0.5376447820998588,
+      20.175413651134704
+     ]
+    ],
+    "note": "aspect 1.09: AI outpaint to 16:9 (walls/floor/ceiling only, checked); the outpaint model squeezed the room 3.6 percent vertically, so the outpaint was un-squashed; the centre is HIS render (AI-upscaled, colour-locked, uniform scale 1.860 canvas px per source px) and the outpaint fills only the sides, blended over ~20 px at the edge of his pixels"
+   }
+  ]
+ },
+ "credits": {
+  "spent": 47,
+  "cap": 80,
+  "log": "scratchpad h3d/v4/assets/credits.log"
+ }
+}

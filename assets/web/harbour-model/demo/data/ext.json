@@ -1,0 +1,109 @@
+{
+  "_meta": {
+    "generatedBy": "scratchpad h3d/v14/extend.py (FLUX.2 Pro outpaint + ByteDance 4K tile upscale via Higgsfield, two-scale seam match outside the frame, lossless DCT splice of the original)",
+    "coords": "src is w x h; the camera still (cams.json, its masks / polygons / boxes, still px) sits UNCHANGED at offset [x, y]: canvas px = still px + offset. src1920 is the same canvas at scale1920 (offset1920 = offset * scale1920), its centre = the still1920 pixels.",
+    "frameIdentical": "decoded, the frame [offset, offset + orig] equals the decoded still exactly (max abs diff 0)"
+  },
+  "rear": {
+    "src": "img/ext/rear-ext.jpg",
+    "w": 5536,
+    "h": 2928,
+    "offset": [
+      848,
+      384
+    ],
+    "orig": [
+      3840,
+      2160
+    ],
+    "src1920": "img/ext/rear-ext-1920.jpg",
+    "w1920": 2768,
+    "h1920": 1464,
+    "scale1920": 0.5,
+    "offset1920": [
+      424,
+      192
+    ],
+    "still": "img/rear.jpg",
+    "frameMaxAbsDiff": [
+      0,
+      0
+    ],
+    "bytes": [
+      3905233,
+      1327713
+    ]
+  },
+  "front": {
+    "src": "img/ext/front-ext.jpg",
+    "w": 5536,
+    "h": 2928,
+    "offset": [
+      848,
+      384
+    ],
+    "orig": [
+      3840,
+      2160
+    ],
+    "src1920": "img/ext/front-ext-1920.jpg",
+    "w1920": 2768,
+    "h1920": 1464,
+    "scale1920": 0.5,
+    "offset1920": [
+      424,
+      192
+    ],
+    "still": "img/front.jpg",
+    "frameMaxAbsDiff": [
+      0,
+      0
+    ],
+    "bytes": [
+      3588928,
+      1312578
+    ]
+  },
+  "rearx": {
+    "src": "img/ext/rear-x-ext.jpg",
+    "w": 5536,
+    "h": 2928,
+    "offset": [
+      848,
+      384
+    ],
+    "orig": [
+      3840,
+      2160
+    ],
+    "src1920": "img/ext/rear-x-ext-1920.jpg",
+    "w1920": 2768,
+    "h1920": 1464,
+    "scale1920": 0.5,
+    "offset1920": [
+      424,
+      192
+    ],
+    "still": "img/rear-x.jpg",
+    "frameMaxAbsDiff": [
+      0,
+      0
+    ],
+    "bytes": [
+      3804846,
+      1309152
+    ],
+    "reuses": "rear",
+    "reuseMaxAbsDiff": [
+      0,
+      0
+    ],
+    "newPixels": [
+      2144,
+      2544,
+      4464,
+      2928
+    ],
+    "made": "h3d/v18/rearx-ext: rear-ext.jpg's own DCT blocks everywhere else (its left / right / top bands and bottom corners), rear-x.jpg's own blocks in the frame; only the zone below the changed part of the frame (newPixels, canvas px x0 y0 x1 y1) is newly painted: a Nano Banana 2.1 4K inpaint from rear-x, warped back onto the true geometry, detail- and membrane tone-matched to its three sides"
+  }
+}

@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>סיור למרינה · THE HARBOUR</title>
+<meta name="description" content="סיור Street View אוטומטי מהבניין בקונטוריוטו 161 בפיראוס אל מרינת היאכטות זאה (ZEA) – המים 290 מ׳ מהבניין (אב-טיפוס).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=David+Libre:wght@400;500;700&family=Heebo:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* סיור למרינה - styled like The Harbour's map modal (assets/web/harbour.html .map-modal / .mm-*): deep green-black
+   glass, cream text, gold-bri pills; Heebo body, David Libre display, Space Grotesk for the small caps lines. */
+:root{
+  --ink:#06100c;
+  --ink-2:#0b1d2e;
+  --glass:rgba(8,20,16,.74);
+  --glass-2:rgba(8,20,16,.86);
+  --cream:#f0e9d8;
+  --cream-2:#e9e2cf;
+  --cream-dim:rgba(240,233,216,.66);
+  --gold:#b89d75;
+  --gold-bri:#D8C8B0;
+  --route:#C8A96B;
+  --brand-green:#00291F;
+  --edge:rgba(231,211,166,.3);
+  --edge-2:rgba(231,211,166,.18);
+  --display:'David Libre','Frank Ruhl Libre','Times New Roman',serif;
+  --body:'Heebo','Assistant','Segoe UI',Tahoma,sans-serif;
+  --mono:'Space Grotesk',ui-monospace,'SFMono-Regular',monospace;
+  --safe-b:40px; /* the bottom strip stays clear: Google's logo, copyright and "Report a problem" live there */
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--ink);color:var(--cream);font-family:var(--body);overflow:hidden;-webkit-font-smoothing:antialiased;
+  -webkit-user-select:none;user-select:none}
+button{font:inherit;color:inherit}
+[hidden]{display:none!important}
+
+/* ---------- stage ---------- */
+.stage{position:fixed;inset:0;background:var(--ink);overflow:hidden}
+.sv{position:absolute;inset:0;opacity:1}
+#svA{z-index:2}#svB{z-index:1}
+.sv.fading{transition:opacity var(--fade,520ms) cubic-bezier(.45,.05,.55,.95);opacity:0}
+.stage.single #svB{display:none}
+/* one panorama (?buffer=1, touch devices): the opening dips the picture to the page colour and back (review R2) */
+.stage.dipping .sv{transition:opacity .34s ease}
+.stage.dip .sv{opacity:0}
+/* the opening (real-imagery review): the ink and the loading pill until the building view has its first tiles */
+.stage.veiled .sv{opacity:0}
+.stage.unveil .sv{transition:opacity .45s ease}
+
+/* demo mode (no Google): a quiet backdrop, a compass that shows the eased heading, the step */
+.dry{position:absolute;inset:0;z-index:3;display:grid;place-items:center;
+  background:radial-gradient(120% 90% at 50% 120%,#173a2e 0%,#0b1d17 45%,#050c09 100%)}
+.dry::after{content:"";position:absolute;inset:0;opacity:.35;
+  background:repeating-linear-gradient(115deg,transparent 0 38px,rgba(231,211,166,.04) 38px 39px)}
+.dry-badge{position:absolute;top:84px;inset-inline:0;margin-inline:auto;width:max-content;max-width:calc(100% - 32px);text-align:center;font:500 13px var(--body);letter-spacing:.02em;color:var(--gold-bri);
+  border:1px dashed var(--edge);border-radius:30px;padding:6px 14px;white-space:nowrap;z-index:1}
+/* (the beat pill sits where the badge is: the badge steps aside while it shows) */
+body:has(#beat:not([hidden])) .dry-badge{visibility:hidden}
+.dry-compass{width:min(34vmin,280px);z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px}
+.dry-compass svg{width:100%;aspect-ratio:1}
+.dry-compass span{font-size:12.5px;color:var(--cream-dim)}
+.dry-compass circle{fill:rgba(255,255,255,.03);stroke:var(--edge);stroke-width:1}
+.dry-compass .hub{fill:var(--cream);stroke:none}
+.dry-compass #dryNeedle{transform-origin:50px 50px;transform-box:view-box}
+.dry-compass .n{fill:var(--gold-bri)}.dry-compass .s{fill:rgba(240,233,216,.22)}
+.dry-compass text{fill:var(--cream-dim);font:600 7px var(--mono);text-anchor:middle}
+.dry-step{position:absolute;top:calc(50% + min(17vmin,140px) + 46px);font:500 14px var(--mono);letter-spacing:.12em;color:var(--cream-dim);z-index:1;direction:ltr}
+
+/* ---------- top bar ---------- */
+.topbar{position:fixed;top:0;inset-inline:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px clamp(16px,3vw,32px);pointer-events:none;
+  background:linear-gradient(180deg,rgba(6,16,12,.78),rgba(6,16,12,0))}
+.topbar>*{pointer-events:auto}
+/* inside the app the host overlay gives the brand and the close: no second top bar (review M3) */
+.embed .topbar{display:none}
+.brand{display:flex;flex-direction:column;line-height:1.1}
+.brand b{font:700 15px var(--display);letter-spacing:.2em;color:var(--cream)}
+.brand span{font-size:12.5px;color:var(--gold-bri);margin-top:3px}
+
+/* ---------- pills (the .mm-tab / .mm-close family) ---------- */
+.pill{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-family:var(--body);font-size:14px;font-weight:600;
+  border-radius:30px;padding:9px 20px;cursor:pointer;border:1px solid var(--edge);background:rgba(255,255,255,.08);color:var(--cream);
+  text-decoration:none}
+/* (app integration, 2026-11-03 - scripts/style-guard.mjs: no fade of painted properties, no hover that moves the
+   hovered pill; hover colours change at once) */
+.pill:hover{border-color:var(--gold-bri)}
+.pill.ghost:hover{background:#fff;color:#0c1f17}
+.pill.gold{background:var(--gold-bri);border-color:var(--gold-bri);color:#0c1f17}
+.pill.gold:hover{background:#efe3cf}
+.pill.big{font-size:17px;padding:13px 30px;box-shadow:0 10px 30px -10px rgba(0,0,0,.6),0 0 0 6px rgba(216,200,176,.12)}
+.pill svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.eyebrow{font:500 11px var(--mono);letter-spacing:.32em;text-transform:uppercase;color:var(--gold-bri);direction:ltr}
+.eyebrow.he{font:500 13px var(--body);letter-spacing:.02em;text-transform:none;direction:rtl}
+
+/* ---------- start: the button ---------- */
+.cta{position:fixed;z-index:15;bottom:calc(var(--safe-b) + 16px);inset-inline:0;margin-inline:auto;width:max-content;display:flex;flex-direction:column;align-items:center;gap:10px;
+  padding:16px 22px 14px;border-radius:22px;background:var(--glass);border:1px solid var(--edge-2);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);max-width:calc(100vw - 32px)}
+.cta-meta{font-size:13px;color:var(--cream-dim);text-align:center}
+
+/* ---------- mid-tour beat ---------- */
+.beat{position:fixed;z-index:16;top:96px;inset-inline:0;margin-inline:auto;width:max-content;text-align:center;font:500 clamp(20px,3vw,30px) var(--display);color:var(--cream);
+  padding:10px 26px;border-radius:40px;background:var(--glass);border:1px solid var(--edge);white-space:nowrap;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);animation:beatIn .6s ease both;max-width:calc(100vw - 32px)}
+@keyframes beatIn{from{opacity:0}to{opacity:1}}
+
+/* ---------- HUD ---------- */
+.hud{position:fixed;z-index:15;bottom:var(--safe-b);inset-inline:0;margin-inline:auto;width:min(880px,calc(100vw - 32px));
+  padding:14px 20px 12px;border-radius:20px;background:var(--glass);border:1px solid var(--edge-2);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.hud-row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.hud-where{display:flex;align-items:baseline;gap:12px;min-width:0}
+.hud-where b{font:500 22px var(--display);color:var(--cream);white-space:nowrap}
+.hud-where span{font-size:13px;color:var(--gold-bri);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hud-dist{display:flex;align-items:center;gap:8px;font:500 13px var(--mono);color:var(--cream-dim);white-space:nowrap}
+.track{position:relative;height:6px;margin:12px 0 6px;border-radius:6px;background:rgba(255,255,255,.12)}
+/* the progress runs on transform only (app integration, 2026-11-03 - scripts/style-guard.mjs): the fill is the whole track
+   scaled from its start, the head rides a full-width .track-run translated by the same share - no layout or repaint
+   per frame for the ~50 s of the tour (setProgress in tour.js) */
+.track-fill{position:absolute;inset-block:0;right:0;width:100%;border-radius:6px;background:linear-gradient(270deg,var(--gold),var(--gold-bri));
+  transform:scaleX(0);transform-origin:100% 50%;transition:transform var(--tw,1.1s) linear}
+.track-run{position:absolute;inset:0;pointer-events:none;transition:transform var(--tw,1.1s) linear}
+.track-head{position:absolute;top:50%;right:0;width:14px;height:14px;margin-right:-7px;border-radius:50%;background:var(--brand-green);border:2px solid var(--cream);
+  transform:translateY(-50%);box-shadow:0 0 0 4px rgba(216,200,176,.22)}
+.track-tick{position:absolute;top:-4px;width:2px;height:14px;background:var(--cream-dim);border-radius:2px}
+.track-tick span{position:absolute;bottom:16px;right:50%;transform:translateX(50%);font-size:11px;color:var(--cream-dim);white-space:nowrap}
+/* English (?lang=en): the route runs left to right */
+[dir=ltr] .track-fill{right:auto;left:0;transform-origin:0 50%;background:linear-gradient(90deg,var(--gold),var(--gold-bri))}
+[dir=ltr] .track-head{right:auto;left:0;margin-right:0;margin-left:-7px}
+[dir=ltr] .eyebrow.he{direction:ltr}
+.track-ends{display:flex;justify-content:space-between;font-size:11.5px;color:var(--cream-dim)}
+.hud-ctl{display:flex;align-items:center;gap:10px;margin-top:10px}
+.ctl{cursor:pointer;border:1px solid var(--edge);background:rgba(255,255,255,.07);color:var(--cream)}
+.ctl:hover{border-color:var(--gold-bri)}
+.ctl.round{width:40px;height:40px;border-radius:50%;display:grid;place-items:center}
+.ctl.round svg{width:18px;height:18px;fill:currentColor}
+.ctl .i-play{display:none}
+.hud.paused .ctl .i-play{display:block}.hud.paused .ctl .i-pause{display:none}
+.ctl.chip{height:34px;padding:0 14px;border-radius:30px;font:600 13px var(--body)}
+#btnSpeed{font-family:var(--mono);min-width:52px}
+#btnSpeed.on{background:var(--gold-bri);border-color:var(--gold-bri);color:#0c1f17}
+.ctl.ghost{margin-inline-start:auto}
+.ctl.ghost:hover{background:#fff;color:#0c1f17}
+.hud-time{font:500 12.5px var(--mono);color:var(--cream-dim)}
+.paused-note{margin-top:8px;font-size:12.5px;color:var(--gold-bri)}
+
+/* loading ring (a step that waits for its picture) */
+.hold{display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid rgba(216,200,176,.28);border-top-color:var(--gold-bri);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- mini-map (top-left: the end of an RTL line, clear of the title and of the bottom attribution) ---------- */
+.mini{position:fixed;z-index:14;top:72px;inset-inline-end:clamp(16px,3vw,32px);width:260px;padding:6px;border-radius:16px;background:var(--glass-2);
+  border:1px solid var(--edge-2);box-shadow:0 18px 40px -18px rgba(0,0,0,.7)}
+.mini-map,.mini-svg{display:block;width:100%;height:170px;border-radius:11px;overflow:hidden;background:#0d1f19}
+.mini-credit{display:block;padding:4px 4px 0;font-size:9.5px;color:var(--cream-dim);direction:ltr;text-align:left}
+.mini-svg .road{fill:none;stroke:rgba(240,233,216,.16);stroke-width:7;stroke-linecap:round;stroke-linejoin:round}
+.mini-svg .route{fill:none;stroke:var(--route);stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
+.mini-svg .done{fill:none;stroke:var(--cream);stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;opacity:.9}
+.mini-svg .dot{fill:var(--brand-green);stroke:var(--cream);stroke-width:2}
+.mini-svg .end{fill:var(--route);stroke:var(--ink);stroke-width:1.5}
+.mini-svg .start{fill:var(--cream);stroke:var(--brand-green);stroke-width:2}
+.mini-svg text{fill:var(--cream-dim);font:500 9px var(--body)}
+
+/* ---------- arrival card ---------- */
+.arrive{position:fixed;z-index:17;bottom:calc(var(--safe-b) + 16px);inset-inline:0;margin-inline:auto;width:min(460px,calc(100vw - 32px));
+  text-align:center;padding:22px 24px 20px;border-radius:24px;background:var(--glass-2);border:1px solid var(--edge);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);animation:beatIn .7s ease both}
+.arrive h1{font:500 clamp(30px,4.4vw,42px) var(--display);color:var(--cream);margin:6px 0 2px;letter-spacing:.02em}
+.arrive p{font-size:15px;color:var(--cream-2)}
+.arr-small{display:block;margin-top:6px;font-size:12.5px;color:var(--cream-dim)}
+.arr-btns{display:flex;justify-content:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+
+/* ---------- error / setup state ---------- */
+.err{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:16px;overflow:auto;
+  background:radial-gradient(120% 90% at 50% 0%,rgba(23,58,46,.96),rgba(6,16,12,.98))}
+.err-card{width:min(720px,100%);padding:26px clamp(18px,3vw,32px);border-radius:24px;background:rgba(255,255,255,.04);border:1px solid var(--edge)}
+.err h2{font:500 clamp(22px,3vw,30px) var(--display);margin:8px 0 8px;color:var(--cream)}
+.err p{font-size:14.5px;line-height:1.6;color:var(--cream-dim)}
+.err ol{margin:16px 0 4px;padding-inline-start:22px;display:grid;gap:8px;font-size:14px;line-height:1.55;color:var(--cream-2)}
+.err li::marker{color:var(--gold-bri);font-family:var(--mono)}
+.err li b{color:var(--gold-bri);font-weight:600;unicode-bidi:isolate} /* each Latin console name is its own island: "☰ ← A ← B" keeps its order in Hebrew */
+.err li bdi{font-family:var(--mono);font-size:12.5px;color:var(--cream);display:inline-block;direction:ltr;max-width:100%;overflow-wrap:anywhere}
+.err-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px}
+.err code{font:500 12px var(--mono);color:var(--cream-dim);direction:ltr}
+.err-btns{display:flex;gap:10px;flex-wrap:wrap}
+
+.loading{position:fixed;z-index:12;top:50%;inset-inline:0;margin-inline:auto;width:max-content;transform:translateY(-50%);display:flex;align-items:center;gap:10px;
+  padding:10px 18px;border-radius:30px;background:var(--glass);border:1px solid var(--edge-2);font-size:13.5px;color:var(--cream-dim)}
+
+/* ---------- small screens ---------- */
+@media (max-width:640px){
+  .mini{width:168px;top:64px}.mini-map,.mini-svg{height:112px}
+  .hud{padding:12px 14px 10px}
+  .hud-where b{font-size:18px}.hud-where span{display:none}
+  .hud-time{display:none}
+  .track-tick span{display:none} /* (the distance to the water is in the HUD line above) */
+  .beat{top:auto;bottom:250px;font-size:19px;white-space:normal}
+  .dry-badge{top:250px;font-size:12px}
+  .mini-credit{font-size:8.5px}
+  .brand span{display:none}
+}
+@media (pointer:coarse){.ctl.round{width:46px;height:46px}.ctl.chip{height:40px}}
+
+</style>
+<!-- serve.mjs swaps this placeholder for the key, in memory, on every request; opened any other way the page shows "no key" -->
+<script>window.MARINA_KEY = "__MARINA_GMAPS_KEY__";</script>
+</head>
+<body>
+
+<!-- the Street View stage: two stacked panoramas (the one underneath preloads the next step), or the no-Google demo -->
+<main id="stage" class="stage" aria-label="Street View">
+  <div id="svA" class="sv"></div>
+  <div id="svB" class="sv"></div>
+  <div id="dry" class="dry" hidden>
+    <div class="dry-badge" data-w="dryBadge">הדגמת ממשק · בלי Google · אין כאן תמונות רחוב</div>
+    <div class="dry-compass" id="dryCompass"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46"/><text x="50" y="14">N</text><g id="dryNeedle"><path class="n" d="M50 18 L55.5 50 L50 46 L44.5 50 Z"/><path class="s" d="M50 82 L55.5 50 L50 54 L44.5 50 Z"/></g><circle class="hub" cx="50" cy="50" r="3"/></svg><span data-w="dryCompass">כיוון המבט</span></div>
+    <div class="dry-step" id="dryStep"></div>
+  </div>
+</main>
+
+<!-- standalone only: inside the app (embed) the host overlay has its own brand and "✕ חזרה למודל" -->
+<header class="topbar">
+  <div class="brand"><b>THE HARBOUR</b><span data-w="brandSub">סיור למרינה · פיראוס</span></div>
+</header>
+
+<!-- mini-map: a Google map with OUR OpenStreetMap route line (Google mode), or a drawing of that line (demo mode only) -->
+<aside id="mini" class="mini" hidden aria-label="מפת המסלול">
+  <div id="miniMap" class="mini-map"></div>
+  <svg id="miniSvg" class="mini-svg" hidden aria-hidden="true"></svg>
+  <small class="mini-credit" data-w="miniCredit">מסלול: © OpenStreetMap contributors</small>
+</aside>
+
+<section id="cta" class="cta" hidden>
+  <div class="eyebrow">PIRAEUS · ZEA MARINA</div>
+  <button id="btnTour" class="pill gold big" type="button">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2"/><path d="M12 7v13M8 10.5h8M4.5 14c.8 3.6 3.7 6 7.5 6s6.7-2.4 7.5-6"/></svg>
+    <span data-w="tour">סיור למרינה</span>
+  </button>
+  <div class="cta-meta" id="ctaMeta">המרינה 290 מ׳ מהבניין · כ-4 דק׳ הליכה</div>
+</section>
+
+<div id="beat" class="beat" hidden></div>
+
+<section id="hud" class="hud" hidden aria-live="polite">
+  <div class="hud-row">
+    <div class="hud-where"><b id="hudLabel"></b><span id="hudSub"></span></div>
+    <div class="hud-dist"><i id="hold" class="hold" hidden title="טוען את התמונה הבאה"></i><span id="hudMetres"></span></div>
+  </div>
+  <div class="track" id="track">
+    <div class="track-fill" id="fill"></div>
+    <div class="track-tick" id="tick"><span id="tickLabel">המים · 290 מ׳</span></div>
+    <div class="track-run" id="run"><div class="track-head" id="head"></div></div>
+  </div>
+  <div class="track-ends"><span id="endA">קונטוריוטו 161</span><span id="endB">מזח C</span></div>
+  <div class="hud-ctl">
+    <button id="btnPause" class="ctl round" type="button" aria-label="השהיה">
+      <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+      <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>
+    </button>
+    <button id="btnSpeed" class="ctl chip" type="button" aria-label="מהירות" dir="ltr">×1</button>
+    <span class="hud-time" id="hudTime"></span>
+    <button id="btnExit" class="ctl chip ghost" type="button" data-w="exit">✕ יציאה מהסיור</button>
+  </div>
+  <div class="paused-note" id="pausedNote" hidden data-w="pausedNote">מושהה · גררו כדי להסתכל מסביב · רווח להמשך</div>
+</section>
+
+<section id="arrive" class="arrive" hidden>
+  <div class="eyebrow">ZEA MARINA · PIRAEUS</div>
+  <h1 id="arriveH">המרינה 290 מ׳ מהבניין</h1>
+  <p id="arriveMeta">כ-4 דק׳ הליכה · מרינת זאה (ZEA)</p>
+  <small id="arriveSmall" class="arr-small">עד מזח C: 740 מ׳</small>
+  <div class="arr-btns">
+    <button id="btnAgain" class="pill ghost" type="button" data-w="again">↺ שוב</button>
+    <button id="btnHome" class="pill gold" type="button" data-w="home">חזרה לבניין</button>
+    <button id="btnModel" class="pill ghost" type="button" hidden data-w="model">חזרה למודל</button>
+  </div>
+</section>
+
+<section id="err" class="err" hidden role="alertdialog" aria-labelledby="errTitle">
+  <div class="err-card">
+    <div class="eyebrow he" data-w="errEyebrow">Google Street View · נדרשת פעולה</div>
+    <h2 id="errTitle"></h2>
+    <p id="errText"></p>
+    <ol id="errSteps"></ol>
+    <div class="err-foot">
+      <code id="errCode"></code>
+      <div class="err-btns">
+        <button id="btnRetry" class="pill gold" type="button" data-w="retry">נסה שוב</button>
+        <a id="lnkDry" class="pill ghost" href="?google=0" data-w="dryLink">הדגמת הממשק – בלי Google</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="loading" class="loading" hidden><i class="hold"></i><span data-w="loading">טוען את Street View…</span></div>
+
+<script src="tour.js"></script>
+</body>
+</html>

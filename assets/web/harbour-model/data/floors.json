@@ -1,0 +1,380 @@
+{
+ "_meta": {
+  "generated": "2026-10-31T12:05:35.254Z",
+  "liveState": {
+   "url": "https://maoz-harbour-admin-default-rtdb.europe-west1.firebasedatabase.app/harbour/state.json",
+   "rev": 4,
+   "at": 1793263999702,
+   "atIso": "2026-10-29T08:53:19.702Z",
+   "fetchedAt": "2026-10-31T12:01:20Z"
+  },
+  "totals": {
+   "avail": 4,
+   "reserved": 1,
+   "sold": 14
+  },
+  "copiedBy": "tools/copy-media.mjs 2026-11-05T21:42:28.010Z from tools/inputs/floors.src.json (= understand phase scratchpad h3d/data/floors.json)",
+  "added": {
+   "levelId": "contract level id",
+   "glbNode": "level node in harbour.glb",
+   "fflM": "finished floor level (frame z)",
+   "fflSource": "where the level comes from",
+   "zRangeFrame": "[ffl, next ffl] - the storey band (hover proxies, glow)"
+  },
+  "statusColors": {
+   "avail": "#4FA3E0",
+   "reserved": "#F0A83C",
+   "sold": "#E0605A"
+  }
+ },
+ "floors": [
+  {
+   "id": "garden",
+   "index": 0,
+   "letter": "Y",
+   "name": {
+    "he": "קומת גן",
+    "en": "Garden floor"
+   },
+   "architectSheet": "A01 BASEMENT FLOOR PLAN",
+   "elevationM": null,
+   "levelTextOnSheet": [],
+   "units": [
+    "Y1",
+    "Y2",
+    "Y3"
+   ],
+   "unitCount": 3,
+   "counts": {
+    "avail": 2,
+    "reserved": 1,
+    "sold": 0
+   },
+   "m2Range": [
+    28,
+    55.4
+   ],
+   "priceFrom": 138000,
+   "priceFromIncludingReserved": 138000,
+   "priceRangeAll": [
+    138000,
+    250000
+   ],
+   "soldOut": false,
+   "commonM2Plan": 39.82,
+   "app": {
+    "openFloorPlan": "openFloorPlan('garden')",
+    "flp": {
+     "plan": "floors/plan-garden.png",
+     "label": "קומת גן"
+    }
+   },
+   "notes": [
+    "Architect sheet title: BASEMENT. No level mark printed on A01; the ground sheet prints the street door at -1,50 and the ground floor at ±0,00.",
+    "COMMON 39,82 m2 + two STORAGE rooms (one 2,38 wide), LIFT SHAFT, EXISTING ELECTRIC METERS."
+   ],
+   "sources": {
+    "names": "harbour-admin.js FLOORS (he/en); floor phrases harbour-mail-template.js FLOOR / FLOOR_EN; roof name from OneDrive file \"קומת גג.png\"",
+    "counts_priceFrom": "live Firebase /harbour/state rev 4 (fetched 2026-10-31T12:01:20Z)",
+    "elevation": "architect PDF level text (+3,20 / +6,40 / +9,60; ±0,00 and -1,50 on the ground sheet)"
+   },
+   "levelId": "basement",
+   "glbNode": "level_basement",
+   "fflM": -3.2,
+   "fflSource": "estimate (no level mark on A01): one 3.20 m storey below ground, +-0.3 m",
+   "zRangeFrame": [
+    -3.2,
+    0
+   ]
+  },
+  {
+   "id": "ground",
+   "index": 1,
+   "letter": "I",
+   "name": {
+    "he": "קומת קרקע",
+    "en": "Ground floor"
+   },
+   "architectSheet": "A02 GROUND FLOOR PLAN",
+   "elevationM": 0,
+   "levelTextOnSheet": [
+    "±0,00",
+    "-1,50"
+   ],
+   "units": [
+    "I1",
+    "I2",
+    "I3",
+    "I4"
+   ],
+   "unitCount": 4,
+   "counts": {
+    "avail": 0,
+    "reserved": 0,
+    "sold": 4
+   },
+   "m2Range": [
+    27.1,
+    34.7
+   ],
+   "priceFrom": null,
+   "priceFromIncludingReserved": null,
+   "priceRangeAll": [
+    138000,
+    149000
+   ],
+   "soldOut": true,
+   "commonM2Plan": 31.14,
+   "app": {
+    "openFloorPlan": "openFloorPlan('ground')",
+    "flp": {
+     "plan": "floors/plan-ground.png",
+     "label": "קומת קרקע"
+    }
+   },
+   "notes": [
+    "Street entrance from KOUNTOURIOTOU STREET at -1,50, straight stair up to ±0,00; LIFT; semicircular stair core."
+   ],
+   "sources": {
+    "names": "harbour-admin.js FLOORS (he/en); floor phrases harbour-mail-template.js FLOOR / FLOOR_EN; roof name from OneDrive file \"קומת גג.png\"",
+    "counts_priceFrom": "live Firebase /harbour/state rev 4 (fetched 2026-10-31T12:01:20Z)",
+    "elevation": "architect PDF level text (+3,20 / +6,40 / +9,60; ±0,00 and -1,50 on the ground sheet)"
+   },
+   "levelId": "ground",
+   "glbNode": "level_ground",
+   "fflM": 0,
+   "fflSource": "level mark +-0,00 on A02",
+   "zRangeFrame": [
+    0,
+    3.2
+   ]
+  },
+  {
+   "id": "1",
+   "index": 2,
+   "letter": "A",
+   "name": {
+    "he": "קומה 1",
+    "en": "Floor 1"
+   },
+   "architectSheet": "A03 1ST FLOOR PLAN",
+   "elevationM": 3.2,
+   "levelTextOnSheet": [
+    "+3,20"
+   ],
+   "units": [
+    "A1",
+    "A2",
+    "A3",
+    "A4"
+   ],
+   "unitCount": 4,
+   "counts": {
+    "avail": 0,
+    "reserved": 0,
+    "sold": 4
+   },
+   "m2Range": [
+    26.9,
+    31.3
+   ],
+   "priceFrom": null,
+   "priceFromIncludingReserved": null,
+   "priceRangeAll": [
+    155000,
+    170000
+   ],
+   "soldOut": true,
+   "commonM2Plan": 25.54,
+   "app": {
+    "openFloorPlan": "openFloorPlan('1')",
+    "flp": {
+     "plan": "floors/plan-1.png",
+     "label": "קומה 1"
+    }
+   },
+   "notes": [
+    "Floors 1-3 repeat one layout: 1 bottom-right/rear, 2 bottom-left/street, 3 top-left/street, 4 top-right/rear (sheet coordinates); floor 1 differs in balconies (A1 6,84 + 1,22; A4 1,27 + 6,24 rear terraces)."
+   ],
+   "sources": {
+    "names": "harbour-admin.js FLOORS (he/en); floor phrases harbour-mail-template.js FLOOR / FLOOR_EN; roof name from OneDrive file \"קומת גג.png\"",
+    "counts_priceFrom": "live Firebase /harbour/state rev 4 (fetched 2026-10-31T12:01:20Z)",
+    "elevation": "architect PDF level text (+3,20 / +6,40 / +9,60; ±0,00 and -1,50 on the ground sheet)"
+   },
+   "levelId": "first",
+   "glbNode": "level_first",
+   "fflM": 3.2,
+   "fflSource": "level mark +3,20 on A03",
+   "zRangeFrame": [
+    3.2,
+    6.4
+   ]
+  },
+  {
+   "id": "2",
+   "index": 3,
+   "letter": "B",
+   "name": {
+    "he": "קומה 2",
+    "en": "Floor 2"
+   },
+   "architectSheet": "A04 2ND FLOOR PLAN",
+   "elevationM": 6.4,
+   "levelTextOnSheet": [
+    "+6,40"
+   ],
+   "units": [
+    "B1",
+    "B2",
+    "B3",
+    "B4"
+   ],
+   "unitCount": 4,
+   "counts": {
+    "avail": 0,
+    "reserved": 0,
+    "sold": 4
+   },
+   "m2Range": [
+    27.35,
+    30
+   ],
+   "priceFrom": null,
+   "priceFromIncludingReserved": null,
+   "priceRangeAll": [
+    159700,
+    175100
+   ],
+   "soldOut": true,
+   "commonM2Plan": 25.52,
+   "app": {
+    "openFloorPlan": "openFloorPlan('2')",
+    "flp": {
+     "plan": "floors/plan-2.png",
+     "render": "floors/floor2-render.jpg",
+     "dims": "floors/floor2-render-dims.jpg",
+     "label": "קומה 2"
+    }
+   },
+   "notes": [
+    "Floors 1-3 repeat one layout: 1 bottom-right/rear, 2 bottom-left/street, 3 top-left/street, 4 top-right/rear (sheet coordinates); floor 1 differs in balconies (A1 6,84 + 1,22; A4 1,27 + 6,24 rear terraces)."
+   ],
+   "sources": {
+    "names": "harbour-admin.js FLOORS (he/en); floor phrases harbour-mail-template.js FLOOR / FLOOR_EN; roof name from OneDrive file \"קומת גג.png\"",
+    "counts_priceFrom": "live Firebase /harbour/state rev 4 (fetched 2026-10-31T12:01:20Z)",
+    "elevation": "architect PDF level text (+3,20 / +6,40 / +9,60; ±0,00 and -1,50 on the ground sheet)"
+   },
+   "levelId": "second",
+   "glbNode": "level_second",
+   "fflM": 6.4,
+   "fflSource": "level mark +6,40 on A04",
+   "zRangeFrame": [
+    6.4,
+    9.6
+   ]
+  },
+  {
+   "id": "3",
+   "index": 4,
+   "letter": "C",
+   "name": {
+    "he": "קומה 3",
+    "en": "Floor 3"
+   },
+   "architectSheet": "A05 3RD FLOOR PLAN",
+   "elevationM": 9.6,
+   "levelTextOnSheet": [
+    "+9,60"
+   ],
+   "units": [
+    "C1",
+    "C2",
+    "C3",
+    "C4"
+   ],
+   "unitCount": 4,
+   "counts": {
+    "avail": 2,
+    "reserved": 0,
+    "sold": 2
+   },
+   "m2Range": [
+    27.35,
+    30
+   ],
+   "priceFrom": 164400,
+   "priceFromIncludingReserved": 164400,
+   "priceRangeAll": [
+    164400,
+    180400
+   ],
+   "soldOut": false,
+   "commonM2Plan": 25.52,
+   "app": {
+    "openFloorPlan": "openFloorPlan('3')",
+    "flp": {
+     "plan": "floors/plan-3.png",
+     "label": "קומה 3"
+    }
+   },
+   "notes": [
+    "Floors 1-3 repeat one layout: 1 bottom-right/rear, 2 bottom-left/street, 3 top-left/street, 4 top-right/rear (sheet coordinates); floor 1 differs in balconies (A1 6,84 + 1,22; A4 1,27 + 6,24 rear terraces)."
+   ],
+   "sources": {
+    "names": "harbour-admin.js FLOORS (he/en); floor phrases harbour-mail-template.js FLOOR / FLOOR_EN; roof name from OneDrive file \"קומת גג.png\"",
+    "counts_priceFrom": "live Firebase /harbour/state rev 4 (fetched 2026-10-31T12:01:20Z)",
+    "elevation": "architect PDF level text (+3,20 / +6,40 / +9,60; ±0,00 and -1,50 on the ground sheet)"
+   },
+   "levelId": "third",
+   "glbNode": "level_third",
+   "fflM": 9.6,
+   "fflSource": "level mark +9,60 on A05",
+   "zRangeFrame": [
+    9.6,
+    12.8
+   ]
+  },
+  {
+   "id": "roof",
+   "index": 5,
+   "letter": null,
+   "name": {
+    "he": "קומת גג",
+    "en": "Roof floor"
+   },
+   "architectSheet": "A06 4TH FLOOR PLAN",
+   "elevationM": null,
+   "levelTextOnSheet": [],
+   "units": [],
+   "unitCount": 0,
+   "counts": {
+    "avail": 0,
+    "reserved": 0,
+    "sold": 0
+   },
+   "m2Range": null,
+   "priceFrom": null,
+   "priceFromIncludingReserved": null,
+   "priceRangeAll": null,
+   "soldOut": null,
+   "commonM2Plan": null,
+   "app": null,
+   "notes": [
+    "No units. Architect A06 4TH FLOOR PLAN text: \"OUTDOOR GYM\", dimensions 9,75 / 5,00 / 2,38, a door A.T. 0,80*1,90, SHAFT x2; the designed roof plan (OneDrive \"קומת גג.png\") draws a pergola with tables and the semicircular stair core. Not in the app today."
+   ],
+   "sources": {
+    "names": "harbour-admin.js FLOORS (he/en); floor phrases harbour-mail-template.js FLOOR / FLOOR_EN; roof name from OneDrive file \"קומת גג.png\"",
+    "counts_priceFrom": "live Firebase /harbour/state rev 4 (fetched 2026-10-31T12:01:20Z)",
+    "elevation": "architect PDF level text (+3,20 / +6,40 / +9,60; ±0,00 and -1,50 on the ground sheet)"
+   },
+   "levelId": "roof",
+   "glbNode": "level_roof",
+   "fflM": 12.8,
+   "fflSource": "extrapolated (no mark on A06): +9,60 + 3,20",
+   "zRangeFrame": [
+    12.8,
+    15.6
+   ]
+  }
+ ]
+}

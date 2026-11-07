@@ -1,0 +1,681 @@
+/* THE HARBOUR 3D lab - calculator theme "e": the MAOZ GROUP brand (owner item 26, 2026-11-02: "התפריטים בגוון קרם
+   ושילוב של ירוק כהה כמו של המותג חברה שלנו"). The demo page's calculator look (demo.html asks for it with
+   setCalcTheme('e') in src/panel/calc.ts; the 3D lab and the showcase keep "a"). ?calctheme=e (or ?theme=e) on any lab
+   URL shows it there too.
+   עיצוב "e": בצבעי המותג של מעוז גרופ - נייר קרם, דיו ירוק כהה לכל המספרים והכותרות, וזהב רק לפרטים העדינים (קווי
+   הכותרות, הקו מעל ארבעת המספרים המרכזיים, נקודות הפירוט, מסגרת הכפתור הראשי). התשואה ברוטו בזהב על לוח ירוק, כמו
+   הלוגו. רק מראה: אותם נתונים, אותם חישובים, אותו סדר. החוברת וההדפסה לא משתנות.
+
+   The brand, sampled from his logo (h3d/brand/owner-logo-sample.webp): cream #FFFDED (the logo's ground), dark green
+   #01291E (the monogram and MAOZ GROUP), gold #C6A970 (the tagline "נדל״ן • השקעות • קהילה").
+
+   Geometry is theme "d"'s (= theme "a"'s), rule for rule: every size, padding, border width, measure, the years-menu
+   anchoring, the phone grid, the touch targets, the short-screen picker and the TV scale. Only colours, shadows and
+   translucency change, plus ONE paint-only layer: the green plate behind the gross yield (.res-hero::before, an empty
+   absolutely positioned box under the text - no content, no pointer events, no size or place of anything changes).
+   So the README's rules hold as in a.css / d.css:
+   - every selector starts with html.lab-theme-e #aptcalc, or with one of the page's dialogs (#pdfScenarioPicker,
+     #aptPlanModal), or is the page's view veil (#view-veil, its colour only - see the end of the file); nothing on
+     html / body / :root / *, no @font-face, no keyframes. The booklet and Print pages are built in the same document
+     outside #aptcalc, so they can never match.
+   - the page's own fonts only (Heebo, David Libre, Cormorant Garamond are already loaded by the page).
+   - nothing is hidden, added or moved: no display changes, no order / reverse / grid placement. ONE exception since
+     v13 (owner item 27f): the demo shows the clean calculator, without the unit block above it and the technical
+     spec under it ("the clean calculator" below; tools/calc-check.mjs THEME_HIDES scopes exactly those out).
+   - the boxes that WRAP keep the original's font metrics and horizontal paddings (the commands and the rate note, the
+     calculator title's box, the section labels, the scenario tabs, the plan window's tabs, the years button below
+     1100px, the rate line below 768px).
+   - hover: the rest look is restated on :hover for every pointer (a tap leaves :hover on); the highlight itself only
+     where a real hover exists, @media (hover: hover).
+   Gold is never small text on cream (the brand gold is 2.2:1 there): it is rules, rings and dots on cream, and the one
+   figure on green (6.9:1). Colour pairs, all WCAG AA (h3d/v12/calc/tools/contrast-e.cjs, composited over the real
+   surfaces) are listed with the tokens. */
+
+/* ------------------------------------------------------------------------------------------------ tokens */
+html.lab-theme-e #aptcalc,
+html.lab-theme-e #pdfScenarioPicker,
+html.lab-theme-e #aptPlanModal {
+  /* the brand */
+  --e-green: #01291e;           /* the logo's green: values, titles, the "on" states */
+  --e-cream: #fffded;           /* the logo's ground */
+  --e-gold: #c6a970;            /* the tagline's gold: rules, rings, dots; the gross yield on green */
+  /* surfaces */
+  --e-page: #f4efdc;            /* cream paper, a shade under the cards */
+  --e-sheet: rgba(255, 253, 237, .7);    /* cream glass cards */
+  --e-sheet-top: rgba(255, 254, 246, .9);
+  --e-card: #fffdf1;            /* the results card and its cells (opaque: the table's hairlines are its ground) */
+  --e-key: #fbf6e5;             /* the four key figures' cells: cream with a breath of gold */
+  --e-grid: #e7e2cc;            /* the results table's hairlines (the ground between its cells) */
+  --e-raise: rgba(255, 253, 240, .8);    /* the financing card */
+  --e-well: #fffef8;            /* input wells */
+  --e-line: rgba(1, 41, 30, .09);
+  --e-line-2: rgba(1, 41, 30, .15);
+  --e-line-3: rgba(1, 41, 30, .26);
+  --e-rule: rgba(1, 41, 30, .46);        /* totals */
+  /* ink: the brand green and two softer greens */
+  --e-ink: #01291e;             /* values, titles */
+  --e-text: #2b463c;            /* labels */
+  --e-muted: #55695f;           /* secondary text */
+  --e-on: #01291e;              /* "on" marks (the ticks): green with cream ink */
+  /* the primary action and the selected tabs: the brand green with cream ink and a gold hairline inside */
+  --e-pri-hi: #0c4031;
+  --e-pri: #02301f;
+  --e-pri-lo: #00231a;
+  --e-pri-ink: #fffded;
+  --e-pri-edge: #01291e;
+  --e-pri-sheen: inset 0 1px 0 rgba(255, 253, 237, .16), inset 0 0 0 1px rgba(198, 169, 112, .55);
+  --e-pri-shadow: 0 6px 14px -8px rgba(1, 41, 30, .65);
+  --e-pri-gloss: linear-gradient(180deg, rgba(255, 255, 255, .13) 0, rgba(255, 255, 255, .05) 46%, rgba(255, 255, 255, 0) 54%);
+  --e-gold-soft: #c6a970;       /* the key cells' head rule, the plan's hover ring */
+  --e-gold-line: rgba(198, 169, 112, .85);
+  --e-edge: rgba(1, 41, 30, .5);         /* component edges: 3:1 or more on every surface here (WCAG 1.4.11) */
+  --e-ring: 0 0 0 3px rgba(1, 41, 30, .12);
+  --e-glow: 0 1px 1px rgba(30, 40, 20, .04), 0 24px 48px -30px rgba(30, 44, 26, .32);
+  --e-gloss: inset 0 1px 0 rgba(255, 255, 255, .9);
+  /* (v13, owner item 27g: "רק צריך שיהיה טיפה יותר גלוסי ויוקרתי בלי לשנות את הצבעים") the gloss is white light only - a
+     top highlight band, a fine inner highlight line, a soft two-step depth shadow; no colour of the theme changes */
+  --e-sheen: linear-gradient(180deg, rgba(255, 255, 255, .55) 0, rgba(255, 255, 255, .2) 54px, rgba(255, 255, 255, .06) 120px, rgba(255, 255, 255, 0) 170px);
+  --e-sheen-s: linear-gradient(180deg, rgba(255, 255, 255, .72) 0, rgba(255, 255, 255, .22) 46%, rgba(255, 255, 255, 0) 54%);
+  --e-gloss-rim: inset 0 1px 0 rgba(255, 255, 255, .96), inset 0 0 0 1px rgba(255, 255, 255, .42), inset 0 -1px 0 rgba(1, 41, 30, .035);
+  /* (v13 fix, review-style g: the white cards barely changed - one notch more, still white light and the theme's own
+     green shadow only) the cards: a white band over their top ~30 %, a crisp 1px white rim inside, a soft shade along
+     the inner foot (the surface reads curved, like lacquer) and a deeper two-step shadow */
+  --e-sheen-card: linear-gradient(180deg, rgba(255, 255, 255, .95) 0, rgba(255, 255, 255, .72) 3px, rgba(255, 255, 255, .5) 16%, rgba(255, 255, 255, .26) 28%, rgba(255, 255, 255, .06) 36%, rgba(255, 255, 255, 0) 44%);
+  --e-rim-card: inset 0 1px 0 #fff, inset 0 0 0 1px rgba(255, 255, 255, .78), inset 0 -1px 0 rgba(1, 41, 30, .05), inset 0 -30px 38px -34px rgba(1, 41, 30, .085);
+  --e-depth-card: 0 1px 2px rgba(24, 40, 30, .06), 0 16px 30px -18px rgba(24, 40, 30, .36), 0 42px 74px -42px rgba(24, 40, 30, .42);
+  --e-depth: 0 1px 1px rgba(30, 40, 20, .04), 0 12px 24px -18px rgba(30, 44, 26, .26), 0 36px 68px -40px rgba(30, 44, 26, .38);
+  --e-depth-s: 0 1px 2px rgba(1, 41, 30, .07), 0 6px 14px -9px rgba(1, 41, 30, .26);
+  --e-ease: cubic-bezier(.16, 1, .3, 1);
+  /* the type scale: theme a's (768px and wider; phones keep the original's metrics, the TV block below scales up) */
+  --e-fs-xs: 11px;
+  --e-fs-s: 12.5px;
+  --e-fs-m: 14px;
+  --e-fs-l: 15px;
+  --e-fs-xl: 21px;
+  --e-fs-title: 23px;
+  --e-fs-section: 28px;
+}
+
+/* ------------------------------------------------------------------------------------------------ page */
+/* cream paper with four still, soft blooms (the tagline's gold, a breath of the brand green, cream) for the cards to sit
+   on; it covers the page's photo layer (.aptcalc-bg sits under #aptcalc: z-index 0 vs 1, and the view is at least
+   100vh tall) */
+html.lab-theme-e #aptcalc.view {
+  background:
+    radial-gradient(1100px 640px at 88% 0, rgba(214, 186, 128, .26), rgba(214, 186, 128, 0) 72%),
+    radial-gradient(900px 720px at 6% 22%, rgba(120, 150, 128, .14), rgba(120, 150, 128, 0) 72%),
+    radial-gradient(1000px 820px at 72% 64%, rgba(226, 206, 160, .22), rgba(226, 206, 160, 0) 72%),
+    radial-gradient(900px 700px at 14% 92%, rgba(120, 150, 128, .12), rgba(120, 150, 128, 0) 72%),
+    linear-gradient(180deg, #faf6e6 0, var(--e-page) 48%, #efe9d3 100%);
+  color: var(--e-text);
+  font-variant-numeric: tabular-nums lining-nums;
+  caret-color: var(--e-ink);
+}
+html.lab-theme-e #aptcalc ::selection { background: rgba(198, 169, 112, .34); color: var(--e-ink); }
+/* the embed's heavy black glow on every heading / value (maoz-embed-css) does not belong on paper */
+html.lab-theme-e #aptcalc :is(h1, h2, h3, h4, h5, p, li, b, strong),
+html.lab-theme-e #aptcalc .fin-h2 { text-shadow: none !important; }
+html.lab-theme-e #aptcalc button:focus-visible { outline: 2px solid var(--e-ink); outline-offset: 2px; }
+
+/* section title: a document heading on the start edge, a gold hairline running to the end (the logo's tagline gold) */
+html.lab-theme-e #aptcalc .apt-embed > .sec-head { text-align: start !important; margin-bottom: clamp(14px, 1.5vw, 22px); }
+html.lab-theme-e #aptcalc .fin-h2 {
+  justify-content: flex-start; gap: 18px; margin: 6px 0 0;
+  font-family: 'David Libre', 'Frank Ruhl Libre', serif !important; font-style: normal; font-weight: 500;
+  font-size: clamp(20px, 1.6vw, 30px) !important; letter-spacing: .005em; color: var(--e-ink) !important;
+}
+html.lab-theme-e #aptcalc .fin-h2::before { content: none; }
+html.lab-theme-e #aptcalc .fin-h2::after { flex: 1 1 auto; width: auto; height: 1px; background: var(--e-gold-line); }
+
+/* ------------------------------------------------------------------------------------------------ surfaces */
+/* cream glass cards: the logo's cream, brighter at the top edge (the sheen), a green hairline, a soft warm shadow */
+html.lab-theme-e #aptcalc .panel {
+  background: var(--e-sheen), linear-gradient(180deg, var(--e-sheet-top) 0, var(--e-sheet) 240px) !important;
+  border: 1px solid var(--e-line) !important;
+  border-radius: 16px;
+  box-shadow: var(--e-rim-card), var(--e-depth) !important;
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+  color: var(--e-text);
+}
+
+/* ------------------------------------------------------------------------------------------------ the clean calculator */
+/* (v13, owner item 27f, 2026-11-02: "כשלוחצים על מחשבון השקעה תסדר אותו ללא השרטוט של הדירה ... אני רוצה במחשבון רק
+   את המחשבון הנקי ללא התשריט") theme "e" is the demo page's calculator only, and the demo's apartment page shows the
+   plans in its own "תוכניות" view. So the calculator view is the calculator alone: the unit block above it - the
+   section heading ("תשריטים ומחשבון רווחיות"), the floor plan and the specs card - and the technical spec under it
+   (also not the calculator) are not displayed, and the calculator's panel starts at the top.
+   The ONE exception to "nothing is hidden" (README): display only - the DOM, its text and every script stay as they
+   are (the page still fills these blocks), every calculator control, value and button stays, and the booklet / Print
+   are built outside #aptcalc, so they cannot change. tools/calc-check.mjs knows these four selectors (THEME_HIDES) and
+   leaves exactly them out of its visibility / order comparison; everything else must still be identical. The rules
+   further down for these blocks stay: ?calctheme=e with this block removed shows them in the brand look. */
+html.lab-theme-e #aptcalc .apt-embed > .sec-head,
+html.lab-theme-e #aptcalc .apt-grid,
+html.lab-theme-e #aptcalc .apt-spec-full,
+html.lab-theme-e #aptcalc .apt-spec-text { display: none !important; }
+
+/* ------------------------------------------------------------------------------------------------ the unit block */
+/* the plan is a sheet of paper (it is a drawing on white: the sheet stays a near-white); a quiet frame, a gold ring on
+   hover (it opens the plan window) */
+html.lab-theme-e #aptcalc .floorplan {
+  background: #fffef9 !important;
+  border: 1px solid var(--e-line) !important;
+  border-radius: 16px;
+  box-shadow: var(--e-glow);
+  transition: box-shadow .3s var(--e-ease), border-color .3s var(--e-ease);
+}
+@media (hover: hover) {
+  html.lab-theme-e #aptcalc .floorplan:hover { border-color: var(--e-gold-soft) !important; box-shadow: 0 0 0 3px rgba(198, 169, 112, .2), 0 28px 54px -30px rgba(24, 40, 30, .36); }
+}
+
+html.lab-theme-e #aptcalc .apt-specs h3 {
+  font-family: 'David Libre', 'Frank Ruhl Libre', serif; font-weight: 500; font-size: clamp(22px, 2vw, 28px);
+  color: var(--e-ink); letter-spacing: .005em; margin-bottom: 4px;
+}
+html.lab-theme-e #aptcalc .apt-specs .sub {
+  color: var(--e-muted); font-size: 12.5px; letter-spacing: .03em;
+  padding-bottom: 12px; margin-bottom: 2px; border-bottom: 1px solid var(--e-line-2);
+}
+html.lab-theme-e #aptcalc .spec-row { align-items: baseline; padding: 11px 0; border-bottom: 1px solid var(--e-line); }
+html.lab-theme-e #aptcalc .spec-row span { color: var(--e-text); font-size: 14px; }
+html.lab-theme-e #aptcalc .spec-row b { font-family: 'Heebo', 'Assistant', sans-serif; font-weight: 500; font-size: 16px; color: var(--e-ink); }
+html.lab-theme-e #aptcalc .apt-price { padding-top: 16px; border-top: 1px solid var(--e-line-2); }
+html.lab-theme-e #aptcalc .apt-price small { color: var(--e-muted); font-size: 12px; letter-spacing: .04em; margin-bottom: 6px; }
+html.lab-theme-e #aptcalc .apt-price .v {
+  font-family: 'Cormorant Garamond', 'David Libre', serif; font-weight: 600; font-size: clamp(30px, 2.7vw, 40px);
+  line-height: 1; color: var(--e-ink); letter-spacing: .01em;
+}
+
+/* ------------------------------------------------------------------------------------------------ calculator head */
+html.lab-theme-e #aptcalc .calc-top { padding-bottom: 14px; margin-bottom: 18px; border-bottom: 1px solid var(--e-line-2); }
+html.lab-theme-e #aptcalc .calc-top h3 { color: var(--e-ink); } /* size / family / weight stay: they decide where the head wraps */
+html.lab-theme-e #aptcalc .fx-lbl { color: var(--e-muted); }
+/* cream glass pills with a green edge; font and horizontal padding stay the original's - they decide the wrap */
+html.lab-theme-e #aptcalc .cur-btn,
+html.lab-theme-e #aptcalc .cur-btn:hover {
+  color: var(--e-ink); background: var(--e-sheen-s), rgba(255, 253, 240, .78); border-color: var(--e-edge);
+  box-shadow: var(--e-gloss), var(--e-depth-s);
+  transition: background .25s var(--e-ease), border-color .25s var(--e-ease), color .25s var(--e-ease), box-shadow .25s var(--e-ease);
+}
+@media (hover: hover) {
+  html.lab-theme-e #aptcalc .cur-btn:hover { background: var(--e-sheen-s), var(--e-well); border-color: var(--e-ink); color: var(--e-ink); box-shadow: var(--e-gloss), 0 1px 2px rgba(1, 41, 30, .07), 0 8px 18px -8px rgba(1, 41, 30, .36); }
+}
+html.lab-theme-e #aptcalc .cur-btn:active { background: #f3eedb; box-shadow: none; }
+/* Export PDF is the one primary action: the brand green with cream ink (15:1), a gold hairline inside, a soft top lip;
+   the other three stay cream glass */
+html.lab-theme-e #aptcalc #pdfCalcBtn,
+html.lab-theme-e #aptcalc #pdfCalcBtn:hover {
+  color: var(--e-pri-ink); background: var(--e-pri-gloss), linear-gradient(180deg, var(--e-pri-hi) 0%, var(--e-pri) 52%, var(--e-pri-lo) 100%); border-color: var(--e-pri-edge);
+  box-shadow: var(--e-pri-sheen), var(--e-pri-shadow);
+}
+@media (hover: hover) {
+  html.lab-theme-e #aptcalc #pdfCalcBtn:hover:not(:disabled) { background: var(--e-pri-gloss), linear-gradient(180deg, #134d3c 0%, #053827 52%, #01291e 100%); border-color: var(--e-pri-edge); color: var(--e-pri-ink); box-shadow: inset 0 1px 0 rgba(255, 253, 237, .2), inset 0 0 0 1px rgba(198, 169, 112, .8), 0 10px 20px -10px rgba(1, 41, 30, .75); }
+}
+html.lab-theme-e #aptcalc #pdfCalcBtn:active { background: #00180f; border-color: #00180f; box-shadow: inset 0 0 0 1px rgba(198, 169, 112, .55); }
+html.lab-theme-e #aptcalc .cur-btn:disabled { opacity: .55; cursor: progress; }
+/* the primary while it exports ("מייצא…"): still green, a little quieter, its ink still legible */
+html.lab-theme-e #aptcalc #pdfCalcBtn:disabled { opacity: .78; }
+
+/* ------------------------------------------------------------------------------------------------ section labels */
+/* .cc-h keeps its font metrics (the years row wraps on it); green ink over a gold hairline (the logo's two colours)
+   make it a clean section rule */
+html.lab-theme-e #aptcalc .cc-h { color: var(--e-ink); margin: 26px 0 4px; padding-bottom: 8px; border-bottom: 1px solid rgba(198, 169, 112, .62); }
+html.lab-theme-e #aptcalc .cc-h:first-child { margin-top: 0; }
+html.lab-theme-e #aptcalc .res-h-row .cc-h,
+html.lab-theme-e #aptcalc .fin-head .cc-h { margin: 0; padding: 0; border: 0; }
+
+/* ------------------------------------------------------------------------------------------------ ledger lines */
+/* theme a's statement: label on the start edge, the value right-aligned in a fixed-width cell (5.5em; 4.8em in the
+   financing card) so the digits line up like a statement; label and value on their LAST baselines */
+html.lab-theme-e #aptcalc .cline {
+  justify-content: space-between; gap: 16px; padding: 9px 0;
+  border-bottom: 1px solid var(--e-line); color: var(--e-text);
+}
+html.lab-theme-e #aptcalc .cline > * { align-self: baseline; align-self: last baseline; }
+html.lab-theme-e #aptcalc .cline > b {
+  flex: 0 0 auto; min-width: 5.5em; text-align: right;
+  font-weight: 500; color: var(--e-ink);
+}
+html.lab-theme-e #aptcalc #finBox .cline:not(#rowRate) > b { min-width: 4.8em; }
+/* the rate line: the original's gap and 2px side padding below 768px (its label breaks where the original's does); from
+   768px the rate is slid - paint only - onto the column's edge */
+html.lab-theme-e #aptcalc #rowRate { gap: 14px; padding-inline: 2px; }
+html.lab-theme-e #aptcalc #rowRate > b { min-width: 0; }
+@media (min-width: 768px) {
+  html.lab-theme-e[dir='rtl'] #aptcalc #rowRate > b { transform: translateX(max(0px, calc(4.8em - 100%))); }
+}
+/* totals: the line's size at 600 under a firmer rule; the cash-flow statement closes with the accountant's double rule */
+html.lab-theme-e #aptcalc .cline.total { border-top: 1px solid var(--e-rule); border-bottom: 0; margin-top: 0; padding: 11px 0 10px; }
+html.lab-theme-e #aptcalc .cline.total + .cline.total { border-top-color: var(--e-line); }
+html.lab-theme-e #aptcalc .cline.total:has(> #vNetMonthly) { border-bottom: 3px double rgba(1, 41, 30, .45); }
+html.lab-theme-e #aptcalc .cline.total span { color: var(--e-ink); font-weight: 600; }
+html.lab-theme-e #aptcalc .cline.total > b { color: var(--e-ink); font-weight: 600; font-size: 1em; }
+/* the breakdown rows: indented on a guide line, one step under the lines they break down */
+html.lab-theme-e #aptcalc .cc-detail.open { border-inline-start: 2px solid var(--e-line-2); background: rgba(1, 41, 30, .025); }
+html.lab-theme-e #aptcalc .cline.sub {
+  padding: 7px 0; padding-inline-start: 14px; font-size: var(--e-fs-s);
+  color: var(--e-muted); border-bottom: 1px solid var(--e-line);
+}
+html.lab-theme-e #aptcalc .cline.sub > b { color: var(--e-text); font-weight: 400; min-width: calc(5.5em / .94); }
+html.lab-theme-e #aptcalc #finBox .cline.sub:not(#rowRate) > b { min-width: calc(4.8em / .94); }
+/* the collapsible rows: a chevron, a soft band on hover */
+html.lab-theme-e #aptcalc .cline-toggle { transition: background .25s var(--e-ease); }
+html.lab-theme-e #aptcalc .cline-toggle:hover span { color: inherit; }
+@media (hover: hover) {
+  html.lab-theme-e #aptcalc .cline-toggle:hover { background: linear-gradient(90deg, rgba(1, 41, 30, 0), rgba(1, 41, 30, .04) 50%, rgba(1, 41, 30, 0)); }
+  html.lab-theme-e #aptcalc .cline-toggle:hover span { color: var(--e-ink); }
+}
+html.lab-theme-e #aptcalc .cc-arrow {
+  width: 7px; height: 7px; margin: 0; margin-inline-end: 11px; vertical-align: .2em;
+  border-style: solid; border-color: var(--e-muted); border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg); transition: transform .3s var(--e-ease);
+}
+html.lab-theme-e #aptcalc .cline-toggle.open .cc-arrow { transform: translateY(3px) rotate(225deg); }
+/* the two "off" states: muted and struck through (the original dims the furniture row to opacity .45) */
+html.lab-theme-e #aptcalc .cline.furn-off { opacity: 1; }
+html.lab-theme-e #aptcalc .cline.furn-off > span { color: var(--e-muted); text-decoration: line-through rgba(85, 105, 95, .7); }
+html.lab-theme-e #aptcalc .cline.furn-off > b { color: var(--e-muted); }
+html.lab-theme-e #aptcalc .cline.prime-off .prime-part { color: var(--e-muted); text-decoration: line-through rgba(85, 105, 95, .8); }
+html.lab-theme-e #aptcalc .cline.prime-off .prime-part .ttip { text-decoration-color: rgba(85, 105, 95, .45); }
+
+/* ------------------------------------------------------------------------------------------------ inputs */
+html.lab-theme-e #aptcalc .field label { color: var(--e-text); font-weight: 500; letter-spacing: .02em; }
+html.lab-theme-e #aptcalc .field input.num-in {
+  background: var(--e-well); border: 1px solid var(--e-edge); border-radius: 10px;
+  color: var(--e-ink); font-weight: 500; padding-inline: 12px;
+  box-shadow: inset 0 1px 2px rgba(1, 41, 30, .07), 0 1px 0 rgba(255, 255, 255, .8);
+  transition: border-color .25s var(--e-ease), box-shadow .25s var(--e-ease);
+}
+@media (hover: hover) { html.lab-theme-e #aptcalc .field input.num-in:hover { border-color: rgba(1, 41, 30, .7); } }
+html.lab-theme-e #aptcalc .field input.num-in:focus { border-color: var(--e-ink); box-shadow: var(--e-ring); }
+html.lab-theme-e #aptcalc .iw-short .unit { color: var(--e-muted) !important; font-weight: 500; }
+/* tooltip anchors: a dotted underline under the words only (a border ran across the whole table cell) */
+html.lab-theme-e #aptcalc .ttip {
+  border-bottom: 0; text-decoration: underline dotted rgba(1, 41, 30, .5);
+  text-decoration-thickness: 1px; text-underline-offset: 4px;
+}
+/* the margin box inside the rate line */
+html.lab-theme-e #aptcalc .spread-in,
+html.lab-theme-e #aptcalc .spread-in:hover { border: 1px solid var(--e-edge); border-radius: 6px; background: var(--e-well); color: var(--e-ink); }
+@media (hover: hover) { html.lab-theme-e #aptcalc .spread-in:hover { border-color: rgba(1, 41, 30, .7); } }
+html.lab-theme-e #aptcalc .spread-in:focus { border-color: var(--e-ink); background: var(--e-well); box-shadow: var(--e-ring); outline: none; }
+
+/* ticks: square, hairline; on = the brand green with a cream check */
+html.lab-theme-e #aptcalc :is(.furn-opt, .prime-opt) input[type='checkbox'] {
+  -webkit-appearance: none; appearance: none;
+  border: 1.5px solid rgba(1, 41, 30, .55); border-radius: 4px; background: var(--e-well) no-repeat center / 78%;
+  transition: background-color .2s var(--e-ease), border-color .2s var(--e-ease);
+}
+html.lab-theme-e #aptcalc :is(.furn-opt, .prime-opt) input[type='checkbox']:checked {
+  border-color: var(--e-on); background-color: var(--e-on);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.6 8.4l2.9 2.9 5.9-6.6' fill='none' stroke='%23fffded' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+html.lab-theme-e #aptcalc :is(.furn-opt, .prime-opt) input[type='checkbox']:focus-visible { outline: 2px solid var(--e-ink); outline-offset: 2px; }
+html.lab-theme-e #aptcalc .furn-opt { color: var(--e-text); }
+@media (hover: hover) { html.lab-theme-e #aptcalc .furn-opt:hover span { color: var(--e-ink); } }
+
+/* scenario: a cream segmented control, the chosen scenario in the brand green */
+html.lab-theme-e #aptcalc .scen-tabs {
+  gap: 2px; margin: 22px 0 6px; padding: 3px;
+  background: linear-gradient(180deg, rgba(1, 41, 30, .065), rgba(1, 41, 30, .03)); border: 1px solid var(--e-line); border-radius: 999px;
+  box-shadow: inset 0 1px 2px rgba(1, 41, 30, .08), inset 0 -1px 0 rgba(255, 255, 255, .55), 0 1px 0 rgba(255, 255, 255, .85);
+}
+html.lab-theme-e #aptcalc .scen-tab,
+html.lab-theme-e #aptcalc .scen-tab:hover {
+  color: var(--e-text); background: transparent; border-color: transparent;
+  transition: background .3s var(--e-ease), color .3s var(--e-ease), box-shadow .3s var(--e-ease);
+}
+@media (hover: hover) { html.lab-theme-e #aptcalc .scen-tab:hover { color: var(--e-ink); background: rgba(255, 253, 240, .8); } }
+html.lab-theme-e #aptcalc .scen-tab.active,
+html.lab-theme-e #aptcalc .scen-tab.active:hover {
+  background: var(--e-pri-gloss), linear-gradient(180deg, var(--e-pri-hi) 0%, var(--e-pri) 55%, var(--e-pri-lo) 100%); color: var(--e-pri-ink); border-color: var(--e-pri-edge);
+  box-shadow: var(--e-pri-sheen), 0 1px 1px rgba(1, 41, 30, .25), 0 5px 12px -6px rgba(1, 41, 30, .62);
+}
+
+/* the financing slider: a hairline track and a brand-green thumb in a cream ring; the field's input box styling
+   (#aptcalc .field input outranks #inFin) is taken off it */
+html.lab-theme-e #aptcalc #inFin { background: transparent; border: 0; border-radius: 0; box-shadow: none; }
+html.lab-theme-e #aptcalc #inFin::-webkit-slider-runnable-track { height: 3px; border-radius: 3px; background: rgba(1, 41, 30, .2); }
+html.lab-theme-e #aptcalc #inFin::-webkit-slider-thumb {
+  width: 18px; height: 18px; margin-top: -7.5px; border: 0; background: var(--e-green);
+  box-shadow: inset 0 0 0 1px rgba(198, 169, 112, .6), 0 0 0 2px var(--e-cream), 0 0 0 3px rgba(1, 41, 30, .22), 0 2px 6px rgba(1, 41, 30, .3);
+}
+html.lab-theme-e #aptcalc #inFin:hover::-webkit-slider-thumb { box-shadow: inset 0 0 0 1px rgba(198, 169, 112, .6), 0 0 0 2px var(--e-cream), 0 0 0 3px rgba(1, 41, 30, .22), 0 2px 6px rgba(1, 41, 30, .3); }
+@media (hover: hover) { html.lab-theme-e #aptcalc #inFin:hover::-webkit-slider-thumb { box-shadow: inset 0 0 0 1px rgba(198, 169, 112, .8), 0 0 0 2px var(--e-cream), 0 0 0 3px rgba(1, 41, 30, .3), 0 0 0 8px rgba(198, 169, 112, .18), 0 2px 6px rgba(1, 41, 30, .3); } }
+html.lab-theme-e #aptcalc #inFin:active::-webkit-slider-thumb { transform: scale(1.1); box-shadow: inset 0 0 0 1px rgba(198, 169, 112, .8), 0 0 0 2px var(--e-cream), 0 0 0 3px rgba(1, 41, 30, .35), 0 0 0 9px rgba(198, 169, 112, .22), 0 3px 8px rgba(1, 41, 30, .3); }
+html.lab-theme-e #aptcalc #inFin:focus-visible::-webkit-slider-thumb { box-shadow: inset 0 0 0 1px rgba(198, 169, 112, .6), 0 0 0 2px var(--e-cream), 0 0 0 4px var(--e-ink), 0 2px 6px rgba(1, 41, 30, .3); }
+/* the readout's own label only: the live percentage (<b><span id="finVal">) stays one figure with its % sign (the
+   original's `#aptcalc .range-row span` gave the digits their cream colour, the % sign the b's) */
+html.lab-theme-e #aptcalc .range-row > span { color: var(--e-muted); }
+html.lab-theme-e #aptcalc .range-row b span { color: inherit; }
+/* keyboard focus rings the whole slider, like the text fields */
+html.lab-theme-e #aptcalc #inFin:focus-visible { outline: 2px solid var(--e-ink); outline-offset: 4px; border-radius: 6px; }
+html.lab-theme-e #aptcalc .range-row b { font-family: 'Heebo', 'Assistant', sans-serif; font-weight: 600; color: var(--e-ink); }
+
+/* ------------------------------------------------------------------------------------------------ results */
+/* the exhibit: an opaque cream card raised off the glass (its table's hairlines are drawn by the ground between the
+   cells, so the cells and the card are solid) */
+html.lab-theme-e #aptcalc .results {
+  background: var(--e-sheen-card), var(--e-card) !important; border: 1px solid var(--e-line-2) !important; border-radius: 16px;
+  box-shadow: var(--e-rim-card), var(--e-depth-card);
+}
+/* the gross yield on the brand's green plate: the figure in the tagline's gold (6.9:1), the label in cream (10:1) - the
+   logo's own colours. Paint only: an empty box under the hero's text (z-index -1 inside the hero's own stacking
+   context; no content, no pointer events), from 6px inside the card's edges to the hero's rule (the card's padding is
+   the page's own clamp(14px, 1.8vw, 20px)). The hero keeps its size and place: same padding, same 1px rule (now the
+   plate's edge, so transparent) */
+html.lab-theme-e #aptcalc .res-hero { position: relative; z-index: 0; padding: 4px 0 18px; margin-bottom: 16px; border-bottom: 1px solid transparent; }
+html.lab-theme-e #aptcalc .res-hero::before {
+  content: ''; position: absolute; z-index: -1; pointer-events: none;
+  inset: calc(6px - clamp(14px, 1.8vw, 20px)) calc(6px - clamp(14px, 1.8vw, 20px)) -1px;
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 237, .1) 0, rgba(255, 253, 237, .03) 44%, rgba(255, 253, 237, 0) 50%),
+    linear-gradient(112deg, rgba(255, 253, 237, 0) 34%, rgba(255, 253, 237, .07) 47%, rgba(255, 253, 237, 0) 60%),
+    radial-gradient(90% 120% at 50% 0, rgba(198, 169, 112, .14), rgba(198, 169, 112, 0) 70%),
+    linear-gradient(180deg, #073626 0, var(--e-green) 62%, #012419 100%);
+  box-shadow: inset 0 0 0 1px rgba(198, 169, 112, .5), inset 0 1px 0 rgba(255, 253, 237, .2), 0 2px 4px -2px rgba(1, 41, 30, .4), 0 12px 24px -16px rgba(1, 41, 30, .75);
+}
+html.lab-theme-e #aptcalc .res-hero small { color: rgba(255, 253, 237, .86); font-size: 12.5px; font-weight: 600; letter-spacing: .06em; }
+html.lab-theme-e #aptcalc .res-hero .big {
+  font-family: 'Cormorant Garamond', 'David Libre', serif; font-weight: 600; font-size: clamp(48px, 4.6vw, 68px);
+  line-height: 1; margin-top: 10px; color: var(--e-gold); letter-spacing: .01em;
+}
+/* theme a's ruled table: 1px gaps over a hairline ground; an empty overlay (no text, no pointer events) rings the table
+   in the card's own colour so the corner cells read rounded (Y3 hides the ROE row) without clipping the tooltips */
+html.lab-theme-e #aptcalc .res-grid { position: relative; gap: 1px; background: var(--e-grid); border: 0; border-radius: 10px; }
+html.lab-theme-e #aptcalc .res-grid::after {
+  content: ''; position: absolute; inset: 0; border-radius: 10px; pointer-events: none;
+  box-shadow: 0 0 0 7px var(--e-card);
+}
+/* one alignment for the whole table: every cell centred under its label */
+html.lab-theme-e #aptcalc .metric { background: linear-gradient(180deg, rgba(255, 255, 255, .8) 0, rgba(255, 255, 255, .34) 34%, rgba(255, 255, 255, 0) 62%), linear-gradient(0deg, rgba(1, 41, 30, .022) 0, rgba(1, 41, 30, 0) 30%), var(--e-card); border: 0; border-radius: 0; padding: 13px 14px 12px; text-align: center; }
+/* the four key figures (net yield, net annual income, total profit, ROE): in the brand green, in a cream cell under a 2px
+   rule in the tagline's gold */
+html.lab-theme-e #aptcalc .metric.hi { background: linear-gradient(180deg, rgba(255, 255, 255, .62) 0, rgba(255, 255, 255, .16) 42%, rgba(255, 255, 255, 0) 70%), var(--e-key); border: 0; box-shadow: inset 0 2px 0 var(--e-gold-soft), inset 0 3px 0 rgba(255, 255, 255, .7); }
+html.lab-theme-e #aptcalc .metric small { color: var(--e-muted); font-size: 12px; margin-bottom: 6px; }
+html.lab-theme-e #aptcalc .metric .m-v {
+  font-family: 'Heebo', 'Assistant', sans-serif; font-weight: 500; font-size: clamp(18px, 1.5vw, 22px);
+  line-height: 1.2; color: var(--e-ink);
+}
+html.lab-theme-e #aptcalc .metric.hi .m-v { color: var(--e-ink); font-weight: 600; }
+html.lab-theme-e #aptcalc .res-h-row { margin: 22px 0 12px; }
+html.lab-theme-e #aptcalc .disclaimer { color: var(--e-muted); opacity: 1; margin-top: 14px; }
+
+/* holding years: a small cream pill and a cream glass menu */
+html.lab-theme-e #aptcalc .years-btn,
+html.lab-theme-e #aptcalc .years-btn:hover { color: var(--e-ink); background: var(--e-sheen-s), rgba(255, 253, 240, .85); border-color: var(--e-edge); box-shadow: var(--e-gloss), var(--e-depth-s); transition: background .25s var(--e-ease), border-color .25s var(--e-ease); }
+@media (hover: hover) { html.lab-theme-e #aptcalc .years-btn:hover { background: var(--e-well); color: var(--e-ink); border-color: var(--e-ink); } }
+html.lab-theme-e #aptcalc .years-menu {
+  background: rgba(255, 253, 240, .92); border: 1px solid var(--e-line-2); border-radius: 12px; padding: 4px;
+  -webkit-backdrop-filter: blur(16px) saturate(1.3); backdrop-filter: blur(16px) saturate(1.3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .85), 0 24px 50px -18px rgba(24, 40, 30, .35);
+}
+html.lab-theme-e #aptcalc .years-menu button,
+html.lab-theme-e #aptcalc .years-menu button:hover { color: var(--e-text); background: transparent; border: 0; border-radius: 8px; padding: 9px 12px; }
+@media (hover: hover) { html.lab-theme-e #aptcalc .years-menu button:hover { background: rgba(1, 41, 30, .05); color: var(--e-ink); } }
+html.lab-theme-e #aptcalc .years-menu button.active,
+html.lab-theme-e #aptcalc .years-menu button.active:hover { background: rgba(198, 169, 112, .24); color: var(--e-ink); font-weight: 600; }
+/* where the menu opens: theme a's anchoring (it stays inside the results card at every width, in both languages) */
+@supports (anchor-name: --e) and (position-try-fallbacks: flip-inline) {
+  html.lab-theme-e #aptcalc .results { position: relative; }
+  html.lab-theme-e #aptcalc .years-picker { position: static; }
+  html.lab-theme-e #aptcalc .years-btn { anchor-name: --e-years; }
+  html.lab-theme-e #aptcalc .years-menu {
+    position-anchor: --e-years; top: anchor(bottom); bottom: auto;
+    position-try-fallbacks: flip-inline;
+  }
+  html.lab-theme-e[dir='rtl'] #aptcalc .years-menu { left: anchor(left); right: auto; }
+  html.lab-theme-e[dir='ltr'] #aptcalc .years-menu { right: anchor(right); left: auto; }
+}
+@supports not ((anchor-name: --e) and (position-try-fallbacks: flip-inline)) {
+  @media (max-width: 478px) { html.lab-theme-e[dir='rtl'] #aptcalc .years-menu { left: auto; right: 0; } }
+  @media (max-width: 518px) { html.lab-theme-e[dir='ltr'] #aptcalc .years-menu { left: 0; right: auto; } }
+}
+
+/* tooltips: a cream note with a gold hairline */
+html.lab-theme-e #aptcalc .ttip:hover::after {
+  background: rgba(255, 253, 242, .98); border: 1px solid rgba(198, 169, 112, .6); border-radius: 10px; color: var(--e-ink);
+  box-shadow: 0 20px 44px -16px rgba(24, 40, 30, .38); line-height: 1.6; text-decoration: none; text-shadow: none;
+}
+
+/* ------------------------------------------------------------------------------------------------ financing */
+html.lab-theme-e #aptcalc .fin-box {
+  background: var(--e-sheen-card), var(--e-raise); border: 1px solid var(--e-line-2); border-radius: 16px;
+  box-shadow: var(--e-rim-card), var(--e-depth-card);
+}
+html.lab-theme-e #aptcalc .fin-head { padding-bottom: 10px; margin-bottom: 12px; border-bottom: 1px solid var(--e-line-2); }
+html.lab-theme-e #aptcalc .fin-flow { border-radius: 10px; font-weight: 600; letter-spacing: .01em; }
+html.lab-theme-e #aptcalc .fin-flow.pos { color: #11583b; background: #edf4e6; border-color: #bdd6c3; }
+html.lab-theme-e #aptcalc .fin-flow.neg { color: #a2342e; background: #fbf0ef; border-color: #e9c1bd; }
+
+/* ------------------------------------------------------------------------------------------------ technical spec */
+/* it sits inside the calculator's panel: one frame is enough - the inner card becomes a section of the panel under a
+   hairline (its border keeps its width, only the colours change) */
+html.lab-theme-e #aptcalc .apt-spec-text {
+  background: transparent !important; box-shadow: none !important; border-radius: 0;
+  border-color: var(--e-line-2) transparent transparent !important;
+}
+html.lab-theme-e #aptcalc .apt-spec-text .ast-head { text-align: start; padding-bottom: 14px; border-bottom: 1px solid var(--e-line-2); }
+html.lab-theme-e #aptcalc .apt-spec-text .ast-head h3 {
+  font-family: 'David Libre', 'Frank Ruhl Libre', serif; font-style: normal; font-weight: 500;
+  font-size: clamp(22px, 1.7vw, 30px); color: var(--e-ink);
+}
+html.lab-theme-e #aptcalc .apt-spec-text .ast-head span { color: var(--e-muted); font-size: clamp(12.5px, .9vw, 15px); }
+html.lab-theme-e #aptcalc .apt-spec-text .ast-group h4 { color: var(--e-ink); border-bottom: 1px solid var(--e-line); padding-bottom: 6px; margin-bottom: 8px; }
+html.lab-theme-e #aptcalc .apt-spec-text .ast-group li { position: relative; color: var(--e-text); padding-inline-start: 14px; }
+html.lab-theme-e #aptcalc .apt-spec-text .ast-group li::before {
+  content: ''; position: absolute; inset-inline-start: 2px; top: .8em; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--e-gold);
+}
+
+/* ------------------------------------------------------------------------------------------------ PDF scenario picker */
+/* a cream veil (the original's own blur stays) and a cream glass card */
+html.lab-theme-e #pdfScenarioPicker { background: rgba(238, 232, 210, .62); }
+html.lab-theme-e #pdfScenarioPicker .psp-card {
+  background: rgba(255, 253, 240, .92); border: 1px solid var(--e-line); border-radius: 18px; color: var(--e-ink);
+  -webkit-backdrop-filter: blur(20px) saturate(1.25); backdrop-filter: blur(20px) saturate(1.25);
+  box-shadow: var(--e-gloss), 0 40px 80px -28px rgba(24, 40, 30, .42);
+}
+html.lab-theme-e #pdfScenarioPicker .psp-card h3 {
+  font-family: 'David Libre', 'Frank Ruhl Libre', serif; font-style: normal; font-weight: 500; font-size: 20px;
+  line-height: 1.3; color: var(--e-ink); text-shadow: none;
+}
+html.lab-theme-e #pdfScenarioPicker .psp-opt,
+html.lab-theme-e #pdfScenarioPicker .psp-opt:hover {
+  color: var(--e-ink); background: rgba(255, 253, 240, .82); border: 1px solid var(--e-edge); border-radius: 12px;
+  font-weight: 500; box-shadow: var(--e-gloss), 0 1px 2px rgba(1, 41, 30, .05);
+  transition: background .25s var(--e-ease), border-color .25s var(--e-ease), color .25s var(--e-ease), box-shadow .25s var(--e-ease);
+}
+@media (hover: hover) { html.lab-theme-e #pdfScenarioPicker .psp-opt:hover { background: var(--e-well); border-color: var(--e-ink); color: var(--e-ink); box-shadow: var(--e-gloss), 0 8px 18px -10px rgba(1, 41, 30, .35); } }
+html.lab-theme-e #pdfScenarioPicker .psp-opt:active { background: #f3eedb; }
+html.lab-theme-e #pdfScenarioPicker .psp-opt:focus-visible { outline: 2px solid var(--e-ink); outline-offset: 2px; }
+html.lab-theme-e #pdfScenarioPicker .psp-opt-current,
+html.lab-theme-e #pdfScenarioPicker .psp-opt-current:hover { border-style: dashed; }
+html.lab-theme-e #pdfScenarioPicker .psp-fin50 { color: var(--e-text); }
+html.lab-theme-e #pdfScenarioPicker .psp-check { border: 1.5px solid rgba(1, 41, 30, .55); border-radius: 4px; background: var(--e-well); }
+html.lab-theme-e #pdfScenarioPicker .psp-check.on { background: var(--e-on); border-color: var(--e-on); }
+html.lab-theme-e #pdfScenarioPicker .psp-check.on::after { border-color: var(--e-cream); }
+html.lab-theme-e #pdfScenarioPicker .psp-fin-pct { background: var(--e-well); border: 1px solid var(--e-edge); border-radius: 8px; color: var(--e-ink); font-variant-numeric: tabular-nums; }
+html.lab-theme-e #pdfScenarioPicker .psp-fin-pct:focus { outline: none; border-color: var(--e-ink); box-shadow: var(--e-ring); }
+html.lab-theme-e #pdfScenarioPicker .psp-cancel { color: var(--e-muted); text-decoration-color: rgba(85, 105, 95, .5); text-underline-offset: 3px; }
+@media (hover: hover) { html.lab-theme-e #pdfScenarioPicker .psp-cancel:hover { color: var(--e-ink); } }
+
+/* ------------------------------------------------------------------------------------------------ plan window */
+/* colours only: the window's boxes keep the original's sizes and places (its reading order differs per device). A cream
+   gallery wall (the original's own blur stays); the drawings and renders float on soft shadows; cream glass controls,
+   the chosen view in the brand green. */
+html.lab-theme-e #aptPlanModal { background: rgba(245, 240, 222, .97); }
+html.lab-theme-e #aptPlanModal .pm-x,
+html.lab-theme-e #aptPlanModal .pm-floor-nav {
+  background: rgba(255, 253, 240, .88); border: 1px solid var(--e-line-3); color: var(--e-ink);
+  box-shadow: var(--e-gloss), 0 8px 20px -10px rgba(24, 40, 30, .35);
+  transition: background .25s var(--e-ease), border-color .25s var(--e-ease);
+}
+@media (hover: hover) {
+  html.lab-theme-e #aptPlanModal .pm-x:hover,
+  html.lab-theme-e #aptPlanModal .pm-floor-nav:hover { background: var(--e-well); border-color: var(--e-ink); }
+}
+html.lab-theme-e #aptPlanModal .pm-toggle { background: rgba(255, 253, 240, .82); border: 1px solid var(--e-line-2); border-radius: 999px; box-shadow: var(--e-gloss), 0 18px 40px -20px rgba(24, 40, 30, .35); }
+html.lab-theme-e #aptPlanModal .pm-tab { background: transparent; border-color: transparent; color: var(--e-text); }
+@media (hover: hover) { html.lab-theme-e #aptPlanModal .pm-tab:hover { color: var(--e-ink); background: rgba(1, 41, 30, .05); } }
+html.lab-theme-e #aptPlanModal .pm-tab.on,
+html.lab-theme-e #aptPlanModal .pm-tab.on:hover { background: linear-gradient(180deg, var(--e-pri-hi) 0%, var(--e-pri) 55%, var(--e-pri-lo) 100%); border-color: var(--e-pri-edge); color: var(--e-pri-ink); box-shadow: var(--e-pri-sheen), 0 4px 10px -6px rgba(1, 41, 30, .6); }
+html.lab-theme-e #aptPlanModal .pm-dims-btn { background: rgba(255, 253, 240, .88); border-color: var(--e-line-3); color: var(--e-ink); box-shadow: var(--e-gloss), 0 10px 24px -12px rgba(24, 40, 30, .35); }
+html.lab-theme-e #aptPlanModal .pm-dims-btn.on { background: linear-gradient(180deg, var(--e-pri-hi), var(--e-pri)); border-color: var(--e-pri-edge); color: var(--e-pri-ink); box-shadow: var(--e-pri-sheen); }
+html.lab-theme-e #aptPlanModal .pm-img-count { background: rgba(255, 253, 240, .88); border-color: var(--e-line-3); color: var(--e-ink); }
+html.lab-theme-e #aptPlanModal .pm-img { border-radius: 12px; box-shadow: 0 1px 2px rgba(24, 40, 30, .08), 0 30px 64px -30px rgba(24, 40, 30, .45); }
+html.lab-theme-e #aptPlanModal .pm-model { background: radial-gradient(circle at 50% 38%, #fffef6, #e9e3cc); border-radius: 12px; }
+html.lab-theme-e #aptPlanModal button:focus-visible { outline: 2px solid var(--e-ink); outline-offset: 2px; }
+/* touch screens: the original turns the tab bar into a sideways-scrolling strip, and on a phone two of the five views
+   sit past its edge. Theme a's two cues: every view is its own outlined pill again, and a soft shadow on the side that
+   still has views (two "local" covers in the strip's own colour travel with the content) */
+@media (pointer: coarse) {
+  html.lab-theme-e #aptPlanModal .pm-toggle {
+    background:
+      linear-gradient(90deg, #fcfaee 45%, rgba(252, 250, 238, 0)) left center / 36px 100% no-repeat local,
+      linear-gradient(270deg, #fcfaee 45%, rgba(252, 250, 238, 0)) right center / 36px 100% no-repeat local,
+      linear-gradient(90deg, rgba(1, 41, 30, .2), rgba(1, 41, 30, 0)) left center / 26px 100% no-repeat scroll,
+      linear-gradient(270deg, rgba(1, 41, 30, .2), rgba(1, 41, 30, 0)) right center / 26px 100% no-repeat scroll,
+      #fcfaee;
+  }
+  html.lab-theme-e #aptPlanModal .pm-tab:not(.on) { border-color: var(--e-line-3); }
+}
+
+/* ------------------------------------------------------------------------------------------------ type scale + measure */
+/* theme a's, unchanged (768px and wider; phones keep the original's metrics, where every wrap is locked) */
+@media (min-width: 768px) {
+  html.lab-theme-e #aptcalc .calc-top h3 { font-family: 'David Libre', 'Frank Ruhl Libre', serif; font-weight: 500; }
+}
+@media (min-width: 768px) and (max-width: 1535.98px) {
+  html.lab-theme-e #aptcalc { --e-led-fs: var(--e-fs-m); --e-sub-fs: var(--e-fs-s); }
+  html.lab-theme-e #aptcalc .fin-h2 { font-size: var(--e-fs-section) !important; }
+  html.lab-theme-e #aptcalc .apt-specs h3,
+  html.lab-theme-e #aptcalc .apt-spec-text .ast-head h3 { font-size: var(--e-fs-title); line-height: 1.12; }
+  html.lab-theme-e[dir='ltr'] #aptcalc .calc-top h3 { font-size: 22px; line-height: 25.76px; min-width: 207.2px; }
+  html.lab-theme-e #aptcalc .cline { font-size: var(--e-led-fs); }
+  html.lab-theme-e #aptcalc .cline.sub { font-size: var(--e-sub-fs); }
+  html.lab-theme-e #aptcalc .spec-row span { font-size: var(--e-fs-m); }
+  html.lab-theme-e #aptcalc .spec-row b { font-size: var(--e-fs-l); }
+  html.lab-theme-e #aptcalc .apt-price small,
+  html.lab-theme-e #aptcalc .apt-specs .sub,
+  html.lab-theme-e #aptcalc .metric small,
+  html.lab-theme-e #aptcalc .res-hero small,
+  html.lab-theme-e #aptcalc .apt-spec-text .ast-head span,
+  html.lab-theme-e #aptcalc #finCurBtn { font-size: var(--e-fs-s); }
+  html.lab-theme-e #aptcalc .field label,
+  html.lab-theme-e #aptcalc .furn-opt { font-size: var(--e-fs-m); }
+  html.lab-theme-e #aptcalc .metric .m-v { font-size: var(--e-fs-xl); }
+  html.lab-theme-e #aptcalc .fin-flow { font-size: var(--e-fs-l); }
+  html.lab-theme-e #aptcalc .disclaimer { font-size: var(--e-fs-xs); }
+  html.lab-theme-e #aptcalc .apt-spec-text .ast-group h4 { font-size: var(--e-fs-l); font-weight: 600; }
+  html.lab-theme-e #aptcalc .apt-spec-text .ast-group li { font-size: var(--e-fs-m); }
+}
+@media (min-width: 1100px) and (max-width: 1535.98px) {
+  html.lab-theme-e #aptcalc { --e-led-fs: var(--e-fs-l); --e-sub-fs: var(--e-fs-m); }
+  html.lab-theme-e #aptcalc .years-btn { font-size: var(--e-fs-s); }
+}
+@media (min-width: 1536px) {
+  /* the page's own big-screen block sizes the lines with !important; the measure below follows it */
+  html.lab-theme-e #aptcalc { --e-led-fs: clamp(16px, 1vw, 20px); }
+}
+/* Hebrew is never letter-spaced */
+html.lab-theme-e[dir='rtl'] #aptcalc :is(.res-hero small, .apt-price small, .apt-specs .sub, .field label, .apt-spec-text .ast-group h4) { letter-spacing: 0; }
+
+/* the statement's measure (theme a's): a figure stays near its label */
+@media (width > 980px) {
+  html.lab-theme-e #aptcalc .calc-body.calc2 {
+    --e-gut: clamp(0px, calc(5vw - 40px), 40px);
+    --e-led-col: calc(30 * var(--e-led-fs) + var(--e-gut));
+    grid-template-columns: minmax(auto, min(var(--e-led-col), calc((100% - clamp(18px, 2.4vw, 26px)) / 2.3))) minmax(auto, 1fr);
+  }
+  html.lab-theme-e[dir='ltr'] #aptcalc .calc-body.calc2 { --e-led-col: calc(35 * var(--e-led-fs) + var(--e-gut)); }
+  html.lab-theme-e #aptcalc .calc2 > .calc-col:first-child { padding-inline-end: var(--e-gut); }
+}
+@media (min-width: 600px) and (max-width: 980px) {
+  html.lab-theme-e #aptcalc .calc2 > .calc-col:first-child { max-width: calc(32 * var(--e-led-fs, 13px)); margin-inline: auto; }
+  html.lab-theme-e[dir='ltr'] #aptcalc .calc2 > .calc-col:first-child { max-width: calc(36 * var(--e-led-fs, 13px)); }
+}
+@media (min-width: 600px) {
+  html.lab-theme-e #aptcalc #finBox > * { max-width: calc(31 * var(--e-led-fs, 13px)); margin-inline: auto; }
+  html.lab-theme-e[dir='ltr'] #aptcalc #finBox > * { max-width: calc(33 * var(--e-led-fs, 13px)); }
+}
+@media (min-width: 1536px) {
+  html.lab-theme-e #aptcalc #finBox > *,
+  html.lab-theme-e[dir='ltr'] #aptcalc #finBox > * { max-width: calc(40 * var(--e-led-fs)); }
+}
+
+/* ------------------------------------------------------------------------------------------------ big screens */
+/* theme a's TV scale, unchanged: labels about 18px, body about 20px, inputs 22px, figures 30px on a 2560 screen */
+@media (min-width: 1536px) {
+  html.lab-theme-e #aptcalc .furn-opt { font-size: max(clamp(12.5px, .9vw, 15px), min(.72vw, 18px)); gap: .55em; }
+  html.lab-theme-e #aptcalc :is(.furn-opt, .prime-opt) input[type='checkbox'] { width: clamp(16px, .8vw, 20px); height: clamp(16px, .8vw, 20px); }
+  html.lab-theme-e #aptcalc .fx-lbl { font-size: max(clamp(11px, .8vw, 13px), min(.64vw, 16px)); }
+  html.lab-theme-e #aptcalc .years-menu button { font-size: clamp(13px, .7vw, 18px); padding: .65em 1em; }
+  html.lab-theme-e #aptcalc .ttip:hover::after { font-size: clamp(12.5px, .64vw, 16px); width: clamp(260px, 14vw, 360px); padding: .8em 1em; }
+  html.lab-theme-e #aptcalc .u-cur.ttip:hover::after { width: max-content; max-width: min(400px, 70vw); }
+  html.lab-theme-e #aptcalc .metric small { font-size: max(clamp(12.5px, .85vw, 17px), min(.72vw, 18px)) !important; }
+  html.lab-theme-e #aptcalc .disclaimer { font-size: max(clamp(11px, .75vw, 15px), min(.64vw, 16px)) !important; }
+  html.lab-theme-e #aptcalc .apt-price small { font-size: max(clamp(12px, .8vw, 16px), min(.72vw, 18px)) !important; }
+  html.lab-theme-e #aptcalc .apt-spec-text .ast-head span { font-size: max(clamp(12.5px, .9vw, 15px), min(.72vw, 18px)); }
+  html.lab-theme-e #aptcalc .apt-spec-text .ast-group h4 { font-size: max(clamp(15px, 1.15vw, 19px), min(.8vw, 20px)); }
+  html.lab-theme-e #aptcalc .apt-spec-text .ast-group li { font-size: max(clamp(13.5px, 1.05vw, 17px), min(.72vw, 18px)); }
+  html.lab-theme-e #aptcalc .apt-spec-text .ast-group li::before { width: 5px; height: 5px; }
+  html.lab-theme-e #aptcalc .res-hero .big { font-size: clamp(56px, 3.6vw, 96px) !important; }
+  html.lab-theme-e #aptcalc .res-hero small { font-size: clamp(12.5px, .8vw, 16px); }
+  html.lab-theme-e #aptcalc .cline.sub { font-size: calc(clamp(16px, 1vw, 20px) * .94) !important; }
+  html.lab-theme-e #aptcalc .cur-btn { font-size: clamp(15px, .82vw, 19px); padding: 9px 22px; }
+  html.lab-theme-e #aptcalc .cur-btn-sm { font-size: clamp(13px, .7vw, 16px); padding: 6px 16px; }
+  html.lab-theme-e #aptcalc .years-btn { font-size: clamp(11px, .68vw, 17px); padding: .4em 1em; }
+  html.lab-theme-e #aptcalc .fin-h2 { font-size: clamp(28px, 1.5vw, 36px) !important; }
+  html.lab-theme-e #aptcalc .apt-specs h3,
+  html.lab-theme-e #aptcalc .apt-spec-text .ast-head h3 { font-size: clamp(23px, 1.55vw, 32px) !important; line-height: 1.12; }
+  html.lab-theme-e #pdfScenarioPicker .psp-card { max-width: 460px; padding: 34px 36px; }
+  html.lab-theme-e #pdfScenarioPicker .psp-card h3 { font-size: 24px; margin-bottom: 24px; }
+  html.lab-theme-e #pdfScenarioPicker .psp-options { gap: 12px; }
+  html.lab-theme-e #pdfScenarioPicker .psp-opt { font-size: 17px; padding: 14px 22px; }
+  html.lab-theme-e #pdfScenarioPicker .psp-fin50 { font-size: 16px; margin-top: 16px; }
+  html.lab-theme-e #pdfScenarioPicker .psp-fin-pct { font-size: 16px; width: 64px; padding: 5px 8px; }
+  html.lab-theme-e #pdfScenarioPicker .psp-cancel { font-size: 15px; margin-top: 20px; }
+}
+@media (min-width: 2100px) and (min-height: 900px) {
+  html.lab-theme-e #pdfScenarioPicker .psp-card { zoom: 1.3; }
+}
+
+/* ------------------------------------------------------------------------------------------------ phones */
+/* a phone held upright: the four commands as an even 2 x 2 grid (they wrap exactly where the original wraps them) */
+@media (max-width: 767px) {
+  html.lab-theme-e #aptcalc .calc-top .cur-wrap .cur-btn { flex: 1 1 0; white-space: nowrap; }
+}
+/* touch screens: every text field at 16px or more, so iOS Safari never zooms in on focus */
+@media (pointer: coarse) and (max-width: 1535.98px) {
+  html.lab-theme-e #aptcalc input[type='text'] { font-size: 16px !important; }
+  html.lab-theme-e #pdfScenarioPicker .psp-fin-pct { font-size: 16px; }
+}
+/* touch: bigger targets without moving anything (heights only): 44px commands, ₪ toggles, years button and scenario
+   tabs; the prime tick's own empty target grows to 37 x 40, never over the "פריים" tooltip word or the margin box */
+@media (pointer: coarse) {
+  html.lab-theme-e #aptcalc .cur-btn,
+  html.lab-theme-e #aptcalc .years-btn,
+  html.lab-theme-e #aptcalc .scen-tab { min-height: 44px; }
+  html.lab-theme-e #aptcalc label.prime-opt::before { inset: -10px -7px -12px; inset-inline-start: -12px; }
+}
+
+/* ------------------------------------------------------------------------------------------------ short screens */
+/* a phone held sideways (or any frame 520px tall or less): theme a's tighter picker, so the whole card fits */
+@media (max-height: 520px) {
+  html.lab-theme-e #pdfScenarioPicker .psp-card { max-width: 440px; padding: 12px 20px; border-radius: 14px; }
+  html.lab-theme-e #pdfScenarioPicker .psp-card h3 { font-size: 16px; line-height: 1.25; margin-bottom: 8px; }
+  html.lab-theme-e #pdfScenarioPicker .psp-options { gap: 4px; }
+  html.lab-theme-e #pdfScenarioPicker .psp-opt { padding: 3px 14px; min-height: 30px; font-size: 14px; border-radius: 10px; }
+  html.lab-theme-e #pdfScenarioPicker .psp-fin50 { margin: 3px 0 0; min-height: 30px; }
+  html.lab-theme-e #pdfScenarioPicker .psp-fin-pct { padding-block: 2px; }
+  html.lab-theme-e #pdfScenarioPicker .psp-cancel { margin-top: 2px; min-height: 30px; padding: 4px 18px; }
+}
+
+/* ------------------------------------------------------------------------------------------------ the page's view veil
+   (review-style M1) harbour.html dips between its own views through #view-veil - a full-screen NAVY radial (#0c253a ->
+   #061018) at z-index 9000. Inside the light demo that was a ~400 ms dark flash every time the calculator tab opened.
+   The same veil in the brand: a soft cream dip, the demo's own light stage. Colour only (no size, no timing,
+   no display): the page's dim swap still runs exactly as written; the booklet / print are never under it. */
+html.lab-theme-e #view-veil { background: radial-gradient(120% 120% at 50% 50%, #fffcec, #ece5cd) !important; }

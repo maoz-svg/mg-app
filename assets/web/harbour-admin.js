@@ -33,6 +33,23 @@
   if(window.__mzAdmin) return;   // loaded twice: the first copy already owns the page
   window.__mzAdmin=true;
 
+  // The admin screen ALONE (2026-11-05, his ask: the same back entrance on THE HARBOUR's investment model): this page
+  // framed as harbour.html?admin=1 by a page of its own origin - the model's app-bridge.js (assets/web/harbour-model/)
+  // opens it over the model from the lock in the model's header. Only the card shows (the page under it is hidden), it
+  // opens by itself, and once it closes (×, Cancel, Esc, a tap beside it) the parent is told and takes the frame away.
+  // The sign-in, the writes and the rules are the same as from the lock on this page. (The model's calculator frame,
+  // harbour-model-calc.html, is never this frame: its write guard keeps it read-only.)
+  var SOLO=false;
+  try{ SOLO=window.parent!==window&&/(^|&)admin=1(&|$)/.test(location.search.slice(1))&&window.parent.location.origin===location.origin; }catch(e){ SOLO=false; }
+  if(SOLO) document.documentElement.classList.add('mza-solo');
+  // (ready also says whether this is a big screen - html.big-screen, the TV: the parent then veils without a blur)
+  function soloSay(type){ if(SOLO){ try{ window.parent.postMessage({type:type,big:document.documentElement.classList.contains('big-screen')},location.origin); }catch(e){} } }
+  function soloLang(l){
+    if(l!=='he'&&l!=='en') return;
+    if(document.documentElement.classList.contains('lang-en')===(l==='en')) return;
+    try{ if(typeof window.__applyLang==='function') window.__applyLang(l); }catch(e){}
+  }
+
   var UNITS=['Y1','Y2','Y3','I1','I2','I3','I4','A1','A2','A3','A4','B1','B2','B3','B4','C1','C2','C3','C4'];
   var FLOORS=[{k:'Y',he:'קומת גן',en:'Garden floor'},{k:'I',he:'קומת קרקע',en:'Ground floor'},{k:'A',he:'קומה 1',en:'Floor 1'},{k:'B',he:'קומה 2',en:'Floor 2'},{k:'C',he:'קומה 3',en:'Floor 3'}];
   var STATUSES=['avail','reserved','sold'];
@@ -287,7 +304,63 @@
     '  .mza-btn,.mza-tab,.mza-chip,.mza-pill,.mza-input,.mza-select{min-height:40px}',
     '  .mza-x{width:40px;height:40px;min-height:40px}',
     '  .mza-small{max-height:calc(100vh - 12px);padding:14px 18px}',
-    '}'
+    '}',
+    /* the admin screen alone (SOLO): the card only, over the parent's own dimmed backdrop; the page's hidden custom
+       cursor is not drawn here, so the system one is */
+    'html.mza-solo,html.mza-solo body{background:transparent!important;overflow:hidden!important}',
+    'html.mza-solo body>:not(#mzaOverlay){display:none!important}',
+    'html.mza-solo.mza-solo #mzaOverlay{background:transparent}',
+    'html.mza-solo.mza-solo,html.mza-solo.mza-solo *{cursor:auto!important}',
+    'html.mza-solo.mza-solo #mzaOverlay button:not(:disabled),html.mza-solo.mza-solo #mzaOverlay select{cursor:pointer!important}',
+    /* ...and in the model's own look (his ask, 2026-11-05: "גלאס קליר בגוונים שלנו"): clear cream glass, deep MAOZ green
+       ink and buttons, gold hairlines - the values of labs/harbour-3d src/demo/demo.css (--dm-fill, --dm-gloss-big,
+       --dm-rim, --dm-shadow, --dm-pri, --dm-ink*, --dm-gold*, --dm-st-*), copied as literals. The blur is the parent's
+       (a frame cannot blur what lies behind it): the model's app-bridge.js veils and blurs the model under this card. */
+    'html.mza-solo.mza-solo .mza-card{background-color:rgba(254,250,231,.8);background-image:linear-gradient(180deg,rgba(255,255,251,.96) 0,rgba(255,254,246,.72) 1.5px,rgba(255,253,243,.52) 56px,rgba(255,253,243,.28) 92px,rgba(255,253,243,0) 116px);border:1px solid rgba(200,169,107,.62);box-shadow:inset 0 1px 0 rgba(255,255,255,.95),inset 0 0 0 1px rgba(255,255,255,.5),0 22px 54px -22px rgba(0,26,19,.45),0 6px 16px -8px rgba(0,26,19,.18);color:#00291F}',
+    'html.mza-solo.mza-solo .mza-card h3{color:#00291F}',
+    'html.mza-solo.mza-solo .mza-card p{color:#2a4239}',
+    'html.mza-solo.mza-solo .mza-card h4,html.mza-solo.mza-solo .mza-box h5,html.mza-solo.mza-solo .mza-sub,html.mza-solo.mza-solo .mza-lbl,html.mza-solo.mza-solo .mza-price,html.mza-solo.mza-solo .mza-filters label,html.mza-solo.mza-solo .mza-kpi span,html.mza-solo.mza-solo .mza-table thead th,html.mza-solo.mza-solo .mza-kv dt{color:#674c1c}',
+    'html.mza-solo.mza-solo .mza-yes,html.mza-solo.mza-solo .mza-tab[aria-selected="true"],html.mza-solo.mza-solo .mza-chip.on{background:linear-gradient(180deg,#11493a 0%,#03342a 46%,#00291F 62%,#00211a 100%);color:#FFFCED;border:1px solid #00291F;box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 0 0 1px rgba(200,169,107,.55),0 6px 14px -8px rgba(0,30,22,.8)}',
+    'html.mza-solo.mza-solo .mza-yes:not(:disabled):hover{background:linear-gradient(180deg,#175a48 0%,#073f32 46%,#023327 62%,#00291F 100%)}',
+    'html.mza-solo.mza-solo .mza-no,html.mza-solo.mza-solo .mza-x,html.mza-solo.mza-solo .mza-tab,html.mza-solo.mza-solo .mza-chip{background:rgba(255,253,243,.66);color:#00291F;border:1px solid rgba(200,169,107,.62)}',
+    'html.mza-solo.mza-solo .mza-no:not(:disabled):hover,html.mza-solo.mza-solo .mza-x:hover,html.mza-solo.mza-solo .mza-tab:not([aria-selected="true"]):hover,html.mza-solo.mza-solo .mza-chip:not(.on):hover{background:#fffef8;border-color:#C8A96B}',
+    'html.mza-solo.mza-solo .mza-overlay :focus-visible:not(input):not(select){outline:2px solid #00291F;outline-offset:2px}',
+    'html.mza-solo.mza-solo .mza-input,html.mza-solo.mza-solo .mza-select{background:#FFFCED;color:#00291F;border:1px solid rgba(200,169,107,.62)}',
+    'html.mza-solo.mza-solo .mza-input:focus,html.mza-solo.mza-solo .mza-select:focus{border-color:#00291F;box-shadow:0 0 0 3px rgba(0,41,31,.2)}',
+    'html.mza-solo.mza-solo .mza-input.mza-bad{border-color:#d2524c}',
+    'html.mza-solo.mza-solo .mza-select option{background:#FFFCED;color:#00291F}',
+    'html.mza-solo.mza-solo .mza-card .mza-err,html.mza-solo.mza-solo .mza-linkbtn,html.mza-solo.mza-solo .mza-foot-err,html.mza-solo.mza-solo .mza-bad-t{color:#a83631}',
+    'html.mza-solo.mza-solo .mza-card .mza-err.mza-info,html.mza-solo.mza-solo .mza-linkbtn.mza-gold{color:#674c1c}',
+    'html.mza-solo.mza-solo .mza-note{color:#46594f!important}',
+    'html.mza-solo.mza-solo .mza-conn{border-color:rgba(200,169,107,.62);color:#2a4239}',
+    'html.mza-solo.mza-solo .mza-conn.off{border-color:rgba(210,82,76,.55);color:#a83631}',
+    'html.mza-solo.mza-solo .mza-tabs,html.mza-solo.mza-solo .mza-head{border-color:rgba(200,169,107,.42)}',
+    'html.mza-solo.mza-solo .mza-foot{border-color:rgba(200,169,107,.42)}',
+    'html.mza-solo.mza-solo .mza-pend,html.mza-solo.mza-solo .mza-box li bdi,html.mza-solo.mza-solo .mza-kv dd{color:#2a4239}',
+    'html.mza-solo.mza-solo .mza-toast{background:#00291F;color:#FFFCED;box-shadow:inset 0 0 0 1px rgba(200,169,107,.55)}',
+    'html.mza-solo.mza-solo .mza-toast.bad{background:#a83631;color:#fff}',
+    'html.mza-solo.mza-solo .mza-unit,html.mza-solo.mza-solo .mza-kpi,html.mza-solo.mza-solo .mza-box,html.mza-solo.mza-solo .mza-set{border-color:rgba(200,169,107,.45);background:rgba(255,254,249,.58)}',
+    'html.mza-solo.mza-solo .mza-unit.mza-dirty{border-color:#C8A96B;background:rgba(200,169,107,.16)}',
+    'html.mza-solo.mza-solo .mza-u-head b,html.mza-solo.mza-solo .mza-kpi b{color:#00291F}',
+    'html.mza-solo.mza-solo .mza-u-name,html.mza-solo.mza-solo .mza-kpi small,html.mza-solo.mza-solo .mza-legend{color:#46594f}',
+    'html.mza-solo.mza-solo .mza-was{color:#6b7a72}',
+    'html.mza-solo.mza-solo .mza-warn-t{color:#925707}',
+    'html.mza-solo.mza-solo .mza-gv,html.mza-solo.mza-solo .mza-rank{color:#674c1c;border-color:rgba(200,169,107,.62)}',
+    /* the statuses keep their meaning on cream: available green, reserved amber, sold red - the model's -ink shades
+       behind white text (readable), amber with dark text */
+    'html.mza-solo.mza-solo .mza-pill{background:rgba(255,255,255,.55);border-color:rgba(0,41,31,.16);color:#2a4239}',
+    'html.mza-solo.mza-solo .mza-pill:not(:disabled):not(.on):hover{background:#fffef8;border-color:rgba(0,41,31,.32)}',
+    'html.mza-solo.mza-solo .mza-pill.mza-p-avail.on{background:#1b7a43;border-color:#1b7a43;color:#fff}',
+    'html.mza-solo.mza-solo .mza-pill.mza-p-reserved.on{background:#df9426;border-color:#df9426;color:#2b1a04}',
+    'html.mza-solo.mza-solo .mza-pill.mza-p-sold.on{background:#a83631;border-color:#a83631;color:#fff}',
+    'html.mza-solo.mza-solo .mza-st-avail{color:#1b7a43;border-color:rgba(46,158,91,.55)}',
+    'html.mza-solo.mza-solo .mza-st-reserved{color:#925707;border-color:rgba(223,148,38,.6)}',
+    'html.mza-solo.mza-solo .mza-st-sold{color:#a83631;border-color:rgba(210,82,76,.55)}',
+    'html.mza-solo.mza-solo .mza-table tbody th,html.mza-solo.mza-solo .mza-table td{border-bottom-color:rgba(0,41,31,.1)}',
+    'html.mza-solo.mza-solo .mza-table thead th{border-bottom-color:rgba(200,169,107,.5)}',
+    'html.mza-solo.mza-solo .mza-fun i.z,html.mza-solo.mza-solo .mza-bar-t{background:rgba(0,41,31,.1)}',
+    'html.mza-solo.mza-solo .mza-bar-t i{background:#C8A96B}',
+    'html.mza-solo.mza-solo .mza-confirm{background:rgba(243,239,223,.72)}'
   ].join('\n');
   // at the END of the body, after the document's own styles: the e-mail flow's CSS (.mail-sold, .mail-apt) sits in the
   // body, and an equal selector here must win
@@ -575,6 +648,9 @@
     if(!d||window.parent===window||ev.source!==window.parent) return;
     if(d.type==='harbour-hidden'){ onScreen=false; goHidden(); }
     else if(d.type==='harbour-view'){ var was=onScreen; onScreen=true; if(!was){ idleLock(); goVisible(); } }
+    // alone (SOLO): the parent's Esc / ×, and its language
+    else if(SOLO&&d.type==='mza-solo-close'){ if(isOpen()) closeOverlay(); else soloSay('mza-solo-closed'); }
+    else if(SOLO&&d.type==='mza-solo-lang') soloLang(d.lang);
   });
   // the stream's stand-in: a GET every 90 s while it is down (or the browser has no EventSource)
   function poll(){ if(streamWanted()&&!stream.live) fetchState(); }
@@ -906,6 +982,7 @@
     if(!signUi.busy&&!signUi.resetBusy){ signUi.err=null; signUi.info=null; }
     var f=(lastFocus&&lastFocus!==document.body&&document.contains(lastFocus))?lastFocus:entryBtn; lastFocus=null;
     try{ if(f&&f.focus) f.focus({preventScroll:true}); }catch(e){}
+    soloSay('mza-solo-closed');   // alone: the parent takes the frame away
   }
   function confirmEl(){ return ov&&ov.querySelector('.mza-confirm'); }
   function askClose(){
@@ -1888,6 +1965,14 @@
       window.addEventListener('pagehide',function(){ flush('unload'); goHidden(); });
       window.addEventListener('offline',function(){ goHidden(); if(view==='admin') refreshConn(); });
       window.addEventListener('online',function(){ goVisible(); flush(); });
+      // alone (SOLO): in the parent's language, the card opens by itself - the sign-in, or the admin card while his
+      // session holds - and the parent shows the frame
+      if(SOLO){
+        var ql=/(^|&)lang=(he|en)(&|$)/.exec(location.search.slice(1));
+        if(ql) soloLang(ql[2]);
+        openEntry();
+        soloSay('mza-solo-ready');
+      }
     }catch(e){ try{ console.error('harbour-admin',e); }catch(e2){} }
   });
 })();

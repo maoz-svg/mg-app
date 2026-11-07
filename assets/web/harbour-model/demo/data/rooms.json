@@ -1,0 +1,39 @@
+{
+ "_note": "THE ROOMS' STILLS (src/demo/rooms.ts): <CODE>: { <roomSlug>: \"<path under demo/, a 4K still>\" }. The slugs and their order are data/room-pins.json's (tools/room-pins.py: kitchen, living, bedroom, sleeping, bath, bath1, bath2, balcony, balconies, garden - a studio has kitchen + sleeping, a one-bedroom unit kitchen + living + bedroom). A pin shows on the zoomed model only where its still is listed here; the panel's 'הדמיות' shows exactly these stills, in the room order. Append a unit or a room by adding its key; keys starting with '_' are ignored.",
+ "C1": {
+  "kitchen": "cine/c1/kitchen.jpg",
+  "balconies": "cine/c1/balconies.jpg",
+  "sleeping": "cine/c1/bedroom.jpg",
+  "bath": "cine/c1/bath.jpg"
+ },
+ "Y3": {
+  "living": "cine/y3/living.jpg",
+  "garden": "cine/y3/garden.jpg",
+  "kitchen": "cine/y3/kitchen.jpg",
+  "bath1": "cine/y3/bath1.jpg",
+  "bath2": "cine/y3/bath2.jpg",
+  "bedroom": "cine/y3/bedroom.jpg"
+ },
+ "C4": {
+  "kitchen": "rooms/c4/kitchen.jpg",
+  "sleeping": "rooms/c4/sleeping.jpg",
+  "bath": "rooms/c4/bath.jpg",
+  "balconies": "rooms/c4/balconies.jpg"
+ },
+ "Y2": {
+  "kitchen": "rooms/y2/kitchen.jpg",
+  "sleeping": "rooms/y2/sleeping.jpg",
+  "bath": "rooms/y2/bath.jpg"
+ },
+ "Y1": {
+  "kitchen": "rooms/y1/kitchen.jpg",
+  "sleeping": "rooms/y1/sleeping.jpg",
+  "bath": "rooms/y1/bath.jpg",
+  "garden": "rooms/y1/garden.jpg"
+ },
+ "I2": {
+  "kitchen": "rooms/i2/kitchen.jpg",
+  "sleeping": "rooms/i2/sleeping.jpg",
+  "bath": "rooms/i2/bath.jpg"
+ }
+}

@@ -1,0 +1,269 @@
+{
+ "w": 3840,
+ "h": 2160,
+ "floors": [
+  {
+   "id": "ground",
+   "poly": [
+    [
+     1282,
+     1980
+    ],
+    [
+     2712,
+     1909
+    ],
+    [
+     2712,
+     2160
+    ],
+    [
+     1282,
+     2160
+    ]
+   ],
+   "band": {
+    "top": 1909,
+    "bottom": 2160,
+    "left": 1282,
+    "right": 2712
+   },
+   "cardAnchor": [
+    2712,
+    2034
+   ],
+   "letter": "I",
+   "units": [
+    "I1",
+    "I2",
+    "I3",
+    "I4"
+   ]
+  },
+  {
+   "id": "1",
+   "poly": [
+    [
+     1282,
+     1502
+    ],
+    [
+     2712,
+     1482
+    ],
+    [
+     2712,
+     1909
+    ],
+    [
+     1282,
+     1980
+    ]
+   ],
+   "band": {
+    "top": 1482,
+    "bottom": 1980,
+    "left": 1282,
+    "right": 2712
+   },
+   "cardAnchor": [
+    2712,
+    1696
+   ],
+   "letter": "A",
+   "units": [
+    "A1",
+    "A2",
+    "A3",
+    "A4"
+   ]
+  },
+  {
+   "id": "2",
+   "poly": [
+    [
+     1282,
+     1030
+    ],
+    [
+     2712,
+     1060
+    ],
+    [
+     2712,
+     1482
+    ],
+    [
+     1282,
+     1502
+    ]
+   ],
+   "band": {
+    "top": 1030,
+    "bottom": 1502,
+    "left": 1282,
+    "right": 2712
+   },
+   "cardAnchor": [
+    2712,
+    1271
+   ],
+   "letter": "B",
+   "units": [
+    "B1",
+    "B2",
+    "B3",
+    "B4"
+   ]
+  },
+  {
+   "id": "3",
+   "poly": [
+    [
+     1282,
+     523
+    ],
+    [
+     2712,
+     607
+    ],
+    [
+     2712,
+     1060
+    ],
+    [
+     1282,
+     1030
+    ]
+   ],
+   "band": {
+    "top": 523,
+    "bottom": 1060,
+    "left": 1282,
+    "right": 2712
+   },
+   "cardAnchor": [
+    2712,
+    834
+   ],
+   "letter": "C",
+   "units": [
+    "C1",
+    "C2",
+    "C3",
+    "C4"
+   ]
+  },
+  {
+   "id": "roof",
+   "poly": [
+    [
+     1282,
+     405
+    ],
+    [
+     1340,
+     405
+    ],
+    [
+     1340,
+     172
+    ],
+    [
+     2012,
+     225
+    ],
+    [
+     2012,
+     324
+    ],
+    [
+     2648,
+     375
+    ],
+    [
+     2660,
+     470
+    ],
+    [
+     2712,
+     470
+    ],
+    [
+     2712,
+     607
+    ],
+    [
+     1282,
+     523
+    ]
+   ],
+   "band": {
+    "top": 172,
+    "bottom": 607,
+    "left": 1282,
+    "right": 2712
+   },
+   "cardAnchor": [
+    2712,
+    538
+   ],
+   "letter": null,
+   "units": []
+  }
+ ],
+ "gardenChip": [
+  1997,
+  2104
+ ],
+ "_meta": {
+  "generatedBy": "masks stage (scratchpad h3d/v4/masks/py/hero.py)",
+  "image": "img/hero.jpg",
+  "method": "slab lines = bottom edge of each balcony slab's front face, found by vertical-gradient search along 11 facade columns and 100% crops; the facade is seen in slight two-point perspective, so every slab line is drawn through its measured point toward one vanishing point (14660, 1312) on the horizon at about floor-2 slab height; facade left/right edges x=1282/2712 (the party-wall drainpipes); bands tile the facade (each storey = its own slab + everything up to the underside of the next slab); roof = pergola + railing + roof slab",
+  "identification": "bottom storey (entrance lobby, no balcony, cut by the frame at y=2160) = ground (I); the three balcony storeys bottom-to-top = 1 (A), 2 (B), 3 (C); the pergola terrace = roof (no units). The garden floor (Y) is below street level at the rear and is not visible: gardenChip sits at the base of the facade, bottom-centre.",
+  "slabLines": {
+   "roofBottom": [
+    [
+     1282,
+     523
+    ],
+    [
+     2712,
+     607
+    ]
+   ],
+   "floor3SlabBottom": [
+    [
+     1282,
+     1030
+    ],
+    [
+     2712,
+     1060
+    ]
+   ],
+   "floor2SlabBottom": [
+    [
+     1282,
+     1502
+    ],
+    [
+     2712,
+     1482
+    ]
+   ],
+   "floor1SlabBottom": [
+    [
+     1282,
+     1980
+    ],
+    [
+     2712,
+     1909
+    ]
+   ]
+  },
+  "heroDay": "not present (assets stage skipped it), so no day cross-check"
+ },
+ "gardenChipNote": "garden floor (Y1-Y3) is below street level at the rear and not visible: chip at the base of the facade, bottom-centre, over the ground band (draw it above the band)"
+}
