@@ -13,7 +13,7 @@
    "dE_mean_full": 0.868,
    "dE_mean_core": 0.975
   },
-  "clips": "clips.<view> = the cinematic transition from that hero onto the roof terrace (contract push-arrival): frame 1 = img/<view>.jpg cropped at rect (the page's 2D push on the roof storey ends there), last frame = arrival (the viewer's first view); rev = the way back. Only the front exists (the roof is lit by the front hero's sun); a roof click on the rear hero has no clip.",
+  "clips": "clips.<view> = the cinematic transition from that hero onto the roof terrace (contract push-arrival): frame 1 = that hero's picture as the page shows it at the push end (img/<view>.jpg, or its extended canvas) cropped at rect, last frame = the roof frame `arrive` (default: the first node's arrival = arrival.jpg; clips.rear arrives on nodes.rear at arrive.yaw/pitch/hfov = arrival-rear.jpg); rev = the way back. The way IN plays the clip of the hero the roof is entered from; the way DOWN plays the clip of the view it goes to (src/demo/roof/flow.ts).",
   "fix": {
    "at": "2026-11-02T19:56:18Z",
    "by": "h3d/v15/fix (fix/py/assemble_fix.py + export_pano.py)",
@@ -507,7 +507,7 @@
     "rev720": 3238249
    },
    "phone": "src720 / rev720: 1280x720 encodes for phones (coarse pointer, screen <= 1000 css px)",
-   "light": "front hero day light only: a roof click from the REAR hero has no clip (no rear arrival render)",
+   "light": "front hero day light only (the clip and its hand-over are daylight; at night the viewer dissolves to night after it)",
    "source": {
     "model": "minimax_h3 2K (2560x1440, 24 fps) start+end 5 s",
     "job": "66a5dec0-c10d-46a7-abbb-d97be8546503",
@@ -560,6 +560,116 @@
    "postedBy": "h3d/v15/clip (py/post.py, py/retime.py); re-posted by h3d/v15/fix (MF1 railing lock, hand-over encode, colour tags, cut recipe)",
    "note": "Kling 3.0 (the planned model) failed for every mode on 2026-11-02 (all refunded); the take is MiniMax H3 2K, native 2560x1440 = the encode size. v20 (2026-11-03, check MF1 closed): raw frames 26-94 - the whole railing pass - play 1:1 as WHOLE raw frames (no shutter blends, no optical-flow in-betweens; the 1.9 s cut blended 2-3 raw frames per output frame over raw 20-71 and the balusters doubled), so the move is 2.2 s",
    "copiedAt": "2026-11-02T22:42:56Z"
+  },
+  "rear": {
+   "src": "roof/clip-rear-roof.mp4",
+   "rev": "roof/clip-rear-roof-rev.mp4",
+   "src720": "roof/clip-rear-roof-720.mp4",
+   "rev720": "roof/clip-rear-roof-720-rev.mp4",
+   "w": 2560,
+   "h": 1440,
+   "fps": 60,
+   "frames": 133,
+   "durMs": 2217,
+   "status": "final",
+   "contract": "push-arrival",
+   "view": "rear",
+   "storey": "roof",
+   "start": "img/ext/rear-ext.jpg (the rear view's extended canvas = the original day still at offset [848, 384]; the rest layers fade out over the push) cropped at rect + offset (the page's push-in end frame on the roof storey: BuildingView.pushCam('roof') at a 1920x1080 viewport; the rect reaches 52 px above the still into the canvas)",
+   "rect": [
+    1178.59,
+    -52.48,
+    2931.41,
+    933.48
+   ],
+   "scale": 2.4721,
+   "viewport": [
+    1920,
+    1080
+   ],
+   "pushTo": "rect (cover-fit to the viewport): the clip's frame 1 is exactly this rect of the still; push to it (BuildingView.rectCam) whenever this clip plays",
+   "rectFrom": "measured live 2026-11-08T14:47:50.494Z (pushCam('roof'), k 0.443, cams.json roof bbox [1577, 223, 2533, 658]); authoritative: the clip was cut at this rect",
+   "end": "roof/arrival-rear.jpg (= the pano viewer's view at arrive: the REAR node nodes.rear at arrive.yaw / pitch / hfov, rendered from pano-rear.jpg in the viewer's own projection, bilinear; the viewer opens on that node at that view and shows exactly this picture - no arrival layer needed)",
+   "rule": "forward: on the roof click start RoofPano.open() (hidden) at once and AWAIT it (with preloadRoofPano() on roof hover it is usually done already) - no texture upload may run while the clip plays; meanwhile do the 2D push onto the roof; then play src full-frame; at its last frame (ended) call show(280): a 280 ms cross-fade from the clip's last frame into the viewer at yawDeg/pitchDeg/hfovDeg (it hides the small sharpness step). Back: await toArrival(), show the rev video under the viewer on its first frame, hide(280) to cross-fade the viewer out over it, play rev, then the page is on the pushed still at rect; pull the camera back home; close() when done",
+   "encode": "H.264 High yuv420p, tagged BT.709 primaries + matrix, sRGB transfer (IEC 61966-2-1), tv range, in the VUI and the colr box; the hand-over frames (last 12 of src, first 12 of rev) at constant QP 15 so they are as sharp as the I-frame (VBV 50M/100M so the buffer never starves the hand-over I-frame)",
+   "ease": "0.5,0,0.3,1",
+   "startSSIM": 0.9886,
+   "endSSIM": 0.9936,
+   "revStartSSIM": 0.9964,
+   "revEndSSIM": 0.9756,
+   "bytes": {
+    "src": 10157537,
+    "rev": 9893769,
+    "src720": 3216964,
+    "rev720": 3310848
+   },
+   "phone": "src720 / rev720: 1280x720 encodes for phones (coarse pointer, screen <= 1000 css px)",
+   "light": "day only (the pano-rear day picture and the rear hero day still); at night the viewer dissolves to day before the way down, as for the front",
+   "source": {
+    "model": "minimax_h3 2K (2560x1440, 24 fps) start+end 5 s, generated roof -> rear hero, reversed",
+    "job": "9bd74bc0-5164-4078-a775-98853b8cc635",
+    "variant": "A (short prompt) - pilot winner over B (frame-specific): epi min 0.67 vs 0.64 and the parapet never fills the frame (B wipes through it at raw 26-34)",
+    "rawFrames": 124,
+    "srcRange": [
+     23,
+     122
+    ],
+    "retime": {
+     "dur": 2.2,
+     "ease": "0.5,0,0.3,1",
+     "squash": null,
+     "lockIn": 5,
+     "lockOut": 8,
+     "alignIn": 12,
+     "alignOut": 18,
+     "flowFrames": 68,
+     "eccIn": 0.9995,
+     "eccOut": 0.9988,
+     "matchGain": true,
+     "gainStart": [
+      1.021,
+      1.0205,
+      1.0321
+     ],
+     "gainEnd": [
+      1.0292,
+      1.0344,
+      1.044
+     ],
+     "lockRaw": {
+      "raw": [
+       58,
+       102
+      ],
+      "ramp": 8.0,
+      "outFrames": [
+       51,
+       95
+      ],
+      "preScale": 0.9997,
+      "postScale": 1.0693,
+      "speedBefore": 1.214,
+      "speedAfter": 0.985
+     },
+     "lockNote": "raw frames in lockRaw.raw play 1:1 (whole frames, no optical-flow in-betweens): flow interpolation tore the repetitive foreground railing (check MF1)"
+    }
+   },
+   "postedBy": "rearclip (2026-11-08): the front recipe (h3d/v15/clip py/post.py + py/retime.py + the v15/fix hand-over encode and colour tags); raw generated roof -> hero (start = arrival-rear, end = the push still), reversed losslessly-near (crf 8) into hero -> roof before the retime",
+   "arrive": {
+    "node": "rear",
+    "yaw": -162.0,
+    "pitch": -8.0,
+    "hfov": 62.0
+   },
+   "arrival": "roof/arrival-rear.jpg",
+   "arrival1920": "roof/arrival-rear-1920.jpg",
+   "canvasRect": [
+    2026.59,
+    331.52,
+    3779.41,
+    1317.48
+   ],
+   "copiedAt": "2026-11-08T15:02:43Z"
   }
  },
  "centreAzDeg": -55.0,
