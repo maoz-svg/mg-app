@@ -1,6 +1,6 @@
 {
  "note": "THE HARBOUR investment model in the app - written by scripts/sync-harbour-model.mjs; do not edit",
- "syncedAt": "2026-11-08T15:03:44.330Z",
+ "syncedAt": "2026-11-08T15:28:03.448Z",
  "calc": {
   "page": "harbour-model-calc.html",
   "harbourHtml": "ffd5e22dc7e316a68b0c21a1bc29d5d9a29a7155308bde16f8df75491afcd250",
