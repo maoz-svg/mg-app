@@ -14,8 +14,8 @@
    "panoLow": "tours/Y2/main-4096.jpg",
    "centreAzDeg": 0,
    "eye": [
-    8.04,
-    1.53
+    8.35,
+    1.45
    ],
    "label": {
     "he": "חלל המגורים והשינה",
@@ -42,15 +42,28 @@
       2.06
      ]
     }
-   ]
+   ],
+   "_meta": {
+    "status": "photoreal",
+    "size": [
+     8192,
+     4096
+    ],
+    "bytes": {
+     "pano": 3020026,
+     "low": 911803
+    },
+    "src": "h3d/v22/Y2/main34/final/pano_v34b.png",
+    "at": "2026-11-08T07:45:38Z"
+   }
   },
   "hall": {
    "pano": "tours/Y2/hall.jpg",
    "panoLow": "tours/Y2/hall-4096.jpg",
    "centreAzDeg": 0,
    "eye": [
-    9.7,
-    4.9
+    9.6,
+    4.6
    ],
    "label": {
     "he": "מבואה",
@@ -62,7 +75,7 @@
    },
    "rooms": [],
    "view": {
-    "yaw": 225.0,
+    "yaw": 180.0,
     "pitch": -10.0,
     "hfov": 100
    },
@@ -81,15 +94,28 @@
       4.44
      ]
     }
-   ]
+   ],
+   "_meta": {
+    "status": "photoreal",
+    "size": [
+     8192,
+     4096
+    ],
+    "bytes": {
+     "pano": 1885058,
+     "low": 589732
+    },
+    "src": "h3d/v22/Y2/hall34/final/pano_v34.png",
+    "at": "2026-11-08T07:45:40Z"
+   }
   },
   "bath": {
    "pano": "tours/Y2/bath.jpg",
    "panoLow": "tours/Y2/bath-4096.jpg",
    "centreAzDeg": 0,
    "eye": [
-    10.79,
-    4.13
+    10.85,
+    4.6
    ],
    "label": {
     "he": "חדר רחצה",
@@ -116,7 +142,20 @@
       4.44
      ]
     }
-   ]
+   ],
+   "_meta": {
+    "status": "photoreal",
+    "size": [
+     8192,
+     4096
+    ],
+    "bytes": {
+     "pano": 2023921,
+     "low": 627639
+    },
+    "src": "h3d/v22/Y2/bath34/final/pano_v34.png",
+    "at": "2026-11-08T07:45:42Z"
+   }
   }
  },
  "map": {
