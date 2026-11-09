@@ -1,0 +1,124 @@
+{
+ "unit": "I2",
+ "level": "ground",
+ "start": "main",
+ "northAt0": 124.4,
+ "eyeH": 1.6,
+ "_meta": {
+  "stage": "v22 apartment tour (owner 2026-11-03)",
+  "links": "doorways from the plan section (blender/tour/tour_links.py)"
+ },
+ "nodes": {
+  "main": {
+   "pano": "tours/I2/main.jpg",
+   "panoLow": "tours/I2/main-4096.jpg",
+   "centreAzDeg": 0,
+   "eye": [
+    9.24,
+    1.45
+   ],
+   "label": {
+    "he": "חלל המגורים והשינה",
+    "en": "Living & sleeping area"
+   },
+   "to": {
+    "he": "לחלל המגורים",
+    "en": "To the living area"
+   },
+   "rooms": [
+    "living",
+    "bedroom"
+   ],
+   "view": {
+    "yaw": 90.0,
+    "pitch": -10.0,
+    "hfov": 100
+   },
+   "links": [
+    {
+     "to": "bath",
+     "at": [
+      10.06,
+      3.84
+     ]
+    }
+   ],
+   "_meta": {
+    "status": "photoreal",
+    "size": [
+     8192,
+     4096
+    ],
+    "bytes": {
+     "pano": 3138441,
+     "low": 962662
+    },
+    "src": "../I2/main34/final/pano_v34.png",
+    "at": "2026-11-09T12:47:51Z"
+   }
+  },
+  "bath": {
+   "pano": "tours/I2/bath.jpg",
+   "panoLow": "tours/I2/bath-4096.jpg",
+   "centreAzDeg": 0,
+   "eye": [
+    10.77,
+    4.45
+   ],
+   "label": {
+    "he": "חדר רחצה",
+    "en": "Bathroom"
+   },
+   "to": {
+    "he": "לחדר הרחצה",
+    "en": "To the bathroom"
+   },
+   "rooms": [
+    "bathroom",
+    "bath"
+   ],
+   "view": {
+    "yaw": 25.0,
+    "pitch": -15.0,
+    "hfov": 100
+   },
+   "links": [
+    {
+     "to": "main",
+     "at": [
+      10.06,
+      3.84
+     ]
+    }
+   ],
+   "_meta": {
+    "status": "photoreal",
+    "size": [
+     8192,
+     4096
+    ],
+    "bytes": {
+     "pano": 1584339,
+     "low": 495104
+    },
+    "src": "../I2/bath33/final/pano_v35.png",
+    "at": "2026-11-09T12:47:52Z"
+   }
+  }
+ },
+ "map": {
+  "img": "tours/I2/map.png",
+  "size": [
+   829,
+   754
+  ],
+  "m": [
+   0.0,
+   120.0,
+   12.3,
+   120.0,
+   0.0,
+   -716.7
+  ]
+ }
+}

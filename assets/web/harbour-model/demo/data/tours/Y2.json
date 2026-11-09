@@ -27,7 +27,7 @@
    },
    "rooms": [
     "living",
-    "bedroom"
+    "kitchen"
    ],
    "view": {
     "yaw": 270.0,
@@ -36,10 +36,10 @@
    },
    "links": [
     {
-     "to": "hall",
+     "to": "bed",
      "at": [
-      9.14,
-      2.06
+      9.1,
+      0.7
      ]
     }
    ],
@@ -50,11 +50,65 @@
      4096
     ],
     "bytes": {
-     "pano": 3020026,
-     "low": 911803
+     "pano": 3021052,
+     "low": 922262
     },
-    "src": "h3d/v22/Y2/main34/final/pano_v34b.png",
-    "at": "2026-11-08T07:45:38Z"
+    "src": "../Y2/main35/final/pano_v35b.png",
+    "at": "2026-11-09T12:47:33Z"
+   }
+  },
+  "bed": {
+   "pano": "tours/Y2/bed.jpg",
+   "panoLow": "tours/Y2/bed-4096.jpg",
+   "centreAzDeg": 0,
+   "eye": [
+    9.45,
+    0.85
+   ],
+   "label": {
+    "he": "חדר השינה",
+    "en": "Bedroom"
+   },
+   "to": {
+    "he": "לחדר השינה",
+    "en": "To the bedroom"
+   },
+   "rooms": [
+    "bedroom"
+   ],
+   "view": {
+    "yaw": 45.0,
+    "pitch": -12.0,
+    "hfov": 100
+   },
+   "links": [
+    {
+     "to": "main",
+     "at": [
+      9.1,
+      0.7
+     ]
+    },
+    {
+     "to": "hall",
+     "at": [
+      9.4,
+      3.3
+     ]
+    }
+   ],
+   "_meta": {
+    "status": "photoreal",
+    "size": [
+     8192,
+     4096
+    ],
+    "bytes": {
+     "pano": 3334951,
+     "low": 997484
+    },
+    "src": "../Y2/bed35b/final/pano_v35.png",
+    "at": "2026-11-09T12:47:47Z"
    }
   },
   "hall": {
@@ -81,17 +135,17 @@
    },
    "links": [
     {
-     "to": "main",
-     "at": [
-      9.14,
-      2.06
-     ]
-    },
-    {
      "to": "bath",
      "at": [
       10.08,
       4.44
+     ]
+    },
+    {
+     "to": "bed",
+     "at": [
+      9.4,
+      3.3
      ]
     }
    ],
@@ -102,11 +156,11 @@
      4096
     ],
     "bytes": {
-     "pano": 1885058,
-     "low": 589732
+     "pano": 1948405,
+     "low": 577156
     },
-    "src": "h3d/v22/Y2/hall34/final/pano_v34.png",
-    "at": "2026-11-08T07:45:40Z"
+    "src": "../Y2/hall35/final/pano_v35.png",
+    "at": "2026-11-09T12:47:35Z"
    }
   },
   "bath": {
@@ -150,11 +204,11 @@
      4096
     ],
     "bytes": {
-     "pano": 2023921,
-     "low": 627639
+     "pano": 1965236,
+     "low": 591035
     },
-    "src": "h3d/v22/Y2/bath34/final/pano_v34.png",
-    "at": "2026-11-08T07:45:42Z"
+    "src": "../Y2/bath35/final/pano_v35t.png",
+    "at": "2026-11-09T12:47:37Z"
    }
   }
  },

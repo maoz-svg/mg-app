@@ -131,8 +131,8 @@
    "panoLow": "tours/Y1/bath-4096.jpg",
    "centreAzDeg": 0,
    "eye": [
-    9.96,
-    7.63
+    10.26,
+    7.58
    ],
    "label": {
     "he": "חדר רחצה",
@@ -159,7 +159,20 @@
       8.19
      ]
     }
-   ]
+   ],
+   "_meta": {
+    "status": "photoreal",
+    "size": [
+     8192,
+     4096
+    ],
+    "bytes": {
+     "pano": 1899666,
+     "low": 619469
+    },
+    "src": "../Y1/bath33/final/pano_wb.png",
+    "at": "2026-11-09T12:48:06Z"
+   }
   }
  },
  "map": {

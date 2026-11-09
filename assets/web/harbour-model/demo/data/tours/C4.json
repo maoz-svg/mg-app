@@ -123,7 +123,7 @@
    "panoLow": "tours/C4/bath-4096.jpg",
    "centreAzDeg": 0,
    "eye": [
-    2.48,
+    2.43,
     6.01
    ],
    "label": {
@@ -159,11 +159,11 @@
      4096
     ],
     "bytes": {
-     "pano": 2510680,
-     "low": 740857
+     "pano": 2098035,
+     "low": 677088
     },
-    "src": "h3d/v22/C4/bath/final/pano_h.png",
-    "at": "2026-11-03T16:49:23Z"
+    "src": "../C4/bath33/final/pano_wb.png",
+    "at": "2026-11-09T12:48:04Z"
    }
   },
   "balcony": {

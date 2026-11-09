@@ -1,4 +1,4 @@
-const V = 'mz-d584a4c-2026-11-08-f7c31598';
+const V = 'mz-0a65f31-2026-11-09-77bbbd5f';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './pwa/icon-192.png', './pwa/icon-512.png', './pwa/apple-touch-icon.png'];
 self.addEventListener('install', (e) => { e.waitUntil(caches.open(V).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', (e) => {
