@@ -1,9 +1,9 @@
 {
  "note": "THE HARBOUR investment model in the app - written by scripts/sync-harbour-model.mjs; do not edit",
- "syncedAt": "2026-11-09T15:59:59.539Z",
+ "syncedAt": "2026-11-09T16:16:51.322Z",
  "calc": {
   "page": "harbour-model-calc.html",
-  "harbourHtml": "6e038d514c9fed00a59e260fabc82a7d5b97fdcd6065cbed89db8417549cf653",
+  "harbourHtml": "baf6cee34b2f379ccce744042326956ecd09405b633236d55f516489d19487b5",
   "theme": "e"
  },
  "files": {
@@ -18,8 +18,8 @@
   "david-libre-700-he-BTjFcZIS.woff2": 8788,
   "david-libre-700-latin-DVzPi4np.woff2": 18780,
   "demo-BgWDFE9J.css": 177048,
-  "demo-CqWQYdWU.js": 351446,
-  "flow-0aU6Ya8n.js": 12707,
+  "demo-uKhHuar_.js": 351433,
+  "flow-DANKYFcp.js": 12707,
   "flow-HYH51xut.css": 3272,
   "heebo-300-he-8aqo10Zv.woff2": 12000,
   "heebo-300-latin-C2eWiQZy.woff2": 30148,
@@ -31,7 +31,7 @@
   "maoz-group-ivory-720-BfGYUZdl.png": 22874,
   "pano-Dc063PZy.js": 558173,
   "pano-DG4eW66X.css": 15075,
-  "roofFlow-D-Y_3yOS.js": 15116,
+  "roofFlow-DAxcCQQC.js": 15116,
   "space-grotesk-500-latin-DPT1xrvW.woff2": 22320,
   "calc-theme/e.css": 53306,
   "demo/data/cams.json": 51233,
