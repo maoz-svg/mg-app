@@ -123,8 +123,28 @@
       9.55,
       9.27
      ]
+    },
+    {
+     "to": "garden",
+     "at": [
+      10.75,
+      11.88
+     ]
     }
-   ]
+   ],
+   "_meta": {
+    "status": "photoreal",
+    "size": [
+     8192,
+     4096
+    ],
+    "bytes": {
+     "pano": 3090354,
+     "low": 912234
+    },
+    "src": "../Y1/bed35/final/bedroom_v35.png",
+    "at": "2026-11-09T15:57:51Z"
+   }
   },
   "bath": {
    "pano": "tours/Y1/bath.jpg",
@@ -172,6 +192,53 @@
     },
     "src": "../Y1/bath33/final/pano_wb.png",
     "at": "2026-11-09T12:48:06Z"
+   }
+  },
+  "garden": {
+   "centreAzDeg": 0,
+   "eye": [
+    11.5,
+    12.45
+   ],
+   "label": {
+    "he": "גינה",
+    "en": "Garden"
+   },
+   "to": {
+    "he": "לגינה",
+    "en": "To the garden"
+   },
+   "rooms": [
+    "garden"
+   ],
+   "view": {
+    "yaw": -45,
+    "pitch": -12,
+    "hfov": 100
+   },
+   "links": [
+    {
+     "to": "bedroom",
+     "at": [
+      10.75,
+      11.88
+     ]
+    }
+   ],
+   "pano": "tours/Y1/garden.jpg",
+   "panoLow": "tours/Y1/garden-4096.jpg",
+   "_meta": {
+    "status": "photoreal",
+    "size": [
+     8192,
+     4096
+    ],
+    "bytes": {
+     "pano": 4557978,
+     "low": 1242512
+    },
+    "src": "../Y1/garden36/final/pano_v36.png",
+    "at": "2026-11-09T15:57:52Z"
    }
   }
  },
