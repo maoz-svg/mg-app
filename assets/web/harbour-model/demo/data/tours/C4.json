@@ -64,11 +64,11 @@
      4096
     ],
     "bytes": {
-     "pano": 2945733,
-     "low": 869079
+     "pano": 3008441,
+     "low": 850570
     },
-    "src": "h3d/v22/C4/main/final/pano_v32c.png",
-    "at": "2026-11-05T12:04:05Z"
+    "src": "C4/main38/final/pano_v38.png",
+    "at": "2026-11-10T10:42:55Z"
    }
   },
   "kitchen": {
@@ -111,11 +111,11 @@
      4096
     ],
     "bytes": {
-     "pano": 3062889,
-     "low": 898842
+     "pano": 3276620,
+     "low": 934644
     },
-    "src": "h3d/v22/C4/kitchen/final/pano_v32c.png",
-    "at": "2026-11-05T12:04:10Z"
+    "src": "C4/kitchen38/final/pano_q.png",
+    "at": "2026-11-10T10:42:57Z"
    }
   },
   "bath": {
