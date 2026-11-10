@@ -223,11 +223,11 @@
      4096
     ],
     "bytes": {
-     "pano": 2518249,
-     "low": 779520
+     "pano": 2605790,
+     "low": 792853
     },
-    "src": "h3d/v22/Y3/bath2/final/pano_v32b.png",
-    "at": "2026-11-05T10:42:48Z"
+    "src": "Y3/bath37/final/pano_v37.png",
+    "at": "2026-11-10T06:31:00Z"
    }
   },
   "garden": {
@@ -268,11 +268,11 @@
      4096
     ],
     "bytes": {
-     "pano": 5782057,
-     "low": 1587227
+     "pano": 5795046,
+     "low": 1588882
     },
-    "src": "h3d/v22/Y3/garden/final/pano_v32b.png",
-    "at": "2026-11-04T21:23:23Z"
+    "src": "Y3/gardenD/final/pano_v38.png",
+    "at": "2026-11-10T06:31:02Z"
    }
   }
  },
