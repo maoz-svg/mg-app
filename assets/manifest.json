@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-15T22:02:40.674Z",
+  "generatedAt": "2026-11-17T10:36:46.943Z",
   "source": "assets-src",
   "assets": [
     {
@@ -23,8 +23,8 @@
       "type": "video",
       "mime": "video/mp4",
       "file": "assets-src/video/north-hero.mp4",
-      "bytes": 9248380,
-      "sha256": "cf6fc0e8b69e026f0c1110728aaf9951a39dabec3286d6c7ccd7fe53f110aece"
+      "bytes": 37105246,
+      "sha256": "30060dda4d4c349031c7cfd4f09c80ebee8c472c30edab15e42aa454a6de9b88"
     },
     {
       "id": "west-hero",
